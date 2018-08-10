@@ -22,7 +22,26 @@ Vue.use(VueRouter)
 // })
 
 FastClick.attach(document.body)
+Vue.prototype.showTips = function (text) {
+  if (!text) {
+      return;
+  }
 
+  let width = (text.length + 1.5 ) * 16;
+  let maxWidth = document.documentElement.clientWidth * 0.9;
+  width = width > maxWidth ? maxWidth : width;
+  width /= 16;
+  width = width > 7.6 ? width : 7.6;
+
+  this.$vux.toast.show({
+      position: "top",
+      type: "text",
+      width: width + "em",
+      text
+  });
+
+  return false;
+};
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
