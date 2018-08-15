@@ -2,23 +2,23 @@
     <div id="bottom-tab" :style="{'background-color':bgColor,'color':textColor}">
          <tabbar>
             <tabbar-item :selected="$route.path === '/'" link="/">
-                <img slot="icon" src="" />
-                <img slot="icon-active" src="" />
+                <img slot="icon" src="src/assets/images/tab_home@2x.png" />
+                <img slot="icon-active" src="src/assets/images/tab_home_s@2x.png" />
                 <span slot="label">首页</span>
             </tabbar-item>
-            <tabbar-item :selected="$route.path === '/trade/trade'" link="/store/index">
-                <img slot="icon" src="" />
-                <img slot="icon-active" src="" />
+            <tabbar-item :selected="$route.path === '/store/index'" link="/store/index">
+                <img slot="icon" src="src/assets/images/tab_mall@2x.png" />
+                <img slot="icon-active" src="src/assets/images/tab_mall_s@2x.png" />
                 <span slot="label">商城</span>
             </tabbar-item>
             <tabbar-item :selected="$route.path === '/asset/my'" >
-                <img slot="icon" src="" />
-                <img slot="icon-active" src="" />
+                <img slot="icon" src="src/assets/images/tab_shoppingcart@2x.png" />
+                <img slot="icon-active" src="src/assets/images/tab_shoppingcart_s@2x.png" />
                 <span slot="label">购物车</span>
             </tabbar-item>
             <tabbar-item ref="meTabbar" :selected="$route.path === '/me'" >
-                <img slot="icon" src="" />
-                <img slot="icon-active" src="" />
+                <img slot="icon" src="src/assets/images/tab_me@2x.png" />
+                <img slot="icon-active" src="src/assets/images/tab_me_s@2x.png" />
                 <span slot="label">我的</span>
             </tabbar-item>
         </tabbar>

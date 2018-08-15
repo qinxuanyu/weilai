@@ -63,5 +63,6 @@ body {
 html { 
   font-family: '微软雅黑';
   font-size: 14px;
+  color: #2f2f2f;
 }
 </style>

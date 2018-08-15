@@ -37,6 +37,38 @@ let router =  new Router({
       meta:{
         title:'问鼎种植商城'
       }
+    },
+    {
+      path: '/store/discount',
+      name: 'discount',
+      component: () => import('@/views/stores/discount.vue'),
+      meta:{
+        title:'限时折扣'
+      }
+    },
+    {
+      path: '/store/detail',
+      name: 'detail',
+      component: () => import('@/views/stores/detail.vue'),
+      meta:{
+        title:'商品详情'
+      }
+    },
+    {
+      path: '/store/evaluate',
+      name: 'evaluate',
+      component: () => import('@/views/stores/evaluate.vue'),
+      meta:{
+        title:'所有评价'
+      }
+    },
+    {
+      path: '/store/order',
+      name: 'order',
+      component: () => import('@/views/stores/order.vue'),
+      meta:{
+        title:'确认订单'
+      }
     }
   ]
 })

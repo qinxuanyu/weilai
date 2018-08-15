@@ -1,9 +1,9 @@
 <template>
     <div class="goods">
         <flexbox :gutter="0">
-            <flexbox-item>
+            <flexbox-item @click.native.stop="$router.push('/store/detail')">
                 <div class="flex-demo">
-                    <div class="img-wrap" :style="{'heigth' : imgWrapWidth + 'px'}">
+                    <div class="img-wrap" :style="{'height' : imgWrapWidth + 'px'}">
                         <img src="http://image5.suning.cn/b2c/catentries/000000000140693701_2_800x800.jpg" alt="">
                     </div>
                     <p class="f-12">树懒果园  美国进口车厘子大樱桃水果  1kg  果经28-30mm啥说法是否对</p>
@@ -14,7 +14,7 @@
             </flexbox-item>
             <flexbox-item>
                 <div class="flex-demo">
-                    <div class="img-wrap" :style="{'heigth' : imgWrapWidth + 'px'}">
+                    <div class="img-wrap" :style="{'height' : imgWrapWidth + 'px'}">
                         <img src="http://image5.suning.cn/b2c/catentries/000000000140693701_2_800x800.jpg" alt="">
                     </div>
                     <p class="f-12">树懒果园  美国进口车厘子大樱桃水果  1kg  果经28-30mm啥说法是否对</p>
@@ -42,6 +42,7 @@
         mounted() {
             var width = document.querySelector('.img-wrap').clientWidth;
             this.imgWrapWidth = width;
+
         },
     }
 </script>

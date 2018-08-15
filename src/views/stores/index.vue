@@ -10,30 +10,30 @@
         </div>
         <div class="tab">
             <tabbar>
-                <tabbar-item :selected="$route.path === '/'" link="/">
-                    <img slot="icon" src="" />
+                <tabbar-item :selected="$route.path === '/'" link="/store/list">
+                    <img slot="icon" src="src/assets/images/ho_sapling@2x.png" />
                     <span slot="label">树苗</span>
                 </tabbar-item>
-                <tabbar-item :selected="$route.path === '/trade/trade'" link="/store/index">
-                    <img slot="icon" src="" />
+                <tabbar-item :selected="$route.path === '/trade/trade'" link="/store/list">
+                    <img slot="icon" src="src/assets/images/ho_fruiter@2x.png" />
                     <span slot="label">果树</span>
                 </tabbar-item>
-                <tabbar-item :selected="$route.path === '/asset/my'" >
-                    <img slot="icon" src="" />
+                <tabbar-item :selected="$route.path === '/asset/my'" link="/store/list">
+                    <img slot="icon" src="src/assets/images/ho_fruits@2x.png" />
                     <span slot="label">水果</span>
                 </tabbar-item>
-                <tabbar-item ref="meTabbar" :selected="$route.path === '/me'" >
-                    <img slot="icon" src="" />
+                <tabbar-item ref="meTabbar" :selected="$route.path === '/me'" link="/store/list">
+                    <img slot="icon" src="src/assets/images/ho_integral@2x.png" />
                     <span slot="label">积分</span>
                 </tabbar-item>
             </tabbar>
         </div>
         <div class="advertising">
             <router-link to="" class="connect">
-                <img src=""  alt="">
+                <img src="src/assets/images/ho_advertising@2x.png"  alt="">
             </router-link>
-            <div class="big-img">
-                <img src="" alt="">
+            <div class="big-img" @click.stop="$router.push('/store/discount')">
+                <img src="src/assets/images/ho_picture@2x.png" alt="">
             </div>
         </div>
     </div>
@@ -69,14 +69,18 @@
         .advertising{
             text-align: center;
             .connect{
-                padding: 15px 0;
+                 width: 100%;
+                display: block;
+                padding: 8px 0;
                 background-color: #f3f3f3;
+               
                 img{
-                    height: 80px;
+                    // height: 80px;
+                    width: 80%;
                 }
             }
             .big-img{
-                padding: 0 10px;
+                padding: 0 5px;
                 img{
                     width: 100%;
                 }
