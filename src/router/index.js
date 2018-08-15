@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import store from '@/store'
 
 Vue.use(Router)
@@ -9,27 +8,47 @@ let router =  new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'home',
+      component: () => import('@/views/home/index.vue'),
+      meta:{
+        title:'首页'
+      }
     },
     {
-      path: '/test',
-      name: 'test',
-      component: () => import('@/components/HelloFromVux.vue'),
+      path: '/store/index',
+      name: 'storeIndex',
+      component: () => import('@/views/stores/index.vue'),
       meta:{
-        title:'测试'
+        title:'问鼎种植商城'
+      }
+    },
+    {
+      path: '/store/search',
+      name: 'search',
+      component: () => import('@/views/stores/search.vue'),
+      meta:{
+        title:'问鼎种植商城'
+      }
+    },
+    {
+      path: '/store/list',
+      name: 'list',
+      component: () => import('@/views/stores/list.vue'),
+      meta:{
+        title:'问鼎种植商城'
       }
     }
   ]
 })
 router.beforeEach((to, from, next) => {
-  console.log('router前置钩子');
+  if (/^\/http/.test(to.path)) {
+      window.open(to.path, "_blank");
+      return;
+  }
   store.commit('UPDATE_LOADING',true)
   next();
 });
 router.afterEach((to) => {
-  console.log(to);
-  // console.log(store)
   store.commit('UPDATE_TITLE',to.meta.title)
   store.commit('UPDATE_LOADING',false)
 })

@@ -4,14 +4,14 @@ import Vue from 'vue'
 import FastClick from 'fastclick'
 import VueRouter from 'vue-router'
 import App from './App'
-import Home from './components/HelloFromVux';
-import state from './store';
+import store from './store';
 import router from './router'
 import  { LoadingPlugin } from 'vux'
+import VueScroller from 'vue-scroller'
 
 Vue.use(LoadingPlugin)
 Vue.use(VueRouter)
-
+Vue.use(VueScroller)
 // const routes = [{
 //   path: '/',
 //   component: Home
@@ -20,7 +20,6 @@ Vue.use(VueRouter)
 // const router = new VueRouter({
 //   routes
 // })
-
 FastClick.attach(document.body)
 Vue.prototype.showTips = function (text) {
   if (!text) {
@@ -46,7 +45,7 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
+  store,
   router,
-  state,
   render: h => h(App)
 }).$mount('#app-box')

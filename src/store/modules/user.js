@@ -11,6 +11,7 @@ const user = {
         id: "",
         info: "",
     },
+    getters:{},
     mutations: {
         SET_TOKEN(state, token) {
             if (token) {

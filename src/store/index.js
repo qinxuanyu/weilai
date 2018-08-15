@@ -2,14 +2,18 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import tool from '@/utils/tool'
 import user from './modules/user' 
-Vue.use(Vuex)
+import getters from "./getters";
+Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    userInfo:{},
-    title:'',
-    isLoading:false,
-  },
+const  state = {
+  userInfo:{},
+  title:'',
+  isLoading:false,
+  tabbarItems:['/','/store/index']
+};
+const store = new Vuex.Store({
+  state,
+  getters,
   modules:{
       user
   },
@@ -36,3 +40,4 @@ export default new Vuex.Store({
 
   }
 })
+export default store;

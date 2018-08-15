@@ -7,21 +7,30 @@
           </div>
       </div>
     <router-view></router-view>
-    <bottom-tab :text-color="'red'"></bottom-tab>
+    <bottom-tab :text-color="'red'" v-show="showTabbar"></bottom-tab>
   </div>
 </template>
 
 <script>
-import BottomTab from '@/components/BottomTab.vue'
+import BottomTab from '@/components/BottomTab.vue';
+import { mapState } from "vuex";
 export default {
   name: 'app',
   data (){
     return {
-      showLateralTip:false
+      showLateralTip:false,
     }
   },
   components:{
     BottomTab
+  },
+  computed:{
+      ...mapState([
+        'tabbarItems'
+      ]),
+      showTabbar() {
+          return this.tabbarItems.indexOf(this.$route.path) !== -1;
+      },
   },
   methods:{
     orientationChange() {
@@ -31,6 +40,8 @@ export default {
             this.showLateralTip = false;
         }
     },
+  },
+  created() {
   },
   mounted() {
     this.orientationChange();
@@ -45,12 +56,12 @@ export default {
 
 <style lang="less">
 @import '~vux/src/styles/reset.less';
-
+@import 'style/commin.less';
 body {
   background-color: #fbf9fe;
 }
 html { 
   font-family: '微软雅黑';
-  font-size: 16px;
+  font-size: 14px;
 }
 </style>
