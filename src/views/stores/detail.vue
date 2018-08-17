@@ -1,39 +1,39 @@
 <template>
     <div class="detail">
         <swiper :aspect-ratio="300/800" dots-position="center">
-            <swiper-item class="swiper-demo-img" v-for="(item, index) in demo04_list" :key="index">
+            <swiper-item class="swiper-demo-img" v-for="(item, index) in detailData.images" :key="index">
                 <img :src="item">
             </swiper-item>
         </swiper>
         <div class="main">
-            <p class="name">【第二件立减20元】新鲜采摘  顺丰空运  益众林场车厘子大樱桃1kg包邮  礼盒装</p>
-            <p class="price">￥54 <span>￥100</span></p> 
+            <p class="name">{{ detailData.name }}</p>
+            <p class="price">￥{{ detailData.price }} <span>￥100</span></p> 
             <flexbox :gutter="0" class="site">
                 <flexbox-item><div class="flex-demo">快递：000</div></flexbox-item>
-                <flexbox-item><div class="flex-demo" style="text-align:center">月销221笔</div></flexbox-item>
-                <flexbox-item><div class="flex-demo" style="text-align:right">山东</div></flexbox-item>
+                <flexbox-item><div class="flex-demo" style="text-align:center">月销{{detailData.mouthSale}}笔</div></flexbox-item>
+                <flexbox-item><div class="flex-demo" style="text-align:right">{{ detailData.area }}</div></flexbox-item>
             </flexbox>
             <group>
                 <cell title="领券"  is-link @click.native.stop="ticket_show = !ticket_show"></cell>
                 <cell title="规格参数"  is-link @click.native.stop="size_show = !size_show"></cell>
                 <cell title="商品评价"  is-link></cell>
-                <div class="evaluate">
+                <div class="evaluate" v-if="detailData.evaluates">
                     <div class="user">
                         <div class="avatar">
-                            <img src="http://img5.imgtn.bdimg.com/it/u=4101850099,151997626&fm=27&gp=0.jpg" alt="">
+                            <img :src="detailData.evaluates[0].imageUrl" alt="">
                         </div>
-                        <span>123456</span>
+                        <span>{{detailData.evaluates[0].nickname}}</span>
                     </div>
-                    <div class="content">车厘子很新鲜，很甜。是在做活动的时候买的很划算，以后还会回购。</div>
+                    <div class="content">{{detailData.evaluates[0].content}}</div>
                     <div class="time">
-                        <span>2018-10-10</span>
-                        <span>规格：标准（100g）</span>
+                        <span>{{detailData.evaluates[0].createTime}}</span>
+                        <!-- <span>规格：标准（100g）</span> -->
                     </div>
                 </div>
             </group>
         </div>
         <divider>商品详情</divider>
-        <div class="node"></div>
+        <div class="node" v-html="detailData.detail"></div>
         <div class="bottom-btn">
             <div class="service">
                 <router-link to="">
@@ -47,8 +47,8 @@
         <div class="pop">
             <div v-transfer-dom class="ticket-pop">
                 <popup v-model="ticket_show" @on-hide="log('hide')" @on-show="log('show')">
-                    <group>
-                         <cell title="80元"  inline-desc="满99元减10元">
+                    <group v-for="(item,index) in detailData.tickets" :key="index">
+                         <cell :title="item.price + '元'"  :inline-desc="'满'+item.suitPrice+'元减'+item.price+'元'">
                              <x-button  mini plain type="primary">领取</x-button>
                          </cell>
                     </group>
@@ -83,16 +83,14 @@
 </template>
 <script>
     import { Swiper, SwiperItem, Flexbox, FlexboxItem, Cell, Group, Divider, Popup, TransferDom, XButton  } from 'vux'
+    import api from '@/api'
     export default{
         data(){
             return{
-                demo04_list:[
-                    'http://placeholder.qiniudn.com/800x300/FF3B3B/ffffff',
-                    'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
-                    'http://placeholder.qiniudn.com/800x300/8AEEB1/ffffff'
-                ],
                 ticket_show:false,
-                size_show:false
+                size_show:false,
+                goodsId:null,
+                detailData:{}
             }
         },
         directives: {
@@ -100,11 +98,27 @@
         },
         components:{
             Swiper, SwiperItem, Flexbox, FlexboxItem, Cell, Group, Divider, Popup, XButton
-        }
+        },
+        methods:{
+            getDetailData (){
+                let _this = this;
+                api.goodsDetail({
+                    id:_this.goodsId
+                }).then(data => {
+                    _this.detailData = data;
+                }).catch(e =>{})
+            }
+        },
+        created() {
+            let id = this.$route.params.id;
+            this.goodsId = id;
+            this.getDetailData()
+        },
     }
 </script>
 <style lang="less" >
     .detail{
+        padding-bottom: 51px;
         .main{
             padding: 13px;
             .name{

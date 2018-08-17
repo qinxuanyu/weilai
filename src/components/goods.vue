@@ -1,28 +1,18 @@
 <template>
     <div class="goods">
-        <flexbox :gutter="0">
-            <flexbox-item @click.native.stop="$router.push('/store/detail')">
+        <flexbox :gutter="0" wrap="wrap">
+            <flexbox-item @click.native.stop="$router.push('/store/detail/' + item.id)" v-for="(item,index) in listData" :key="index" :span="6">
                 <div class="flex-demo">
                     <div class="img-wrap" :style="{'height' : imgWrapWidth + 'px'}">
-                        <img src="http://image5.suning.cn/b2c/catentries/000000000140693701_2_800x800.jpg" alt="">
+                        <img :src="item.coverImage" alt="">
                     </div>
-                    <p class="f-12">树懒果园  美国进口车厘子大樱桃水果  1kg  果经28-30mm啥说法是否对</p>
+                    <p class="f-12">{{item.introduce}}</p>
                     <div class="price">
-                        <span>￥109.1</span><span>已售1054件</span>
+                        <span>￥{{item.price}}</span><span>已售{{item.saledNum}}件</span>
                     </div>
                 </div>
             </flexbox-item>
-            <flexbox-item>
-                <div class="flex-demo">
-                    <div class="img-wrap" :style="{'height' : imgWrapWidth + 'px'}">
-                        <img src="http://image5.suning.cn/b2c/catentries/000000000140693701_2_800x800.jpg" alt="">
-                    </div>
-                    <p class="f-12">树懒果园  美国进口车厘子大樱桃水果  1kg  果经28-30mm啥说法是否对</p>
-                    <div class="price">
-                        <span>￥109.1</span><span>已售1054件</span>
-                    </div>
-                </div>
-            </flexbox-item>
+            
         </flexbox>
     </div>
 </template>
@@ -35,13 +25,17 @@
                  imgWrapWidth:160
             }
         },
+        props:['listData'],
         components:{Flexbox, FlexboxItem},
         methods:{
            
         },
-        mounted() {
-            var width = document.querySelector('.img-wrap').clientWidth;
-            this.imgWrapWidth = width;
+        updated() {
+            if(document.querySelector('.img-wrap')){
+                var width = document.querySelector('.img-wrap').offsetwidth;
+                this.imgWrapWidth = width;
+            }
+          
 
         },
     }

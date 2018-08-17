@@ -3,26 +3,26 @@
         <search  placeholder="输入你想搜索的商品" @search-bg-color="'#f3f3f3'" @on-focus="$router.push('/store/search')"></search>
         <div class="swiper">
             <swiper :aspect-ratio="330/750" dots-position="center">
-                <swiper-item class="swiper-demo-img" v-for="(item, index) in demo04_list" :key="index" >
-                    <img :src="item">
+                <swiper-item class="swiper-demo-img" v-for="(item, index) in banner_list" :key="index" >
+                    <img :src="item.imageUrl">
                 </swiper-item>
             </swiper>
         </div>
         <div class="tab">
             <tabbar>
-                <tabbar-item :selected="$route.path === '/'" link="/store/list">
+                <tabbar-item  link="/store/list/1">
                     <img slot="icon" src="src/assets/images/ho_sapling@2x.png" />
                     <span slot="label">树苗</span>
                 </tabbar-item>
-                <tabbar-item :selected="$route.path === '/trade/trade'" link="/store/list">
+                <tabbar-item  link="/store/list/2">
                     <img slot="icon" src="src/assets/images/ho_fruiter@2x.png" />
                     <span slot="label">果树</span>
                 </tabbar-item>
-                <tabbar-item :selected="$route.path === '/asset/my'" link="/store/list">
+                <tabbar-item  link="/store/list/3">
                     <img slot="icon" src="src/assets/images/ho_fruits@2x.png" />
                     <span slot="label">水果</span>
                 </tabbar-item>
-                <tabbar-item ref="meTabbar" :selected="$route.path === '/me'" link="/store/list">
+                <tabbar-item ref="meTabbar" link="/store/list/4">
                     <img slot="icon" src="src/assets/images/ho_integral@2x.png" />
                     <span slot="label">积分</span>
                 </tabbar-item>
@@ -33,27 +33,39 @@
                 <img src="src/assets/images/ho_advertising@2x.png"  alt="">
             </router-link>
             <div class="big-img" @click.stop="$router.push('/store/discount')">
-                <img src="src/assets/images/ho_picture@2x.png" alt="">
+                <img :src="discount_img" alt="">
             </div>
         </div>
     </div>
 </template>
 <script>
     import { Search,  Swiper, SwiperItem, Tabbar, TabbarItem } from 'vux';
+    import api from '@/api';
     export default{
         name:'store',
         data (){
             return {
-                demo04_list:[
-                    'http://placeholder.qiniudn.com/800x300/FF3B3B/ffffff',
-                    'http://placeholder.qiniudn.com/800x300/FFEF7D/ffffff',
-                    'http://placeholder.qiniudn.com/800x300/8AEEB1/ffffff'
-                ]
+                banner_list:[
+                   
+                ],
+                discount_img:''
             }
         },
         components:{
             Search, Swiper, SwiperItem, Tabbar, TabbarItem
-        }
+        },
+        methods:{
+            getHomeData (){
+                let _this = this;
+                api.homeData().then(data =>{
+                    _this.banner_list = data.images;
+                    _this.discount_img = data.discount;
+                })
+            }
+        },
+        created() {
+            this.getHomeData()
+        },
     }
 </script>
 <style lang="less" scoped>

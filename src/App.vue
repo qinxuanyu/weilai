@@ -42,6 +42,7 @@ export default {
     },
   },
   created() {
+    // window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect')
   },
   mounted() {
     this.orientationChange();

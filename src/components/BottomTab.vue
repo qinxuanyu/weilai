@@ -11,12 +11,12 @@
                 <img slot="icon-active" src="src/assets/images/tab_mall_s@2x.png" />
                 <span slot="label">商城</span>
             </tabbar-item>
-            <tabbar-item :selected="$route.path === '/asset/my'" >
+            <tabbar-item :selected="$route.path === '/store/cart'" link="/store/cart">
                 <img slot="icon" src="src/assets/images/tab_shoppingcart@2x.png" />
                 <img slot="icon-active" src="src/assets/images/tab_shoppingcart_s@2x.png" />
                 <span slot="label">购物车</span>
             </tabbar-item>
-            <tabbar-item ref="meTabbar" :selected="$route.path === '/me'" >
+            <tabbar-item ref="meTabbar" :selected="$route.path === '/me'" link="/me">
                 <img slot="icon" src="src/assets/images/tab_me@2x.png" />
                 <img slot="icon-active" src="src/assets/images/tab_me_s@2x.png" />
                 <span slot="label">我的</span>

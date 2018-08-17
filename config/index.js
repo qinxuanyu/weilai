@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/videoshop_api': {
-          target: 'https://exam.mikao1688.com/videoshop_api',
+      '/plant_api': {
+          target: 'http://120.77.173.162/plant_api',
           changeOrigin: true,
           pathRewrite: {
-              '^/videoshop_api': ''
+              '^/plant_api': ''
           }
       },
     },

@@ -34,14 +34,20 @@
                 switch (index){
                     case 1:
                         this.sales = !this.sales;
+                        this.time = false;
+                        this.price = false;
                         this.$emit('srot',{'sales':this.sales})
                         break;
                     case 2:
                         this.time = !this.time;
+                        this.sales = false;
+                        this.price = false;
                         this.$emit('srot',{'time':this.time})
                         break;
                     case 3:
                         this.price = !this.price;
+                        this.sales = false;
+                        this.time = false;
                         this.$emit('srot',{'price':this.price})
                         break
 
@@ -61,6 +67,7 @@
                 font-size: 14px;
                 color: #8a8a8a;
                 transform: rotate(90deg);
+                font-weight: 600;
                 >span.active{
                     color:#60a609
                 }

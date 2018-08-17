@@ -9,7 +9,7 @@ const  state = {
   userInfo:{},
   title:'',
   isLoading:false,
-  tabbarItems:['/','/store/index']
+  tabbarItems:['/','/store/index','/store/cart','/me']
 };
 const store = new Vuex.Store({
   state,
@@ -28,7 +28,7 @@ const store = new Vuex.Store({
       if(loading){
         state.isLoading = loading;
         Vue.$vux.loading.show({
-          text: 'Loading'
+          text: '加载中...'
         })
       }else{
         state.isLoading = loading;

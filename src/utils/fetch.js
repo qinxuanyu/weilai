@@ -12,7 +12,7 @@ import router from "@/router";
 
 Vue.use(ToastPlugin);
 
-const baseURL = "/videoshop_api";
+const baseURL = "/plant_api";
 
 // 创建axios实例
 const service = axios.create({
@@ -20,7 +20,6 @@ const service = axios.create({
     timeout: 15000, // 请求超时时间
     headers: {
         "Content-Type": "application/json;charset=UTF-8",
-        'Access-Control-Allow-Origin': '*',
         "platform": "web",
     },
     withCredentials: true, 
@@ -66,9 +65,8 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     response => {
         store.commit("UPDATE_LOADING", false);
-
-        if (response.status === 200) {
-            if (response.data.result) {
+        if (response.status === 200 ) {
+            if (response.data.code === 200 && response.data.data) {
                 return Promise.resolve(response.data.data);
             } else {
                 Vue.$vux.toast.show({

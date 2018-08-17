@@ -31,7 +31,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/list',
+      path: '/store/list/:type',
       name: 'list',
       component: () => import('@/views/stores/list.vue'),
       meta:{
@@ -47,7 +47,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/detail',
+      path: '/store/detail/:id',
       name: 'detail',
       component: () => import('@/views/stores/detail.vue'),
       meta:{
@@ -68,6 +68,22 @@ let router =  new Router({
       component: () => import('@/views/stores/order.vue'),
       meta:{
         title:'确认订单'
+      }
+    },
+    {
+      path: '/store/cart',
+      name: 'cart',
+      component: () => import('@/views/stores/cart.vue'),
+      meta:{
+        title:'购物车'
+      }
+    },
+    {
+      path: '/me',
+      name: 'me',
+      component: () => import('@/views/me/index.vue'),
+      meta:{
+        title:'我的'
       }
     }
   ]
