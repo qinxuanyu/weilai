@@ -88,6 +88,7 @@
 </script>
 <style lang="less" >
     .me{
+        padding-bottom:51px;
         .top{
             text-align: center;
             padding-bottom: 15px;

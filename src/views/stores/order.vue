@@ -32,7 +32,7 @@
         </div>
         <div class="line"></div>
         <div class="pay">
-             <group title="请选择支付方式">
+            <group title="请选择支付方式">
                 <radio :options="payList"  value="1">
                     
                 </radio>

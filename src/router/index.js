@@ -85,7 +85,55 @@ let router =  new Router({
       meta:{
         title:'我的'
       }
-    }
+    },
+    {
+      path: '/me/my-sale',
+      name: 'mySale',
+      component: () => import('@/views/me/mySale.vue'),
+      meta:{
+        title:'我的售卖'
+      }
+    },
+    {
+      path: '/me/order-info',
+      name: 'orderInfo',
+      component: () => import('@/views/me/orderInfo.vue'),
+      meta:{
+        title:'订单信息'
+      }
+    },
+    {
+      path: '/me/my-wallet',
+      name: 'myWallet',
+      component: () => import('@/views/me/myWallet.vue'),
+      meta:{
+        title:'我的钱包'
+      }
+    },
+    {
+      path: '/me/capital',
+      name: 'capitalDetails',
+      component: () => import('@/views/me/capitalDetails.vue'),
+      meta:{
+        title:'资金明细'
+      }
+    },
+    {
+      path: '/me/recharge',
+      name: 'recharge',
+      component: () => import('@/views/me/recharge.vue'),
+      meta:{
+        title:'钱包充值'
+      }
+    },
+    {
+      path: '/me/withdraw',
+      name: 'withdraw',
+      component: () => import('@/views/me/withdraw.vue'),
+      meta:{
+        title:'提现'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
