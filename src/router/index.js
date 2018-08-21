@@ -134,6 +134,22 @@ let router =  new Router({
         title:'提现'
       }
     },
+    {
+      path: '/me/coupon',
+      name: 'coupon',
+      component: () => import('@/views/me/coupon.vue'),
+      meta:{
+        title:'优惠券'
+      }
+    },
+    {
+      path: '/me/integral',
+      name: 'integral',
+      component: () => import('@/views/me/integral.vue'),
+      meta:{
+        title:'积分'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {

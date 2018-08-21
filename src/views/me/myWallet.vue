@@ -4,7 +4,7 @@
             <div class="title">
                 <div></div>
                 <div class="hint">我的余额(元)</div>
-                <div class="link"><router-link to="">资金明细</router-link></div>
+                <div class="link"><router-link to="/me/capital">资金明细</router-link></div>
             </div>
             <p>
                 ￥
@@ -12,8 +12,8 @@
             </p>
         </div>
         <div class="btn">
-            <x-button class="pay">充值</x-button>
-            <x-button class="with">提现</x-button>
+            <x-button class="pay" link="/me/recharge">充值</x-button>
+            <x-button class="with" link="/me/withdraw">提现</x-button>
         </div>
     </div>
 </template>

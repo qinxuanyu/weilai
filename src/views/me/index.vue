@@ -46,7 +46,7 @@
            
         </div>
          <group>
-            <cell :title="item.title" is-link v-for="(item,index) in linkItem" :key="index">
+            <cell :title="item.title" is-link v-for="(item,index) in linkItem" :key="index" :link="item.link">
                 <img slot="icon" width="20" style="display:block;margin-right:20px;" :src="item.imgUrl">
             </cell>
         </group>
@@ -59,19 +59,24 @@
             return {
                 linkItem:[{
                     title:'种植果园',
-                    imgUrl:'src/assets/images/me_plant@2x.png'
+                    imgUrl:'src/assets/images/me_plant@2x.png',
+                    link:''
                 },{
                     title:'果实售卖',
-                    imgUrl:'src/assets/images/me_fruit_sell@2x.png'
+                    imgUrl:'src/assets/images/me_fruit_sell@2x.png',
+                    link:'/me/my-sale'
                 },{
                     title:'我的钱包',
-                    imgUrl:'src/assets/images/me_wallet@2x.png'
+                    imgUrl:'src/assets/images/me_wallet@2x.png',
+                    link:'/me/my-wallet'
                 },{
                     title:'优惠券',
-                    imgUrl:'src/assets/images/me_discount@2x.png'
+                    imgUrl:'src/assets/images/me_discount@2x.png',
+                    link:'/me/coupon'
                 },{
                     title:'积分',
-                    imgUrl:'src/assets/images/me_integral@2x.png'
+                    imgUrl:'src/assets/images/me_integral@2x.png',
+                    link:'/me/integral'
                 },{
                     title:'系统设置',
                     imgUrl:'src/assets/images/me_set@2x.png'
