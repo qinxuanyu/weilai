@@ -6,7 +6,7 @@
                     <div class="avatar">
                         <img src="src/assets/images/com_goodreputation@2x.png" alt="">
                     </div>
-                    <router-link to="">积分明细</router-link>
+                    <router-link to="/me/integral-details">积分明细</router-link>
                 </div>
                 <div class="num">
                     <img src="src/assets/images/ind_integral@2x.png" alt="">
@@ -93,6 +93,7 @@
             li{
                 display: flex;
                 padding: 10px;
+                border-bottom: 1px solid #f3f3f3;
                 .img{
                     width: 125px;
                     height: 108px;
@@ -109,13 +110,19 @@
                         font-size: 16px;
                         margin-top: 32px;
                         span{
-                            // color: #v
+                            color: #f11010;
                         }
                         button{
                             font-size: 14px;
                             background-color: #60a609;
                             color: #fff;
                         }
+                    }
+                    >p{
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        overflow: hidden;
                     }
                 }
             }

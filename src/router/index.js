@@ -150,6 +150,46 @@ let router =  new Router({
         title:'积分'
       }
     },
+    {
+      path: '/me/integral-details',
+      name: 'integralDetails',
+      component: () => import('@/views/me/integralDetails.vue'),
+      meta:{
+        title:'积分明细'
+      }
+    },
+    {
+      path: '/me/edit-data',
+      name: 'editData',
+      component: () => import('@/views/me/editData.vue'),
+      meta:{
+        title:'编辑资料'
+      }
+    },
+    {
+      path: '/me/message',
+      name: 'message',
+      component: () => import('@/views/me/message.vue'),
+      meta:{
+        title:'消息'
+      }
+    },
+    {
+      path: '/setup',
+      name: 'setup',
+      component: () => import('@/views/setup/index.vue'),
+      meta:{
+        title:'系统设置'
+      }
+    },
+    {
+      path: '/setup/feedback',
+      name: 'feedback',
+      component: () => import('@/views/setup/feedback.vue'),
+      meta:{
+        title:'意见反馈'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
