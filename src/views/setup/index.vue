@@ -1,9 +1,9 @@
 <template>
     <div class="setup">
         <group>
-            <cell title="关于我们" is-link></cell>
-            <cell title="意见反馈" is-link></cell>
-            <cell title="消息设置" is-link></cell>
+            <cell title="关于我们" is-link link="/setup/about"></cell>
+            <cell title="意见反馈" is-link link="/setup/feedback"></cell>
+            <cell title="消息设置" is-link ></cell>
         </group>
         <x-button>退出登录</x-button>
     </div>
@@ -13,7 +13,7 @@
     export default{
         data (){
             return{
-
+                
             }
         },
         components:{ Group, Cell, XButton },

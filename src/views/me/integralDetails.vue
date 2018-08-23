@@ -23,7 +23,6 @@
         components:{ Group, Cell, Tab, TabItem  },
         mounted() {
             var window_h = window.innerHeight;
-            console.log(window_h)
             document.querySelector('._v-container').style.height = (window_h - 44) +'px';
             document.querySelector('._v-container').style.top = '44px'
         },

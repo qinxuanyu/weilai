@@ -1,8 +1,8 @@
 <template>
     <div class="about">
-        <img src="" alt="">
-        <p>贵州养殖</p>
-        <p>
+        <img src="src/assets/images/acarpous@2x.png" alt="">
+        <p class="title">贵州养殖</p>
+        <p class="main">
             贵州养植电子商务公司旗下电子商务网站云牧商城是中
             国畜牧行业最专业，涵盖种类最齐全的电子商务交易平台，
             主要为生产企业，养殖企业及个人提供畜牧产品在线交易、
@@ -25,9 +25,21 @@
 </script>
 <style lang="less" scoped>
     .about{
+        padding: 0 16px;
         img{
             display: block;
-            
+            width: 107px;
+            margin: 22px auto 11px auto;
+        }
+        p{
+           
+        }
+        .title{
+            font-size: 16px;
+            text-align: center;
+        }
+        .main{
+            text-indent: 30px;
         }
     }
 </style>

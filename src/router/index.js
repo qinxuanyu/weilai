@@ -175,6 +175,22 @@ let router =  new Router({
       }
     },
     {
+      path: '/me/site',
+      name: 'site',
+      component: () => import('@/views/me/site.vue'),
+      meta:{
+        title:'地址管理'
+      }
+    },
+    {
+      path: '/me/add-site',
+      name: 'addSite',
+      component: () => import('@/views/me/addSite.vue'),
+      meta:{
+        title:'新增地址'
+      }
+    },
+    {
       path: '/setup',
       name: 'setup',
       component: () => import('@/views/setup/index.vue'),
@@ -188,6 +204,38 @@ let router =  new Router({
       component: () => import('@/views/setup/feedback.vue'),
       meta:{
         title:'意见反馈'
+      }
+    },
+    {
+      path: '/setup/about',
+      name: 'about',
+      component: () => import('@/views/setup/about.vue'),
+      meta:{
+        title:'关于我们'
+      }
+    },
+    {
+      path: '/setup/inform',
+      name: 'inform',
+      component: () => import('@/views/setup/inform.vue'),
+      meta:{
+        title:'意见反馈'
+      }
+    },
+    {
+      path: '/order/order-inform',
+      name: 'orderForm',
+      component: () => import('@/views/order/orderForm.vue'),
+      meta:{
+        title:'我的订单'
+      }
+    },
+    {
+      path: '/order/order-details',
+      name: 'orderDetails',
+      component: () => import('@/views/order/orderDetails.vue'),
+      meta:{
+        title:'订单详情'
       }
     },
   ]
