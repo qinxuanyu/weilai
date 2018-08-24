@@ -238,6 +238,22 @@ let router =  new Router({
         title:'订单详情'
       }
     },
+    {
+      path: '/order/refund',
+      name: 'refund',
+      component: () => import('@/views/order/refund.vue'),
+      meta:{
+        title:'申请退款'
+      }
+    },
+    {
+      path: '/order/evaluate',
+      name: 'evaluate',
+      component: () => import('@/views/order/evaluate.vue'),
+      meta:{
+        title:'发表评论'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
