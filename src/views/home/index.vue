@@ -2,7 +2,7 @@
     <div class="home">
         <div class="top">
              <flexbox :gutter="0" align="flex-start">
-                <flexbox-item :span="2"><div class="flex-demo">近况</div></flexbox-item>
+                <flexbox-item :span="2"><div class="flex-demo"><router-link to="">近况</router-link></div></flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo" >
                         <p>车厘子</p>
@@ -10,7 +10,7 @@
                         <p>维护到期：2018-10-10</p>
                     </div>
                 </flexbox-item >
-                <flexbox-item :span="2"><div class="flex-demo">攻略</div></flexbox-item>
+                <flexbox-item :span="2"><div class="flex-demo"><router-link to="/home/strategy">攻略</router-link></div></flexbox-item>
             </flexbox>
         </div>
         <div class="btn-view">
@@ -28,6 +28,13 @@
                     <img src="/src/assets/images/ho_cultivation@3x.png" alt="" @click="$animation('shovel')">
                 </div>
             </div>
+        </div>
+        <div class="shortcut">
+            <grid :show-lr-borders="false" :show-vertical-dividers="false">
+                <grid-item :label="i.title" v-for="(i,index) in shortcut" :key="index">
+                    <img slot="icon" :src="i.icon">
+                </grid-item>
+            </grid>
         </div>
         <div class="tree">
             <img src="src/assets/images/home_tree.png" alt="">
@@ -55,7 +62,7 @@
     </div>
 </template> 
 <script>
-    import { Flexbox, FlexboxItem } from 'vux';
+    import { Flexbox, FlexboxItem, Grid, GridItem, } from 'vux';
     import store from 'vuex'
     export default{
         name:'index',
@@ -68,11 +75,27 @@
                     scissor:false,
                     pollination:false,
                     shovel:false
-                }
+                },
+                shortcut:[{
+                    title:'我的果树',
+                    icon:'src/assets/images/fruiter@2x.png'
+                },{
+                    title:'种树',
+                    icon:'src/assets/images/plant_trees@2x.png'
+                },{
+                    title:'收获',
+                    icon:'src/assets/images/harvest@2x.png'
+                },{
+                    title:'钱包',
+                    icon:'src/assets/images/wallet@2x.png'
+                },{
+                    title:'积分',
+                    icon:'src/assets/images/integral@2x.png'
+                }]
             }
         },
         components:{
-            Flexbox, FlexboxItem
+            Flexbox, FlexboxItem, Grid, GridItem,
         },
         methods:{
             $animation (id){
@@ -99,10 +122,13 @@
         margin: 0px;
         padding: 0px;
         .top{
-            color: #fff;
+           
             padding-top: 15px;
             .vux-flexbox{
                 text-align: center;
+            }
+            a{
+                color: #fff;
             }
         }
         .btn-view{
@@ -196,7 +222,13 @@
                 }
             }
         }
-        
+        .shortcut{
+            width: 100%;
+            position: fixed;
+            left: 0;
+            bottom: 53px;
+            .weui-grid{padding: 0}
+        }
     }
     // .watering-enter ,.watering-leave{
     //     opacity: 0;

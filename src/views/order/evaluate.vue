@@ -1,14 +1,12 @@
 <template>
     <div class="evaluate">
         <div class="grade">
-            <span>描述相符</span><rater v-model="data3"></rater>
+            <span>描述相符</span><rater v-model="data3" active-color="#f4c60f"></rater>
         </div>
         <div class="grade">
             <span>物流服务</span><rater v-model="data3"></rater>
         </div>
-        <group>
-            <x-textarea placeholder="你的评价能帮助其他小伙伴哟"></x-textarea>
-        </group>
+        <x-textarea :cols="30" :rows="5" placeholder="你的评价能帮助其他小伙伴哟"></x-textarea>
         <x-button>发表评论</x-button>
     </div>
 </template>
@@ -23,20 +21,26 @@
         components:{ Rater, XTextarea, Group, XButton }
     }
 </script>
-<style lang="less" scoped>
+<style lang="less">
     .evaluate{
-        padding: 20px 23px;
+        padding-top: 20px;
         .grade{
             text-align: center;
             span{
                 margin-right: 23px;
             }
         }
-        textarea{
-            border: 1px solid #dbdbdb;
-        }
+       
         button{
             margin-top: 33px;
+            width: 80% !important;
+        }
+        .weui-cell:before{
+            border-top: 0;
+            height: 0;
+        }
+        textarea{
+            border: 1px solid #dbdbdb;
         }
     }
 </style>

@@ -95,6 +95,14 @@ let router =  new Router({
       }
     },
     {
+      path: '/me/fruiter',
+      name: 'fruiter',
+      component: () => import('@/views/me/fruiter.vue'),
+      meta:{
+        title:'我的果树'
+      }
+    },
+    {
       path: '/me/order-info',
       name: 'orderInfo',
       component: () => import('@/views/me/orderInfo.vue'),
@@ -252,6 +260,22 @@ let router =  new Router({
       component: () => import('@/views/order/evaluate.vue'),
       meta:{
         title:'发表评论'
+      }
+    },
+    {
+      path: '/order/vindicate-order',
+      name: 'vindicateOrder',
+      component: () => import('@/views/order/vindicateOrder.vue'),
+      meta:{
+        title:'确认下单'
+      }
+    },
+    {
+      path: '/home/strategy',
+      name: 'strategy',
+      component: () => import('@/views/home/strategy.vue'),
+      meta:{
+        title:'果园攻略'
       }
     },
   ]
