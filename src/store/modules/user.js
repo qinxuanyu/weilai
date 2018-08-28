@@ -15,28 +15,28 @@ const user = {
     mutations: {
         SET_TOKEN(state, token) {
             if (token) {
-                tool.session.set("token", token);
+                tool.local.set("token", token);
                 // tool.session.set("tokenExpireDate", new Date().getTime() + 7 * 86400000);
             } else {
-                tool.session.clear("token");
+                tool.local.clear("token");
             }
 
             state.token = token;
         },
         SET_USER_ID(state, userId) {
             if (userId) {
-                tool.session.set("userId", userId);
+                tool.local.set("userId", userId);
             } else {
-                tool.session.clear("userId");
+                tool.local.clear("userId");
             }
 
             state.id = userId;
         },
         SET_USER_INFO(state, info) {
             if (info) {
-                tool.session.set("userInfo", JSON.stringify(info));
+                tool.local.set("userInfo", JSON.stringify(info));
             } else {
-                tool.session.clear("userInfo");
+                tool.local.clear("userInfo");
             }
 
             state.info = info;
@@ -54,22 +54,22 @@ const user = {
             store.commit("SET_TOKEN", "");
             store.commit("SET_USER_ID", "");
             store.commit("SET_USER_INFO", "");
-            tool.session.clear("tokenExpireDate");
+            tool.local.clear("tokenExpireDate");
         },
         GET_SESSION_TOKEN(store) {
-            let token = tool.session.get("token");
-            let userId = tool.session.get("userId");
-            let userInfo = tool.session.get("userInfo");
-            let expireDate = tool.session.get("tokenExpireDate");
+            let token = tool.local.get("token");
+            let userId = tool.local.get("userId");
+            let userInfo = tool.local.get("userInfo");
+            let expireDate = tool.local.get("tokenExpireDate");
             let today = new Date().getTime();
 
-            if (token && userId && expireDate && expireDate > today) {
-                userInfo = JSON.parse(userInfo);
-            } else {
-                token = "";
-                userId = "";
-                userInfo = "";
-            }
+            // if (token && userId && expireDate && expireDate > today) {
+            //     userInfo = JSON.parse(userInfo);
+            // } else {
+            //     token = "";
+            //     userId = "";
+            //     userInfo = "";
+            // }
 
             store.commit("SET_TOKEN", token);
             store.commit("SET_USER_ID", userId);
@@ -92,5 +92,4 @@ const user = {
         }
     }
 }
-
 export default user;

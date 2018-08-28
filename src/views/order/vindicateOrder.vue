@@ -56,7 +56,7 @@
             background-color: #fff;
             // margin-top: 8px;
         }
-        .bottom-btn{
+        .bottom-btn{ 
             width: 100%;
             position: fixed;
             left: 0;

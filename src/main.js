@@ -12,14 +12,7 @@ import VueScroller from 'vue-scroller'
 Vue.use(LoadingPlugin)
 Vue.use(VueRouter)
 Vue.use(VueScroller)
-// const routes = [{
-//   path: '/',
-//   component: Home
-// }]
 
-// const router = new VueRouter({
-//   routes
-// })
 FastClick.attach(document.body)
 Vue.prototype.showTips = function (text) {
   if (!text) {

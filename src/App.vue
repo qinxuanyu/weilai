@@ -14,6 +14,8 @@
 <script>
 import BottomTab from '@/components/BottomTab.vue';
 import { mapState } from "vuex";
+import tool from "@/utils/tool"
+import api from '@/api'
 export default {
   name: 'app',
   data (){
@@ -42,12 +44,26 @@ export default {
     },
   },
   created() {
-    // window.open('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect')
+    let token = tool.local.get('token');
+    let _this = this;
+    console.log(token,this.$store.getters.token)
+    if(!this.$store.getters.token){
+       api.getToken({
+         id:1
+       }).then( data =>{
+         _this.$store.commit('SET_TOKEN',data)
+       }).catch(e =>{})
+    }
   },
   mounted() {
     this.orientationChange();
     window.removeEventListener("orientationchange", this.orientationChange, false);
     window.addEventListener("orientationchange", this.orientationChange, false);
+    
+  },
+  updated() {
+    // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http://192.168.1.123:8080&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+    
   },
   destoryed() {
       window.removeEventListener("orientationchange", this.orientationChange, false);

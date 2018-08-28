@@ -2,9 +2,9 @@
     <div class="me">
         <div class="top">
             <div class="avatar">
-                <img src="src/assets/images/com_goodreputation@2x.png" alt="">
+                <img :src="myInfo.imageUrl" alt="">
             </div>
-            <p>用户名：123</p>
+            <p>用户名：{{myInfo.name}}</p>
             <div class="message">
                 <div class="icon">
                     <div>
@@ -22,23 +22,23 @@
                 <cell title="我的订单" value="查看全部订单" is-link></cell>
             </group>
            <tabbar>
-                <tabbar-item  link="/store/list/1">
+                <tabbar-item  link="/order/order-inform">
                     <img slot="icon" src="src/assets/images/me_wait_payment@2x.png" />
                     <span slot="label">待付款</span>
                 </tabbar-item>
-                <tabbar-item  link="/store/list/2">
+                <tabbar-item  link="/order/order-inform">
                     <img slot="icon" src="src/assets/images/me_wait_send@2x.png" />
                     <span slot="label">待发货</span>
                 </tabbar-item>
-                <tabbar-item  link="/store/list/3">
+                <tabbar-item  link="/order/order-inform">
                     <img slot="icon" src="src/assets/images/me_wait_receiving@2x.png" />
                     <span slot="label">待收货</span>
                 </tabbar-item>
-                <tabbar-item ref="meTabbar" link="/store/list/4">
+                <tabbar-item ref="meTabbar" link="/order/order-inform">
                     <img slot="icon" src="src/assets/images/me_wait_evaluate@2x.png" />
                     <span slot="label">待评价</span>
                 </tabbar-item>
-                <tabbar-item ref="meTabbar" link="/store/list/4">
+                <tabbar-item ref="meTabbar" link="/order/order-inform">
                     <img slot="icon" src="src/assets/images/me_after_sale@2x.png" />
                     <span slot="label">售后处理</span>
                 </tabbar-item>
@@ -54,6 +54,7 @@
 </template>
 <script>
     import { Cell, Group, Tabbar, TabbarItem } from 'vux';
+    import api from '@/api'
     export default{
         data (){
             return {
@@ -79,16 +80,29 @@
                     link:'/me/integral'
                 },{
                     title:'系统设置',
-                    imgUrl:'src/assets/images/me_set@2x.png'
+                    imgUrl:'src/assets/images/me_set@2x.png',
+                    link:'/setup'
                 },{
                     title:'邀请朋友',
                     imgUrl:'src/assets/images/me_invitation@2x.png'
-                }]
+                }],
+                myInfo:{}
             }
         },
         components:{
             Cell, Group, Tabbar, TabbarItem
-        }
+        },
+        methods:{
+            getMyInfo (){
+                let _this = this;
+                api.getInfo().then(data =>{
+                    _this.myInfo = data;
+                }).catch(e =>{})
+            }
+        },
+        created() {
+            this.getMyInfo()
+        },
     }
 </script>
 <style lang="less" >
@@ -143,6 +157,9 @@
            }
            .weui-cells{
                margin-top: 0;
+           }
+           .weui-tabbar__icon{
+               img{width: auto}
            }
         }
     }

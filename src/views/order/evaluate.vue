@@ -4,7 +4,7 @@
             <span>描述相符</span><rater v-model="data3" active-color="#f4c60f"></rater>
         </div>
         <div class="grade">
-            <span>物流服务</span><rater v-model="data3"></rater>
+            <span>物流服务</span><rater v-model="data3" active-color="#f4c60f"></rater>
         </div>
         <x-textarea :cols="30" :rows="5" placeholder="你的评价能帮助其他小伙伴哟"></x-textarea>
         <x-button>发表评论</x-button>

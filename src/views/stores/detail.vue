@@ -17,7 +17,7 @@
                 <cell title="领券"  is-link @click.native.stop="ticket_show = !ticket_show"></cell>
                 <cell title="规格参数"  is-link @click.native.stop="size_show = !size_show"></cell>
                 <cell title="商品评价"  is-link></cell>
-                <div class="evaluate" v-if="detailData.evaluates">
+                <div class="evaluate" v-if="detailData.evaluates.length">
                     <div class="user">
                         <div class="avatar">
                             <img :src="detailData.evaluates[0].imageUrl" alt="">
@@ -41,12 +41,12 @@
                     <p>客服</p>
                 </router-link>
             </div>
-            <div class="add">加入购物车</div>
+            <div class="add" @click.stop="cart_show = !cart_show">加入购物车</div>
             <div class="buy">立即购买</div>
         </div>
         <div class="pop">
             <div v-transfer-dom class="ticket-pop">
-                <popup v-model="ticket_show" @on-hide="log('hide')" @on-show="log('show')">
+                <popup v-model="ticket_show" >
                     <group v-for="(item,index) in detailData.tickets" :key="index">
                          <cell :title="item.price + '元'"  :inline-desc="'满'+item.suitPrice+'元减'+item.price+'元'">
                              <x-button  mini plain type="primary">领取</x-button>
@@ -55,7 +55,7 @@
                 </popup>
             </div>
             <div v-transfer-dom class="size-pop">
-                <popup v-model="size_show" @on-hide="log('hide')" @on-show="log('show')">
+                <popup v-model="size_show" >
                     <ul class="message">
                         <li class="">
                             <span>品名</span>
@@ -77,27 +77,50 @@
                     <x-button type="primary" @click.native.stop="size_show = !size_show">确定</x-button>
                 </popup>
             </div>
+            <div v-transfer-dom class="cart-pop">
+                <popup v-model="cart_show" >
+                     <div class="goods">
+                        <div class="left">
+                            <img :src="detailData.images[0]" alt="">
+                        </div>
+                        <div class="right">
+                            <p>{{detailData.name}}</p>
+                            <p>规格：1000g</p>
+                            <div>
+                                <group>
+                                    <x-number :title="detailData.price" v-model="goodsNum" :min="1" width="30px" @on-change="changeGoodsNum"  ></x-number>
+                                </group>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <x-button @click.native.stop="addCartFun">确定</x-button>
+                </popup>
+               
+            </div>
         </div>
     </div>
 
 </template>
 <script>
-    import { Swiper, SwiperItem, Flexbox, FlexboxItem, Cell, Group, Divider, Popup, TransferDom, XButton  } from 'vux'
+    import { Swiper, SwiperItem, Flexbox, FlexboxItem, Cell, Group, Divider, Popup, TransferDom, XButton, XNumber  } from 'vux'
     import api from '@/api'
     export default{
         data(){
             return{
                 ticket_show:false,
                 size_show:false,
+                cart_show:false,
                 goodsId:null,
-                detailData:{}
+                detailData:{},
+                goodsNum:1
             }
         },
         directives: {
             TransferDom
         },
         components:{
-            Swiper, SwiperItem, Flexbox, FlexboxItem, Cell, Group, Divider, Popup, XButton
+            Swiper, SwiperItem, Flexbox, FlexboxItem, Cell, Group, Divider, Popup, XButton, XNumber
         },
         methods:{
             getDetailData (){
@@ -107,6 +130,18 @@
                 }).then(data => {
                     _this.detailData = data;
                 }).catch(e =>{})
+            },
+            addCartFun (){
+                let _this = this;
+                api.addCart({
+                    goodsId:_this.goodsId,
+                    num:_this.goodsNum
+                }).then(data =>{
+                    _this.$router.push('/stores/cart')
+                }).catch(e =>{})
+            },
+            changeGoodsNum (){
+
             }
         },
         created() {
@@ -264,6 +299,33 @@
         .weui-btn_primary{
             // width: 80%;
             background-color: #60a609;
+        }
+    }
+    .cart-pop{
+       
+        .goods{
+            background-color: #fff;
+            display: flex;
+            padding: 12px;
+            .left{
+                width: 100px;
+                height: 95px;
+                overflow: hidden;
+                img{
+                    width: 100%
+                }
+            }
+            .right{
+                flex: 1;
+                padding-left: 8px;
+                .weui-cell{
+                    font-size: 14px
+                }
+                .vux-number-input{
+                    font-size: 14px;
+                }
+            }
+            
         }
     }
 </style>

@@ -66,14 +66,15 @@ service.interceptors.response.use(
     response => {
         store.commit("UPDATE_LOADING", false);
         if (response.status === 200 ) {
-            if (response.data.code === 200 && response.data.data) {
+            return Promise.resolve(response.data.data);
+            if (response.data.code === 200) {
                 return Promise.resolve(response.data.data);
             } else {
                 Vue.$vux.toast.show({
                     text: response.data.msg || "服务器内部错误",
-                    type: "text",
-                    width: "auto",
-                    position: "top"
+                    type: "warn",
+                    width: "10em",
+                    position: "middle"
                 });
             }
         } else {
@@ -88,12 +89,12 @@ service.interceptors.response.use(
         return Promise.reject(response);
     },
     error => {
-        // store.commit("UPDATE_LOADING", false);
-        // if(error.response.status==401){
+        store.commit("UPDATE_LOADING", false);
+        if(error.response.status == 401 || error.response.status == 403){
             
-        //     // store.dispatch("LOGOUT");
-        //     router.push('/');
-        // }
+            store.dispatch("LOGOUT");
+            // router.push('/');
+        }
         
        
         Vue.$vux.toast.show({

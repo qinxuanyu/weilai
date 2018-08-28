@@ -278,12 +278,20 @@ let router =  new Router({
         title:'果园攻略'
       }
     },
+    {
+      path: '/me/farm',
+      name: 'farm',
+      component: () => import('@/views/me/farm.vue'),
+      meta:{
+        title:'农场'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
-  if (/^\/http/.test(to.path)) {
-      window.open(to.path, "_blank");
-      return;
+  if (/^\/http/.test(to.path) || /^\/https/.test(to.path)) {
+    window.location.href  = to.path;
+    return;
   }
   store.commit('UPDATE_LOADING',true)
   next();

@@ -2,7 +2,7 @@
     <div class="fruiter">
         <tab :line-width="2" custom-bar-width="50px">
             <tab-item selected @on-item-click="onItemClick" >列表</tab-item>
-            <tab-item @on-item-click="onItemClick">大图</tab-item>
+            <tab-item @on-item-click="$router.push('/me/farm')">大图</tab-item>
         </tab>
         <x-table class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
             <thead>

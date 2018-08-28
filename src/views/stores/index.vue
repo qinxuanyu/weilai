@@ -68,7 +68,7 @@
         },
     }
 </script>
-<style lang="less" scoped>
+<style lang="less">
     .store{
         background-color: #fff;
         .tab{
@@ -77,11 +77,15 @@
                 position: initial;
                 background-color: #fff;
             }
+            .weui-tabbar__icon{
+                width: 44px;
+                height: 44px;
+            }
         }
         .advertising{
             text-align: center;
             .connect{
-                 width: 100%;
+                width: 100%;
                 display: block;
                 padding: 8px 0;
                 background-color: #f3f3f3;

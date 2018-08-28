@@ -40,4 +40,6 @@ const store = new Vuex.Store({
 
   }
 })
+store.dispatch("GET_SESSION_TOKEN");
+
 export default store;

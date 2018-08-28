@@ -30,8 +30,15 @@
             </div>
         </div>
         <div class="shortcut">
+            <div class="flow">
+                <p class="text-right">短工4级</p>
+                <div class="percent">
+                    <div ></div>
+                </div>
+                <p class="text-center">距离收货</p>
+            </div>
             <grid :show-lr-borders="false" :show-vertical-dividers="false">
-                <grid-item :label="i.title" v-for="(i,index) in shortcut" :key="index">
+                <grid-item :label="i.title" v-for="(i,index) in shortcut" :key="index" :link="i.link">
                     <img slot="icon" :src="i.icon">
                 </grid-item>
             </grid>
@@ -63,7 +70,6 @@
 </template> 
 <script>
     import { Flexbox, FlexboxItem, Grid, GridItem, } from 'vux';
-    import store from 'vuex'
     export default{
         name:'index',
         data (){
@@ -78,7 +84,8 @@
                 },
                 shortcut:[{
                     title:'我的果树',
-                    icon:'src/assets/images/fruiter@2x.png'
+                    icon:'src/assets/images/fruiter@2x.png',
+                    link:'/me/fruiter'
                 },{
                     title:'种树',
                     icon:'src/assets/images/plant_trees@2x.png'
@@ -87,10 +94,12 @@
                     icon:'src/assets/images/harvest@2x.png'
                 },{
                     title:'钱包',
-                    icon:'src/assets/images/wallet@2x.png'
+                    icon:'src/assets/images/wallet@2x.png',
+                    link:'/me/my-wallet'
                 },{
                     title:'积分',
-                    icon:'src/assets/images/integral@2x.png'
+                    icon:'src/assets/images/integral@2x.png',
+                    link:'/me/integral'
                 }]
             }
         },
@@ -227,7 +236,35 @@
             position: fixed;
             left: 0;
             bottom: 53px;
+            z-index: 10;
             .weui-grid{padding: 0}
+            .weui-grids::before{
+                height: 0;
+                border-top: 0;
+            }
+            .flow{
+                color: #fff;
+                 width: 80%;
+                 margin: 0 auto;
+                .percent{
+                    width: 100%;
+                    height: 12px;
+                    border-radius: 6px;
+                    border: 1px solid #fff;
+                    position: relative;
+                    box-sizing: border-box;
+                    >div{
+                        height: 100%;
+                        width: 50%;
+                        border-radius: 6px;
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        background-color: #fff;
+                        
+                    }
+                }
+            }
         }
     }
     // .watering-enter ,.watering-leave{
