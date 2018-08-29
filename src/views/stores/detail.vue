@@ -36,20 +36,20 @@
         <div class="node" v-html="detailData.detail"></div>
         <div class="bottom-btn">
             <div class="service">
-                <router-link to="">
+                <router-link to="/me/service">
                     <img src="src/assets/images/mer_service@2x.png" alt="">
                     <p>客服</p>
                 </router-link>
             </div>
-            <div class="add" @click.stop="cart_show = !cart_show">加入购物车</div>
-            <div class="buy">立即购买</div>
+            <div class="add" @click.stop="cart_show = !cart_show;manner = 0">加入购物车</div>
+            <div class="buy" @click.stop="cart_show = !cart_show;manner = 1">立即购买</div>
         </div>
         <div class="pop">
             <div v-transfer-dom class="ticket-pop">
                 <popup v-model="ticket_show" >
                     <group v-for="(item,index) in detailData.tickets" :key="index">
                          <cell :title="item.price + '元'"  :inline-desc="'满'+item.suitPrice+'元减'+item.price+'元'">
-                             <x-button  mini plain type="primary">领取</x-button>
+                             <x-button  mini plain type="primary" @click.native.stop="getTicketFun(item.id)">领取</x-button>
                          </cell>
                     </group>
                 </popup>
@@ -113,7 +113,8 @@
                 cart_show:false,
                 goodsId:null,
                 detailData:{},
-                goodsNum:1
+                goodsNum:1,
+                manner:null,                 //0-加入购物车 1-立即购买
             }
         },
         directives: {
@@ -133,15 +134,36 @@
             },
             addCartFun (){
                 let _this = this;
-                api.addCart({
-                    goodsId:_this.goodsId,
-                    num:_this.goodsNum
-                }).then(data =>{
-                    _this.$router.push('/stores/cart')
-                }).catch(e =>{})
+                if(this.manner === 0){
+                    api.addCart({
+                        goodsId:_this.goodsId,
+                        num:_this.goodsNum
+                    }).then(data =>{
+                        _this.$router.push('/stores/cart')
+                    }).catch(e =>{})
+                }else if(this.manner === 1){
+                    this.$router.push({
+                        name:'order',
+                        params:{
+                            id:this.goodsId
+                        },
+                        query:{
+                            num:this.goodsNum
+                        }
+                    })
+                }
+                
             },
             changeGoodsNum (){
 
+            },
+            getTicketFun (id){
+                let _this = this;
+                api.getTicket({
+                    ticketId:id
+                }).then(data =>{
+                    _this.showTips('领取成功')
+                }).catch(e =>{})
             }
         },
         created() {
@@ -266,9 +288,9 @@
          
     }
    .ticket-pop{
+        background-color: #fff !important;
         .weui-cells{
             font-size: 14px;
-            background: #fff;
             .vux-label{
                 font-size: 16px;
                 color: #f11010;

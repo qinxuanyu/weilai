@@ -63,7 +63,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/order',
+      path: '/store/order/:id',
       name: 'order',
       component: () => import('@/views/stores/order.vue'),
       meta:{
@@ -284,6 +284,14 @@ let router =  new Router({
       component: () => import('@/views/me/farm.vue'),
       meta:{
         title:'农场'
+      }
+    },
+    {
+      path: '/me/service',
+      name: 'service',
+      component: () => import('@/views/me/service.vue'),
+      meta:{
+        title:'客服'
       }
     },
   ]

@@ -7,7 +7,7 @@
             <p>用户名：{{myInfo.name}}</p>
             <div class="message">
                 <div class="icon">
-                    <div>
+                    <div @click.stop="$router.push('/me/message')">
                         <img src="src/assets/images/me_news@2x.png" alt="">
                     </div>
                     <div>

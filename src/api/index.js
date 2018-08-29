@@ -62,4 +62,42 @@ export default {
             data
         })
     },
+    // 确认下单
+    getOrderData (data){
+        return fetch({
+            url:'/goods/auth/sureOrder',
+            method:'get',
+            data
+        })
+    },
+    //客服列表
+    getServiceList (){
+        return fetch({
+            url:'/service/list',
+            method:'get',
+        })
+    },
+     //我的订单
+     getMyOrder (data){
+        return fetch({
+            url:'/user/auth/getMyOrder',
+            method:'get',
+            data
+        })
+    },
+     //领取优惠券
+    getTicket (data){
+        return fetch({
+            url:'/user/auth/getTicket',
+            method:'post',
+            data
+        })
+    },
+    //获取我的优惠券列表
+    getMyTicketList (){
+        return fetch({
+            url:'/goods/auth/myTicketList',
+            method:'get',
+        })
+    },
 }

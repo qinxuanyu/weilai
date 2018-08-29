@@ -46,7 +46,6 @@ export default {
   created() {
     let token = tool.local.get('token');
     let _this = this;
-    console.log(token,this.$store.getters.token)
     if(!this.$store.getters.token){
        api.getToken({
          id:1

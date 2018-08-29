@@ -1,13 +1,12 @@
 <template>
     <div class="message">
         <ul class="list">
-            <ii>
+            <li>
                 <p>
                     <span>通知：</span>1213212155778711414544
                 </p>
                 <p class="time"></p>
-            </ii>
-            <ii></ii>
+            </li>
         </ul>
     </div>
 </template>

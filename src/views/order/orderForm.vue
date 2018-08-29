@@ -1,22 +1,23 @@
 <template>
     <div class="order-form">
         <tab custom-bar-width="34px" :line-width="2" class="tab">
-            <tab-item selected @on-item-click="onItemClick">全部</tab-item>
-            <tab-item @on-item-click="onItemClick">待付款</tab-item>
-            <tab-item @on-item-click="onItemClick">待发货</tab-item>
-            <tab-item @on-item-click="onItemClick">待收货</tab-item>
-            <tab-item @on-item-click="onItemClick">待评价</tab-item>
+            <tab-item selected @on-item-click="onItemClick('')">全部</tab-item>
+            <tab-item @on-item-click="onItemClick(1)">待付款</tab-item>
+            <tab-item @on-item-click="onItemClick(2)">待发货</tab-item>
+            <tab-item @on-item-click="onItemClick(3)">待收货</tab-item>
+            <tab-item @on-item-click="onItemClick(4)">待评价</tab-item>
         </tab>
-        <scroller class="my-scroll">
+        <scroller class="my-scroll" :on-infinite="infinite" ref="scroller">
+            <div style="height: 1px;"></div>
             <ul class="list">
-                <li>
+                <li v-for="(item,index) in listData" :key="index">
                      <div class="img">
-                        <img src="src/assets/images/ho_banner1@2x.png" alt="">
+                        <img :src="item.coverImage" alt="">
                     </div>
                     <div class="title">
-                        <p class="status"><span>已发货</span>￥120x1</p>
-                        <p>下按时打卡了而空间就能给你看看到你发是 是份</p>
-                        <p class="size">规格：1000g</p>
+                        <p class="status"><span>{{goodsType(item.type )}}</span>￥{{item.price}}x{{item.num }}</p>
+                        <p>{{item.introduce }}</p>
+                        <p class="size">规格：{{item.weight}}</p>
                         <div class="btn">
                             <x-button mini plain class="one">查看物流</x-button>
                             <x-button mini plain class="two">立即兑换</x-button>
@@ -25,28 +26,80 @@
                 </li>
                 
             </ul>
+            <div></div>
         </scroller>
     </div>
 </template>
 <script>
     import { Tab, TabItem, XButton } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
-                
+                listData:[],
+                fromdata:{
+                    type:'',
+                    createTime:'',
+                    size:10
+                }
             }
         },
         components:{ Tab, TabItem, XButton },
         methods:{
-            onItemClick (){
-
+            onItemClick (type){
+                this.fromdata.type = type;
+                this.listData = [];
+                this.getOrderList()
+            },
+            getOrderList (){
+                let _this = this;
+                api.getMyOrder({
+                    type:_this.fromdata.type,
+                    createTime:_this.fromdata.createTime,
+                    size:_this.fromdata.size
+                }).then(data =>{
+                    if((data && data.length < _this.fromdata.size) || !data){
+                        _this.$refs.scroller.finishInfinite(2)
+                    }else if(data.length && data.length == _this.fromdata.size){
+                        _this.$refs.scroller.finishInfinite(0)
+                    }
+                    if(data && data.length){
+                        _this.listData = data;
+                        let dataLength = data.length;
+                        _this.fromdata.createTime = data[dataLength].createTime;
+                        
+                    };
+                    
+                }).catch(e =>{})
+            },
+            goodsType (type){
+                switch (type){
+                    case 1:
+                       return '待付款';
+                       break;
+                    case 2:
+                        return '待发货';
+                        break;
+                    case 3:
+                        return '待收货';
+                        break;
+                    case 4:
+                        return '待评价';
+                        break    
+                }
+            },
+            infinite (){
+                this.$refs.scroller.resize();
+                this.getOrderList()
             }
-        },mounted() {
+        },created() {
+            //  this.getOrderList()
+        },
+        mounted() {
             let window_h = window.innerHeight;
             let tab_h = document.querySelector('.tab').clientHeight;
             document.querySelector('.my-scroll').style.height = (window_h - tab_h) +'px';
             document.querySelector('.my-scroll').style.top = tab_h +'px';
-            console.log(document.querySelector('._v-content'))
         },
     }
 </script>

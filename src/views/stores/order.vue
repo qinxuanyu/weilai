@@ -4,30 +4,33 @@
             <div class="icon">
                 <img src="src/assets/images/mer_site@2x.png" alt="">
             </div>
-            <group class="select">
-                <cell title="小太阳  13020120102" value="" is-link inline-desc="广东省十大建设卡死了激发巅峰对决"></cell>
+            <group class="select" v-if="goodsData.receiverName && goodsData.address && goodsData.receiverPhone">
+                <cell :title="goodsData.receiverName + goodsData.receiverPhone" value="" is-link :inline-desc="goodsData.address"></cell>
+            </group>
+            <group class="select" v-else>
+                <cell title="添加收货地址" value="" is-link link="/me/add-site"></cell>
             </group>
         </div>
         <div class="goods">
             <div class="left">
-                <img src="http://img5.imgtn.bdimg.com/it/u=4101850099,151997626&fm=27&gp=0.jpg" alt="">
+                <img :src="goodsData.coverImage" alt="">
             </div>
             <div class="right">
-                <p>黑珍珠车厘子  新鲜水果大樱桃  1kg</p>
+                <p>{{goodsData.introduce }}</p>
                 <p>规格：1000g</p>
                 <div>
                     <group>
-                        <x-number title="￥100" v-model="changeValue" :min="1" width="30px" @on-change="change"  ></x-number>
+                        <x-number :title="'￥' + goodsData.price" v-model="goodsNum" :min="1" width="30px" @on-change="change"  ></x-number>
                     </group>
                 </div>
             </div>
         </div>
         <group>
-            <cell title="优惠券" value="-￥10.0" is-link></cell>
+            <cell title="优惠券" :value="'-' + ticketData.price" is-link @click.native.stop="ticket_show = !ticket_show"></cell>
         </group>
         <div>
             <group >
-                <x-input title="留言" placeholder="请输入您想说的话" novalidate  :show-clear="false" @on-blur="onBlur" placeholder-align="left"></x-input>
+                <x-input title="留言" placeholder="请输入您想说的话" novalidate  :show-clear="false"  placeholder-align="left"></x-input>
             </group>
         </div>
         <div class="line"></div>
@@ -39,18 +42,27 @@
             </group>
         </div>
         <div class="bottom-btn">
-            <div class="total">总价：<span>￥89.6</span></div>
-            <div class="num">共1件商品</div>
+            <div class="total">总价：<span>￥{{totalPrices}}</span></div>
+            <div class="num">共{{goodsNum}}件商品</div>
             <div class="btn">提交订单</div>
+        </div>
+        <div v-transfer-dom class="ticket-pop">
+            <popup v-model="ticket_show" >
+                <group v-for="(item,index) in ticketList" :key="index">
+                        <cell :title="item.price + '元'"  :inline-desc="'满'+item.suitPrice+'元减'+item.price+'元'">
+                            <x-button  mini plain type="primary" @click.native.stop="employTicketFun(item)" :disabled="usable_ticketList.indexOf(item.id) === -1">使用</x-button>
+                        </cell>
+                </group>
+            </popup>
         </div>
     </div>
 </template>
 <script>
-    import { Cell, Group, XNumber, Radio, XInput } from 'vux'
+    import { Cell, Group, XNumber, Radio, XInput, Popup, TransferDom, XButton } from 'vux'
+    import api from '@/api'
     export default{
         data () {
             return{
-                changeValue:1,
                 payList: [{
                     value:'微信支付',
                     icon:'src/assets/images/mer_WeChat@2x.png',
@@ -59,18 +71,93 @@
                     value: '支付宝支付',
                     icon:'src/assets/images/mer_alipay@2x.png',
                     key: '2',
-                } ],
-                color:'#60a609'
+                }],
+                color:'#60a609',
+                goodsId:null,
+                goodsData:{},
+                goodsNum:null,
+                ticket_show:false,
+                ticketList:[],          //我的优惠券列表
+                totalPrices_no:0,         //总价(未使用优惠券)
+                usable_ticketList:[],       //可以的优惠券id列表
+                usable_ticketData:[],       //可以的优惠券数据列表
+                ticketData:{},               //正在使用的优惠券
+                touch:0
+
             }
         },
+        directives: {
+            TransferDom
+        },
         components:{
-            Cell, Group, XNumber , Radio, XInput
+            Cell, Group, XNumber , Radio, XInput, Popup, TransferDom, XButton
         },
         methods:{
             change (){
 
+            },
+            getOrderData (){
+                let _this = this;
+                api.getOrderData({
+                    id:_this.goodsId
+                }).then(data =>{
+                    _this.goodsData = data;
+                }).catch(e =>{})
+            },
+            getMyTicketListFun (){
+                let _this = this;
+                api.getMyTicketList().then(data =>{
+                    _this.ticketList = data;
+                }).catch(e =>{})
+            },
+            setUsable_ticketList (){
+               
+            },
+            employTicketFun (data){
+                this.touch ++;
+                this.ticketData = data;
+                this.ticket_show = false;
             }
-        }
+        },
+        computed:{
+            totalPrices (){
+                this.totalPrices_no = this.goodsNum * this.goodsData.price;
+                let _this = this;
+                this.usable_ticketList = [];
+                this.ticketList.forEach(item => {        //判断优惠券是否可用
+                    if(item.suitPrice <= _this.totalPrices_no){
+                        this.usable_ticketList.push(item.id);
+                        this.usable_ticketData.push(item)
+                    }
+                });
+                this.usable_ticketData.sort(function(a,b){
+                    return a.price - b.price
+                })
+                let $length = this.usable_ticketData.length;
+                if($length){
+                    if(this.touch === 0){
+                        this.ticketData = this.usable_ticketData[$length - 1];
+                    }
+                    return  (this.goodsNum * this.goodsData.price) - this.ticketData.price
+                }
+                return (this.goodsNum * this.goodsData.price) 
+                
+                // if(this.goodsNum && this.goodsData.price){
+                //     return
+                //     this.goodsNum * this.goodsData.price
+                // }
+            },
+            
+        },
+      
+        created() {
+            let id = this.$route.params.id;
+            this.goodsId = id;
+            let num = this.$route.query.num;
+            this.goodsNum = parseInt(num);
+            this.getOrderData();
+            this.getMyTicketListFun()
+        },
     }
 </script>
 <style lang="less" >
