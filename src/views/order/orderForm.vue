@@ -10,7 +10,7 @@
         <scroller class="my-scroll" :on-infinite="infinite" ref="scroller">
             <div style="height: 1px;"></div>
             <ul class="list">
-                <li v-for="(item,index) in listData" :key="index">
+                <li v-for="(item,index) in listData" :key="index" @click.stop="$router.push('/order/order-details/'+item.id + '/'+ item.type)">
                      <div class="img">
                         <img :src="item.coverImage" alt="">
                     </div>
@@ -18,9 +18,19 @@
                         <p class="status"><span>{{goodsType(item.type )}}</span>￥{{item.price}}x{{item.num }}</p>
                         <p>{{item.introduce }}</p>
                         <p class="size">规格：{{item.weight}}</p>
-                        <div class="btn">
+                        <div class="btn" v-if="item.type == 1">
+                            <x-button mini plain class="one">取消订单</x-button>
+                            <x-button mini plain class="two">付款</x-button>
+                        </div>
+                        <div class="btn" v-if="item.type == 2">
+                            <x-button mini plain class="two" @click.native.stop="$router.push('/me/service')">找客服</x-button>
+                        </div>
+                        <div class="btn" v-if="item.type == 3">
                             <x-button mini plain class="one">查看物流</x-button>
-                            <x-button mini plain class="two">立即兑换</x-button>
+                            <x-button mini plain class="two" >确认收货</x-button>
+                        </div>
+                         <div class="btn" v-if="item.type == 4">
+                            <x-button mini plain class="two" @click.native.stop="$router.push('/order/evaluate')">评价</x-button>
                         </div>
                     </div>
                 </li>

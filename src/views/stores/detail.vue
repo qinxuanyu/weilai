@@ -7,16 +7,18 @@
         </swiper>
         <div class="main">
             <p class="name">{{ detailData.name }}</p>
-            <p class="price">￥{{ detailData.price }} <span>￥100</span></p> 
+            <p class="price">{{!isIntegral ? '￥' : '积分：'}}{{ detailData.price }} 
+                <!-- <span>￥100</span> -->
+            </p> 
             <flexbox :gutter="0" class="site">
                 <flexbox-item><div class="flex-demo">快递：000</div></flexbox-item>
                 <flexbox-item><div class="flex-demo" style="text-align:center">月销{{detailData.mouthSale}}笔</div></flexbox-item>
                 <flexbox-item><div class="flex-demo" style="text-align:right">{{ detailData.area }}</div></flexbox-item>
             </flexbox>
             <group>
-                <cell title="领券"  is-link @click.native.stop="ticket_show = !ticket_show"></cell>
+                <cell title="领券"  is-link @click.native.stop="ticket_show = !ticket_show" v-if="!isIntegral"></cell>
                 <cell title="规格参数"  is-link @click.native.stop="size_show = !size_show"></cell>
-                <cell title="商品评价"  is-link></cell>
+                <cell title="商品评价"  is-link v-if="!isIntegral"></cell>
                 <div class="evaluate" v-if="detailData.evaluates.length">
                     <div class="user">
                         <div class="avatar">
@@ -41,8 +43,9 @@
                     <p>客服</p>
                 </router-link>
             </div>
-            <div class="add" @click.stop="cart_show = !cart_show;manner = 0">加入购物车</div>
-            <div class="buy" @click.stop="cart_show = !cart_show;manner = 1">立即购买</div>
+            <div class="add" @click.stop="cart_show = !cart_show;manner = 0" v-if="!isIntegral">加入购物车</div>
+            <div class="buy" @click.stop="cart_show = !cart_show;manner = 1" v-if="!isIntegral">立即购买</div>
+            <div class="buy" style="flex:1" @click.stop="$router.push({name:'order',params:{id:goodsId},query:{num:goodsNum,type:'integral'}})" v-if="isIntegral">立即兑换</div>
         </div>
         <div class="pop">
             <div v-transfer-dom class="ticket-pop">
@@ -88,7 +91,7 @@
                             <p>规格：1000g</p>
                             <div>
                                 <group>
-                                    <x-number :title="detailData.price" v-model="goodsNum" :min="1" width="30px" @on-change="changeGoodsNum"  ></x-number>
+                                    <x-number :title="'￥'+detailData.price" v-model="goodsNum" :min="1" width="30px" @on-change="changeGoodsNum"  ></x-number>
                                 </group>
                             </div>
                         </div>
@@ -115,6 +118,7 @@
                 detailData:{},
                 goodsNum:1,
                 manner:null,                 //0-加入购物车 1-立即购买
+                isIntegral:null               //是否是积分商城
             }
         },
         directives: {
@@ -164,10 +168,19 @@
                 }).then(data =>{
                     _this.showTips('领取成功')
                 }).catch(e =>{})
-            }
+            },
+            // submitPointFun (){
+            //     api.submitPoint({}).then(data =>{
+            //         addressId:
+            //     }).catch(e =>{})
+            // }
         },
         created() {
             let id = this.$route.params.id;
+            let isIntegral = this.$route.query.type;
+            if(isIntegral){
+                this.isIntegral = isIntegral;
+            }
             this.goodsId = id;
             this.getDetailData()
         },

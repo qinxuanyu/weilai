@@ -239,7 +239,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/order/order-details',
+      path: '/order/order-details/:id/:type',
       name: 'orderDetails',
       component: () => import('@/views/order/orderDetails.vue'),
       meta:{
@@ -259,7 +259,7 @@ let router =  new Router({
       name: 'evaluate',
       component: () => import('@/views/order/evaluate.vue'),
       meta:{
-        title:'发表评论'
+        title:'发表评价'
       }
     },
     {

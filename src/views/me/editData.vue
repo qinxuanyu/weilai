@@ -13,7 +13,7 @@
                 @on-change="change"
                 title="生日"
                 ></datetime>
-            <cell title="地址管理" is-link></cell>
+            <cell title="地址管理" is-link link="/me/site"></cell>
         </group>
     </div>
 </template>

@@ -1,11 +1,11 @@
 <template>
     <div class="site">
-        <check-icon>
+        <check-icon v-for="(item,index) in listData" :key="index" :value.sync="bool">
             <div class="warp">
                 <div class="name">
-                    <span>郝彩英</span><span>1307980005</span>
+                    <span>{{item.receiverName}}</span><span>{{item.receiverPhone}}</span>
                 </div>
-                <p>广东省1234565877458854442</p>
+                <p>{{item.province + item.city + item.area + item.address}}</p>
                 <div class="btn">
                     <span>编辑</span>
                     <span>删除</span>
@@ -17,13 +17,28 @@
 </template>
 <script>
     import { CheckIcon, XButton } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
-                
+                listData:[],
+                bool:false
             }
         },
-        components:{CheckIcon, XButton}
+        components:{CheckIcon, XButton},
+        methods:{
+            getMyaddressList (){
+                let _this = this;
+                api.getMyAddress().then(data =>{
+                    if(data){
+                        _this.listData = data;
+                    }
+                }).catch(e =>{})
+            }
+        },
+        created() {
+            this.getMyaddressList()
+        },
     }
 </script>
 <style lang="less" >

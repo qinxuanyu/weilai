@@ -10,39 +10,51 @@
                 </div>
                 <div class="num">
                     <img src="src/assets/images/ind_integral@2x.png" alt="">
-                    <p>4230</p>
+                    <p>{{point}}</p>
                 </div>
             </div>
             <ul class="list">
-                <li>
+                <li v-for="(item,index) in listData" :key="index" @click.stop="$router.push('/store/detail/'+ item.id + '?type=integral')">
                     <div class="img">
-                        <img src="src/assets/images/ho_banner1@2x.png" alt="">
+                        <img :src="item.coverImage" alt="">
                     </div>
                     <div class="title">
-                        <p>下按时打卡了而空间就能给你看看到你发是 是份</p>
+                        <p>{{item.introduce}}</p>
                         <div class="btn">
-                            <span>4000积分</span>
+                            <span>{{item.point}}积分</span>
                             <x-button mini>立即兑换</x-button>
                         </div>
                     </div>
                 </li>
-                <li></li>
-                <li></li>
+               
             </ul>
         </scroller>
     </div>
 </template>
 <script>
     import { XButton } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
-
+                listData:[],
+                point:0
             }
         },
         components:{ XButton },
         methods:{
-
+            getListData (){
+                let _this = this;
+                api.getPointGoodsList().then(data =>{
+                    if(data){
+                        _this.listData = _this.listData.concat(data.dtos);
+                        _this.point = data.point;
+                    }
+                }).catch(e =>{})
+            }
+        },
+        created() {
+            this.getListData()
         },
         mounted() {
            
@@ -80,6 +92,7 @@
                 left: 50%;
                 top: 35px;
                 margin-left: -31px;
+                text-align: center;
                 img{
                     width: 62px;
                 }

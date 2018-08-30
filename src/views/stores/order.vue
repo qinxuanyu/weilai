@@ -18,40 +18,40 @@
             <div class="right">
                 <p>{{goodsData.introduce }}</p>
                 <p>规格：1000g</p>
-                <div>
+                <div v-if="!isIntegral">
                     <group>
-                        <x-number :title="'￥' + goodsData.price" v-model="goodsNum" :min="1" width="30px" @on-change="change"  ></x-number>
+                        <x-number :title="!isIntegral ? '￥' : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px" @on-change="change"  ></x-number>
                     </group>
                 </div>
             </div>
         </div>
-        <group>
+        <group v-if="!isIntegral">
             <cell title="优惠券" :value="'-' + ticketData.price" is-link @click.native.stop="ticket_show = !ticket_show"></cell>
         </group>
-        <div>
+        <div v-if="!isIntegral">
             <group >
-                <x-input title="留言" placeholder="请输入您想说的话" novalidate  :show-clear="false"  placeholder-align="left"></x-input>
+                <x-input title="留言" placeholder="请输入您想说的话" novalidate v-model="message"  :show-clear="false"  placeholder-align="left"></x-input>
             </group>
         </div>
         <div class="line"></div>
-        <div class="pay">
+        <div class="pay" v-if="!isIntegral">
             <group title="请选择支付方式">
-                <radio :options="payList"  value="1">
+                <radio :options="payList"  v-model="payType">
                     
                 </radio>
             </group>
         </div>
         <div class="bottom-btn">
-            <div class="total">总价：<span>￥{{totalPrices}}</span></div>
+            <div class="total">总价：<span>{{totalPrices}}</span></div>
             <div class="num">共{{goodsNum}}件商品</div>
-            <div class="btn">提交订单</div>
+            <div class="btn" @click.stop="submitClick">提交订单</div>
         </div>
         <div v-transfer-dom class="ticket-pop">
             <popup v-model="ticket_show" >
                 <group v-for="(item,index) in ticketList" :key="index">
-                        <cell :title="item.price + '元'"  :inline-desc="'满'+item.suitPrice+'元减'+item.price+'元'">
-                            <x-button  mini plain type="primary" @click.native.stop="employTicketFun(item)" :disabled="usable_ticketList.indexOf(item.id) === -1">使用</x-button>
-                        </cell>
+                    <cell :title="item.price + '元'"  :inline-desc="'满'+item.suitPrice+'元减'+item.price+'元'">
+                        <x-button  mini plain type="primary" @click.native.stop="employTicketFun(item)" :disabled="usable_ticketList.indexOf(item.id) === -1">使用</x-button>
+                    </cell>
                 </group>
             </popup>
         </div>
@@ -66,12 +66,14 @@
                 payList: [{
                     value:'微信支付',
                     icon:'src/assets/images/mer_WeChat@2x.png',
-                    key: '1',
+                    key: 1,
                 },{
                     value: '支付宝支付',
                     icon:'src/assets/images/mer_alipay@2x.png',
-                    key: '2',
+                    key: 2,
                 }],
+                isIntegral:null,      //是否为积分商品
+                payType:1,
                 color:'#60a609',
                 goodsId:null,
                 goodsData:{},
@@ -82,7 +84,8 @@
                 usable_ticketList:[],       //可以的优惠券id列表
                 usable_ticketData:[],       //可以的优惠券数据列表
                 ticketData:{},               //正在使用的优惠券
-                touch:0
+                touch:0,
+                message:'',                      //留言
 
             }
         },
@@ -103,7 +106,8 @@
                 }).then(data =>{
                     _this.goodsData = data;
                 }).catch(e =>{})
-            },
+            }, 
+            //获取我的优惠券
             getMyTicketListFun (){
                 let _this = this;
                 api.getMyTicketList().then(data =>{
@@ -113,10 +117,35 @@
             setUsable_ticketList (){
                
             },
+            //使用优惠券
             employTicketFun (data){
                 this.touch ++;
                 this.ticketData = data;
                 this.ticket_show = false;
+            },
+            submitClick (){
+                let _this = this;
+                if(!this.isIntegral){
+                    api.submitOrder({
+                        addressId:_this.goodsData.addressId,
+                        goodsId:_this.goodsData.goodsId,
+                        message:_this.message,
+                        num:_this.goodsNum,
+                        ticketId:_this.ticketData.id,
+                        payType:_this.payType
+                    }).then(data =>{
+                        
+                    }).catch(e =>{})
+                }else{
+                    api.submitPoint({
+                        addressId:_this.goodsData.addressId,
+                        goodsId:this.goodsData.goodsId,
+                    }).then(data =>{
+                        _this.shouTips('兑换成功')
+                    }).catch(e =>{})
+                }
+                
+
             }
         },
         computed:{
@@ -138,7 +167,8 @@
                     if(this.touch === 0){
                         this.ticketData = this.usable_ticketData[$length - 1];
                     }
-                    return  (this.goodsNum * this.goodsData.price) - this.ticketData.price
+                    let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
+                    return  (this.goodsNum * this.goodsData.price) - ticketNum
                 }
                 return (this.goodsNum * this.goodsData.price) 
                 
@@ -154,9 +184,14 @@
             let id = this.$route.params.id;
             this.goodsId = id;
             let num = this.$route.query.num;
+            let type = this.$route.query.type;
+            if(type){
+                this.isIntegral = type;
+            }else{
+                this.getMyTicketListFun()
+            }
             this.goodsNum = parseInt(num);
             this.getOrderData();
-            this.getMyTicketListFun()
         },
     }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div class="me">
         <div class="top">
-            <div class="avatar">
+            <div class="avatar" @click.stop="$router.push('/me/edit-data')">
                 <img :src="myInfo.imageUrl" alt="">
             </div>
             <p>用户名：{{myInfo.name}}</p>
@@ -10,7 +10,7 @@
                     <div @click.stop="$router.push('/me/message')">
                         <img src="src/assets/images/me_news@2x.png" alt="">
                     </div>
-                    <div>
+                    <div @click.stop="$router.push('/me/service')">
                         <img src="src/assets/images/me_service@2x.png" alt="">
                     </div>
                 </div>

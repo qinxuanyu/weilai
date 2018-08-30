@@ -1,7 +1,7 @@
 <template>
     <div  class="order-details">
         <div class="status">
-            <span>代收款</span>
+            <span>{{goodsType(orderType)}}</span>
             <img src="src/assets/images/ind_obligation@2x.png" alt="">
         </div>
         <div class="site">
@@ -45,6 +45,7 @@
 </template>
 <script>
     import { Cell, Group, XNumber, Radio, XInput, XButton } from 'vux'
+    import api from '@/api'
     export default{
         data () {
             return{
@@ -58,7 +59,9 @@
                     icon:'src/assets/images/mer_alipay@2x.png',
                     key: '2',
                 } ],
-                color:'#60a609'
+                color:'#60a609',
+                orderType:1,
+                orderId:null
             }
         },
         components:{
@@ -67,8 +70,39 @@
         methods:{
             change (){
 
+            },
+            goodsType (type){
+                switch (type){
+                    case '1':
+                       return '待付款';
+                       break;
+                    case '2':
+                        return '待发货';
+                        break;
+                    case '3':
+                        return '待收货';
+                        break;
+                    case '4':
+                        return '待评价';
+                        break    
+                }
+            },
+            getDetailData (){
+                let _this = this;
+                api.getMyOrderDetail({
+                    id:_this.orderId
+                }).then(data =>{
+                    console.log(data)
+                }).catch(e =>{})
             }
-        }
+        },
+        created() {
+            let id = this.$route.params.id;
+            let type = this.$route.params.type;
+            this.orderId = id;
+            this.orderType = type;
+            this.getDetailData()
+        },
     }
 </script>
 <style lang="less" >

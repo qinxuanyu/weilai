@@ -5,9 +5,9 @@
                 <flexbox-item :span="2"><div class="flex-demo"><router-link to="">近况</router-link></div></flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo" >
-                        <p>车厘子</p>
-                        <p>编号9527</p>
-                        <p>维护到期：2018-10-10</p>
+                        <p>{{homeData.treeDtoList.introduce}}</p>
+                        <p>编号{{homeData.treeDtoList.id}}</p>
+                        <p>维护到期：{{homeData.treeDtoList.protectTime}}</p>
                     </div>
                 </flexbox-item >
                 <flexbox-item :span="2"><div class="flex-demo"><router-link to="/home/strategy">攻略</router-link></div></flexbox-item>
@@ -31,7 +31,7 @@
         </div>
         <div class="shortcut">
             <div class="flow">
-                <p class="text-right">短工4级</p>
+                <p class="text-right">{{gradeText}}</p>
                 <div class="percent">
                     <div ></div>
                 </div>
@@ -70,6 +70,7 @@
 </template> 
 <script>
     import { Flexbox, FlexboxItem, Grid, GridItem, } from 'vux';
+    import api from '@/api'
     export default{
         name:'index',
         data (){
@@ -100,7 +101,9 @@
                     title:'积分',
                     icon:'src/assets/images/integral@2x.png',
                     link:'/me/integral'
-                }]
+                }],
+                homeData:{},
+                gradeText:'短工1级'
             }
         },
         components:{
@@ -115,9 +118,32 @@
                     $dom.style.display = 'none';
                     $dom.classList.remove(id + '-animation')
                 }, 3000);
+            },
+            getHomeDataFun (){
+                let _this = this;
+                api.getHomeData().then(data =>{
+                    _this.homeData = data;
+                }).catch(e =>{})
+            },
+            setGrade (grade){
+                let gradeArr = ['短工','长工','佃户','贫农','渔夫','猎人','中农','富农','掌柜','商人','衙役','小财主','大财主','小地主','大地主','知县','通判','知府','总督','巡抚','丞相','帝王']
+                // if(grade === 0 && grade <=10){
+                //     this.gradeText = '短工' + grade +'级';
+                //     return
+                // }else if(grade > 10 && grade <=20){
+                //     this.gradeText = '短工' + (grade/10) +'级';
+                //     return
+                // }else if(grade > 20 && grade <=30){
+                //     this.gradeText = '长工' + (grade/20) +'级';
+                //     return
+                // }else if(grade > 20 && grade <=30){
+                //     this.gradeText = '长工' + (grade/20) +'级';
+                //     return
+                // }
             }
         },created() {
-            
+            this.getHomeDataFun();
+            console.log(parseInt(11/10))
         },
     }
 </script>

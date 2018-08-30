@@ -100,4 +100,52 @@ export default {
             method:'get',
         })
     },
+     //确认订单
+    submitOrder (data){
+        return fetch({
+            url:'/goods/auth/submitOrder',
+            method:'post',
+            data
+        })
+    },
+    //获取我的订单详情
+    getMyOrderDetail (data){
+        return fetch({
+            url:'/user/auth/getOrderDetail',
+            method:'get',
+            data
+        })
+    },
+     //获取我的收货地址列表
+    getMyAddress (){
+        return fetch({
+            url:'/user/auth/getMyAddress',
+            method:'get',
+            
+        })
+    },
+    //获取积分商城列表
+    getPointGoodsList (){
+        return fetch({
+            url:'/goods/auth/pointGoodsList',
+            method:'get',
+            
+        })
+    },
+    //积分兑换商品
+    submitPoint (data){     
+        return fetch({
+            url:'/goods/auth/submitPoint',
+            method:'post',
+            data
+        })
+    },
+     //种植首页
+     getHomeData (){     
+        return fetch({
+            url:'/index/auth/index',
+            method:'get',
+            
+        })
+    },
 }
