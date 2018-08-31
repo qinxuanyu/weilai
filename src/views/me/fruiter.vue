@@ -15,11 +15,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Apple</td>
-                    <td>$1.25</td>
-                    <td class="red"> x 1</td>
-                    <td>Apple</td>
+                <tr v-for="(item,index) in listData" :key="index">
+                    <td>{{item.name }}</td>
+                    <td>{{item.goodsId }}</td>
+                    <td class="red">{{item.days}}</td>
+                    <td>{{setFruiterType(item.status)}}</td>
                     <td>
                         <x-button mini @click.native.stop="sellClick">取消出售</x-button>
                     </td>
@@ -62,11 +62,13 @@
 </template>
 <script>
     import { Tab, TabItem, XTable, XButton, Group, Popup, TransferDom, InlineXNumber } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
                 show1:false,
-                show2:false
+                show2:false,
+                listData:[] 
             }
         },
         directives: {
@@ -79,8 +81,36 @@
             },
             sellClick (){
                 this.show2 = !this.show2;
+            },
+            getMyTreeFun (){
+                let _this = this;
+                api.getMyTree().then(data =>{
+                    _this.listData = data;
+                }).catch(e =>{})
+            },
+            setFruiterType (type){
+                switch (type){
+                    case 1:
+                        return '待报价'
+                        break
+                    case 2:
+                        return '已报价'
+                        break
+                    case 3:
+                        return '已完成'
+                        break
+                    case 4:
+                        return '挂单'
+                        break
+                    case 5:
+                        return '待发货'
+                        break
+                }
             }
-        }
+        },
+        created() {
+            this.getMyTreeFun()
+        },
     }
 </script>
 <style lang="less">

@@ -8,7 +8,7 @@
             </div>
             <p>
                 ￥
-                <span>800.6</span>
+                <span>{{remaining}}</span>
             </p>
         </div>
         <div class="btn">
@@ -19,13 +19,27 @@
 </template>
 <script>
     import { XButton } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
-
+                remaining:0
             }
         },
-        components:{ XButton }
+        components:{ XButton },
+        methods:{
+            getWalletData (){
+                let _this = this;
+                api.getMyWallet().then(data =>{
+                    if(data.money){
+                        _this.remaining = data.money;
+                    }
+                }).catch(e =>{})
+            }
+        },
+        created() {
+            this.getWalletData()
+        },
     }
 </script>
 <style lang="less" scoped>

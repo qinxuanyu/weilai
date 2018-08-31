@@ -47,22 +47,22 @@
             <img src="src/assets/images/home_tree.png" alt="">
             <ul class="operation">
                 <li class="watering" >
-                    <img v-show="animation.watering" src="/src/assets/images/home_watering.png" id="watering" alt="">
+                    <img v-show="animation.watering" src="/src/assets/images/home_watering.gif" id="watering" alt="">
                 </li>
                 <li class="vermifuge">
-                    <img v-show="animation.vermifuge" src="/src/assets/images/home_vermifuge.png" alt="" id="vermifuge">
+                    <img v-show="animation.vermifuge" src="/src/assets/images/home_vermifuge.gif" alt="" id="vermifuge">
                 </li>
                 <li class="fertilizer">
                     <img v-show="animation.fertilizer" src="/src/assets/images/home_fertilizer.png" alt="" id="fertilizer">
                 </li>
                 <li class="scissor">
-                    <img v-show="animation.scissor" src="/src/assets/images/home_scissor.png" alt="" id="scissor">
+                    <img v-show="animation.scissor" src="/src/assets/images/home_scissor.gif" alt="" id="scissor">
                 </li>
                 <li class="pollination">
-                    <img v-show="animation.pollination" src="/src/assets/images/home_pollination.png" alt="" id="pollination">
+                    <img v-show="animation.pollination" src="/src/assets/images/home_pollination.gif" alt="" id="pollination">
                 </li>
                 <li class="shovel">
-                    <img v-show="animation.shovel" src="/src/assets/images/home_shovel.png" alt="" id="shovel">
+                    <img v-show="animation.shovel" src="/src/assets/images/home_shovel.gif" alt="" id="shovel">
                 </li>
             </ul>
         </div>
@@ -92,7 +92,8 @@
                     icon:'src/assets/images/plant_trees@2x.png'
                 },{
                     title:'收获',
-                    icon:'src/assets/images/harvest@2x.png'
+                    icon:'src/assets/images/harvest@2x.png',
+                    link:'/me/my-sale'
                 },{
                     title:'钱包',
                     icon:'src/assets/images/wallet@2x.png',
@@ -102,7 +103,9 @@
                     icon:'src/assets/images/integral@2x.png',
                     link:'/me/integral'
                 }],
-                homeData:{},
+                homeData:{
+                    treeDtoList:{}
+                },
                 gradeText:'短工1级'
             }
         },
@@ -123,27 +126,28 @@
                 let _this = this;
                 api.getHomeData().then(data =>{
                     _this.homeData = data;
+                    _this.setGrade(data.grade)
                 }).catch(e =>{})
             },
             setGrade (grade){
                 let gradeArr = ['短工','长工','佃户','贫农','渔夫','猎人','中农','富农','掌柜','商人','衙役','小财主','大财主','小地主','大地主','知县','通判','知府','总督','巡抚','丞相','帝王']
-                // if(grade === 0 && grade <=10){
-                //     this.gradeText = '短工' + grade +'级';
-                //     return
-                // }else if(grade > 10 && grade <=20){
-                //     this.gradeText = '短工' + (grade/10) +'级';
-                //     return
-                // }else if(grade > 20 && grade <=30){
-                //     this.gradeText = '长工' + (grade/20) +'级';
-                //     return
-                // }else if(grade > 20 && grade <=30){
-                //     this.gradeText = '长工' + (grade/20) +'级';
-                //     return
-                // }
+                // grade - 1
+                if(grade){
+                    let multiple = parseInt((grade - 1)/10);
+                    let str = grade.toString();
+                    str = str.substr(str.length-1,1)
+                    if(str === '0'){
+                        str = '10'
+                    }
+                    let $gradeText = gradeArr[multiple] + str +'级'
+                    this.gradeText = $gradeText;
+                }
+               
             }
         },created() {
             this.getHomeDataFun();
-            console.log(parseInt(11/10))
+            // console.log(parseInt(11/10))
+            
         },
     }
 </script>
@@ -204,21 +208,22 @@
                 }
                 .watering{
                     position: absolute;
-                    top: -50px;
-                    left: -50px;
+                    width: 50%;
+                    top: -30%;
+                    left: 0%;
                     // display: none;
                 }
                 .watering-animation{
-                    animation: watering 3s ease 1;
+                    // animation: watering 3s ease 1;
                 }
                 .vermifuge{
                     position: absolute;
                     top: -50px;
-                    right: -50px;
+                    right: 0;
                     // display: none;
                 }
                 .vermifuge-animation{
-                    animation: vermifuge 3s ease 1;
+                    // animation: vermifuge 3s ease 1;
                 }
                 .fertilizer{
                     position: absolute;
@@ -231,12 +236,12 @@
                 .scissor{
                     position: absolute;
                     top: 10%;
-                    left: 0;
+                    left: 50%;
                     margin-left: -60px;
                     // transform: rotate(90deg)
                 }
                 .scissor-animation{
-                    animation: scissor 3s ease 1;
+                    // animation: scissor 3s ease 1;
                 }
                 .pollination{
                     position: absolute;
@@ -244,16 +249,17 @@
                     left: 10%;
                 }
                  .pollination-animation{
-                    animation: pollination 3s ease 1;
+                    // animation: pollination 3s ease 1;
                 }
                 .shovel{
                     position: absolute;
-                    left: 0;
-                    bottom: -10%;
+                    width: 30%;
+                    left: 60%;
+                    bottom: 0%;
                 }
                 
                  .shovel-animation{
-                    animation: shovel 3s ease 1;
+                    // animation: shovel 3s ease 1;
                 }
             }
         }

@@ -26,6 +26,7 @@
 </template>
 <script>
     import { Flexbox, FlexboxItem, } from 'vux';
+    import api from '@/api'
     export default{
         data (){
             return{
@@ -34,7 +35,17 @@
         },
         components:{
             Flexbox, FlexboxItem
-        }
+        },
+        methods:{
+            getMyFruit (){
+                api.getMyFruit().then(data =>{
+
+                }).catch(e =>{})
+            }
+        },
+        created() {
+            this.getMyFruit()
+        },
     }
 </script>
 <style lang="less" scoped>

@@ -148,4 +148,28 @@ export default {
             
         })
     },
+    //我的钱包
+    getMyWallet (){     
+        return fetch({
+            url:'/index/auth/wallet',
+            method:'get',
+            
+        })
+    },
+    //我的果树
+    getMyTree (){     
+        return fetch({
+            url:'/index/auth/myTree',
+            method:'get',
+            
+        })
+    },
+     //我的收获
+     getMyFruit (){     
+        return fetch({
+            url:'/index/auth/getFruit',
+            method:'get',
+            
+        })
+    },
 }
