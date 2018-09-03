@@ -164,12 +164,28 @@ export default {
             
         })
     },
-     //我的收获
-     getMyFruit (){     
+    //我的收获
+    getMyFruit (){     
         return fetch({
             url:'/index/auth/getFruit',
             method:'get',
             
+        })
+    },
+    //果子操作
+    setDoFruit (data){     
+        return fetch({
+            url:'/index/auth/doFruit',
+            method:'post',
+            data
+        })
+    },
+    //果树操作
+    setDoTree (data){     
+        return fetch({
+            url:'/index/auth/doTree',
+            method:'post',
+            data
         })
     },
 }

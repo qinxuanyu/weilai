@@ -1,38 +1,50 @@
 <template>
     <div class="fruiter">
-        <tab :line-width="2" custom-bar-width="50px">
-            <tab-item selected @on-item-click="onItemClick" >列表</tab-item>
-            <tab-item @on-item-click="$router.push('/me/farm')">大图</tab-item>
-        </tab>
+        
         <x-table class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
             <thead>
                 <tr style="background-color: #F7F7F7">
                     <th>品种</th>
                     <th>编号</th>
-                    <th>种植时长</th>
                     <th>状态</th>
+                    <th>收获量</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(item,index) in listData" :key="index">
-                    <td>{{item.name }}</td>
+                    <td> <check-icon :value.sync="item.isCheck"> </check-icon> {{item.name }}</td>
                     <td>{{item.goodsId }}</td>
-                    <td class="red">{{item.days}}</td>
-                    <td>{{setFruiterType(item.status)}}</td>
+                    <td class="red">{{item.type === 1 ? '未收获'  : '已收获' }}</td>
+                    <td>{{item.weight}}</td>
                     <td>
-                        <x-button mini @click.native.stop="operation(item.status)" v-if="item.status!=3">{{setBtnText(item.status)}}</x-button>
+                        <x-button mini v-if="item.type === 2" @click.native.stop="showPop(item.id)">处理</x-button>
                     </td>
                 </tr>
                
             </tbody>
         </x-table>
+        <div class="check-all">
+            <div>
+                <check-icon :value.sync="allCheck"> </check-icon>
+                <span>全选</span>
+            </div>
+           
+            <div class="text-right btn">
+                <div class="num">
+                    <span>处理：</span>
+                    <span>3000g</span>
+                </div>
+                <x-button mini >处理</x-button>
+            </div>
+        </div>
         <div v-transfer-dom class="one-pop">
             <popup v-model="show1" @on-hide="log('hide')" @on-show="log('show')">
                 <div class="popup0">
                     <p class="title">选择卖出方向</p>
-                    <div class="option-1" @click.stop="sellClick">其他用户，由你自由定价</div>
-                    <div class="option-2" @click.stop="sellClick();show1 = false;show2 = true">商城、由平台工作人员报价</div>
+                    <div class="option-1" @click.stop="sellClick(1)">商城统一收购</div>
+                    <div class="option-2" @click.stop="show1 = false;show2 = true">卖给其他植友</div>
+                    <div class="option-2" @click.stop="show1 = false;show2 = true">自留/送朋友</div>
                 </div>
             </popup>
         </div>
@@ -40,20 +52,17 @@
             <popup v-model="show2" @on-hide="log('hide')" @on-show="log('show')">
                 <div class="popup0">
                     <div class="info">
-                        <p class="title">确认信息</p>
+                        <p class="title">卖给植友</p>
                         <p>品种：车厘子</p>
-                        <p>编号：NO.214135</p>
+                        <p>采摘时间：NO.214135</p>
                         <p>种植时长：30天</p>
-                        <div>联系方式：<input type="number"></div>
-                        <div class="price">
-                            <span>定价：</span>
-                            <inline-x-number width="50px"></inline-x-number>
-                        </div>
+                        <div>重量：<input type="number" v-model="sellWeight" placeholder="请输入重量"></div>
+                        <div>定价：<input type="number" v-model="sellPrice" placeholder="请输入定价"></div>
                         
                     </div>
                     <div class="bottom">
                         <div @click.stop="show2 = false">取消</div>
-                        <div class="confirm">确定</div>
+                        <div class="confirm" @click.stop="sellClick(2);">确定</div>
                     </div>
                 </div>
             </popup>
@@ -61,7 +70,7 @@
     </div>
 </template>
 <script>
-    import { Tab, TabItem, XTable, XButton, Group, Popup, TransferDom, InlineXNumber } from 'vux'
+    import { Tab, TabItem, XTable, XButton, Group, Popup, TransferDom, InlineXNumber, CheckIcon } from 'vux'
     import api from '@/api'
     export default{
         data (){
@@ -69,56 +78,52 @@
                 show1:false,
                 show2:false,
                 listData:[],
-
+                fruitId:null, 
+                sellPrice:null,        ///卖给植友-价格
+                sellWeight:null,         //卖给植友 -重量
+                allCheck:false
             }
         },
         directives: {
             TransferDom
         },
-        components:{ Tab, TabItem, XTable, XButton,Group, Popup, InlineXNumber },
+        components:{ Tab, TabItem, XTable, XButton,Group, Popup, InlineXNumber, CheckIcon },
         methods:{
             onItemClick (){
 
             },
-            showPop (){
+            showPop (id){
                 this.show1 = !this.show1;
+                this.fruitId = id;
             },
-            operation (status){
-                let button = null;         //操作按钮 1卖出 2处理-确认 3处理-留下 4取消出售 ,
-                let _this = this;
-                switch (status){
-                    case 1:
-
-                        return '待报价'
-                        break
-                    case 2:
-                        // _this.$vux.confirm.show({
-                        //     // 组件除show外的属性
-                        //     onCancel () {
-                        //         console.log(_this) // 非当前 vm
-                        //         console.log(_this) // 当前 vm
-                        //     },
-                        //     onConfirm () {}
-                        // })
-                        return '处理'
-                        break
-                    case 3:
-                        return '已完成'
-                        break
-                    case 4:
-                        button = 4;
-                        return '取消出售'
-                        break
-                    case 6:
-                        button = 1;
-                        return '卖出'
-                        break
+            sellClick (type){
+                if(!this.fruitId){
+                    return
                 }
-            },
-            getMyTreeFun (){
                 let _this = this;
-                api.getMyTree().then(data =>{
-                    _this.listData = data;
+                if(!this.sellWeight && type === 2){
+                    return this.showTips('请输入重量')
+                }else if(!this.sellPrice && type === 2){
+                    return this.showTips('请输入定价')
+                }
+                api.setDoFruit({
+                    button:type,
+                    id:_this.fruitId,
+                    price:_this.sellPrice,
+                    weight:_this.sellWeight
+                }).then(data =>{
+                    
+                }).catch(e =>{})
+            },
+            getMyFruit (){
+                let _this = this;
+                api.getMyFruit().then(data =>{
+                    if(data){
+                        data.forEach(item => {
+                            item.isCheck = false;
+                        });
+                        _this.listData = data;
+                    }
                 }).catch(e =>{})
             },
             setFruiterType (type){
@@ -138,9 +143,6 @@
                     case 5:
                         return '待发货'
                         break
-                    case 6:
-                        return '持有'
-                        break
                 }
             },
             setBtnText (type){
@@ -149,27 +151,36 @@
                         return '待报价'
                         break
                     case 2:
-                        return '处理'
+                        return '已报价'
                         break
                     case 3:
                         return '已完成'
                         break
                     case 4:
-                        return '取消出售'
+                        return '挂单'
                         break
-                    case 6:
-                        return '卖出'
+                    case 5:
+                        return '待发货'
                         break
                 }
             }
         },
+        watch:{
+            allCheck (oldVal,newVal){
+                this.listData.forEach(item => {
+                    item.isCheck = oldVal
+                });
+            }
+        },
         created() {
-            this.getMyTreeFun()
+            this.getMyFruit()
         },
     }
 </script>
 <style lang="less">
     .fruiter{
+        min-height: 100vh;
+        background-color: #f3f3f3;
         .table{
             button{
                 width: 58px;
@@ -178,6 +189,29 @@
             }
             .red{
                 color: #f72525;
+            }
+        }
+        .check-all{
+            display: flex;
+            width: 100%;
+            line-height: 55px;
+            background-color: #fff;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            align-items: center;
+            padding: 0 13px;
+            box-sizing: border-box;
+            >div{
+                flex: 1;
+            }
+            >div.btn{
+               .num{
+                   display: inline-block;
+                   span:nth-child(2){
+                       color: #f72525;
+                   }
+               }
             }
         }
     }

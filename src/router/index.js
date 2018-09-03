@@ -103,6 +103,14 @@ let router =  new Router({
       }
     },
     {
+      path: '/me/my-harvest',
+      name: 'myHarvest',
+      component: () => import('@/views/me/myHarvest.vue'),
+      meta:{
+        title:'我的收获'
+      }
+    },
+    {
       path: '/me/order-info',
       name: 'orderInfo',
       component: () => import('@/views/me/orderInfo.vue'),

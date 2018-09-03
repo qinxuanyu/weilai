@@ -46,13 +46,7 @@ export default {
   created() {
     let token = tool.local.get('token');
     let _this = this;
-    if(!this.$store.getters.token){
-       api.getToken({
-         id:1
-       }).then( data =>{
-         _this.$store.commit('SET_TOKEN',data)
-       }).catch(e =>{})
-    }
+    
   },
   mounted() {
     this.orientationChange();

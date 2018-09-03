@@ -6,12 +6,13 @@ import VueRouter from 'vue-router'
 import App from './App'
 import store from './store';
 import router from './router'
-import  { LoadingPlugin } from 'vux'
+import  { LoadingPlugin,ConfirmPlugin  } from 'vux'
 import VueScroller from 'vue-scroller'
-
+import api from '@/api'
 Vue.use(LoadingPlugin)
 Vue.use(VueRouter)
 Vue.use(VueScroller)
+Vue.use(ConfirmPlugin)
 
 FastClick.attach(document.body)
 Vue.prototype.showTips = function (text) {
@@ -36,6 +37,14 @@ Vue.prototype.showTips = function (text) {
 };
 Vue.config.productionTip = false
 
+
+if(!store.getters.token){
+  api.getToken({
+    id:1
+  }).then( data =>{
+    store.commit('SET_TOKEN',data)
+  }).catch(e =>{})
+}
 /* eslint-disable no-new */
 new Vue({
   store,

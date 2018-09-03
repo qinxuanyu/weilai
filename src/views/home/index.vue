@@ -93,7 +93,7 @@
                 },{
                     title:'收获',
                     icon:'src/assets/images/harvest@2x.png',
-                    link:'/me/my-sale'
+                    link:'/me/my-harvest'
                 },{
                     title:'钱包',
                     icon:'src/assets/images/wallet@2x.png',

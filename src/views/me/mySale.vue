@@ -30,7 +30,7 @@
     export default{
         data (){
             return{
-
+                listData:[]
             }
         },
         components:{
@@ -38,8 +38,11 @@
         },
         methods:{
             getMyFruit (){
+                let _this = this;
                 api.getMyFruit().then(data =>{
-
+                    if(data){
+                        _this.listData = data;
+                    }
                 }).catch(e =>{})
             }
         },
