@@ -6,73 +6,102 @@
               <p>为了更好的体验<br>请将您的手机或者平板竖起来</p>
           </div>
       </div>
-    <router-view></router-view>
+      <transition name="vux-pop-in">
+          <router-view></router-view>
+
+      </transition>
     <bottom-tab :text-color="'red'" v-show="showTabbar"></bottom-tab>
   </div>
 </template>
 
 <script>
-import BottomTab from '@/components/BottomTab.vue';
+import BottomTab from "@/components/BottomTab.vue";
 import { mapState } from "vuex";
-import tool from "@/utils/tool"
-import api from '@/api'
+import tool from "@/utils/tool";
+import api from "@/api";
 export default {
-  name: 'app',
-  data (){
+  name: "app",
+  data() {
     return {
-      showLateralTip:false,
-    }
+      showLateralTip: false
+    };
   },
-  components:{
+  components: {
     BottomTab
   },
-  computed:{
-      ...mapState([
-        'tabbarItems'
-      ]),
-      showTabbar() {
-          return this.tabbarItems.indexOf(this.$route.path) !== -1;
-      },
+  computed: {
+    ...mapState(["tabbarItems"]),
+    showTabbar() {
+      return this.tabbarItems.indexOf(this.$route.path) !== -1;
+    }
   },
-  methods:{
+  methods: {
     orientationChange() {
-        if (window.orientation == 90 || window.orientation == -90) {
-            this.showLateralTip = true;
-        } else {
-            this.showLateralTip = false;
-        }
-    },
+      if (window.orientation == 90 || window.orientation == -90) {
+        this.showLateralTip = true;
+      } else {
+        this.showLateralTip = false;
+      }
+    }
   },
   created() {
-    let token = tool.local.get('token');
+    let token = tool.local.get("token");
     let _this = this;
-    
   },
   mounted() {
     this.orientationChange();
-    window.removeEventListener("orientationchange", this.orientationChange, false);
+    window.removeEventListener(
+      "orientationchange",
+      this.orientationChange,
+      false
+    );
     window.addEventListener("orientationchange", this.orientationChange, false);
-    
   },
   updated() {
     // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http://192.168.1.123:8080&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
-    
   },
   destoryed() {
-      window.removeEventListener("orientationchange", this.orientationChange, false);
+    window.removeEventListener(
+      "orientationchange",
+      this.orientationChange,
+      false
+    );
   }
-}
+};
 </script>
 
 <style lang="less">
-@import '~vux/src/styles/reset.less';
-@import 'style/commin.less';
+@import "~vux/src/styles/reset.less";
+@import "style/commin.less";
 body {
   background-color: #fbf9fe;
 }
-html { 
-  font-family: '微软雅黑';
+html {
+  font-family: "微软雅黑";
   font-size: 14px;
   color: #2f2f2f;
+}
+.vux-pop-out-enter-active,
+.vux-pop-out-leave-active,
+.vux-pop-in-enter-active,
+.vux-pop-in-leave-active {
+  will-change: transform;
+  transition: transform 500ms;
+}
+
+.vux-pop-out-enter {
+  transform: translateX(-100%);
+}
+
+.vux-pop-out-leave-active {
+  transform: translateX(100%);
+}
+
+.vux-pop-in-enter {
+  transform: translateX(100%);
+}
+
+.vux-pop-in-leave-active {
+  transform: translateX(-100%);
 }
 </style>

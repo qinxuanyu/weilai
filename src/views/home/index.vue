@@ -89,7 +89,8 @@
                     link:'/me/fruiter'
                 },{
                     title:'种树',
-                    icon:'src/assets/images/plant_trees@2x.png'
+                    icon:'src/assets/images/plant_trees@2x.png',
+                    link:'/store/list/2'
                 },{
                     title:'收获',
                     icon:'src/assets/images/harvest@2x.png',

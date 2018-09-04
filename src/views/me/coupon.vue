@@ -1,8 +1,8 @@
 <template>
     <div class="coupon">
         <tab custom-bar-width="50px" class="tab-top">
-            <tab-item selected >支出</tab-item>
-            <tab-item >收入</tab-item>
+            <tab-item selected >未使用</tab-item>
+            <tab-item >不可用</tab-item>
         </tab>
         <div class="list">
             <ul>

@@ -21,7 +21,7 @@
                     <td class="red">{{item.days}}</td>
                     <td>{{setFruiterType(item.status)}}</td>
                     <td>
-                        <x-button mini @click.native.stop="operation(item.status)" v-if="item.status!=3">{{setBtnText(item.status)}}</x-button>
+                        <x-button mini @click.native.stop="operation(item.status,item.id)" v-if="item.status!=3">{{setBtnText(item.status)}}</x-button>
                     </td>
                 </tr>
                
@@ -44,16 +44,16 @@
                         <p>品种：车厘子</p>
                         <p>编号：NO.214135</p>
                         <p>种植时长：30天</p>
-                        <div>联系方式：<input type="number"></div>
+                        <div>联系方式：<input type="number" v-model="phone"></div>
                         <div class="price">
                             <span>定价：</span>
-                            <inline-x-number width="50px"></inline-x-number>
+                            <inline-x-number width="50px" v-model="recyclePrice"></inline-x-number>
                         </div>
                         
                     </div>
                     <div class="bottom">
                         <div @click.stop="show2 = false">取消</div>
-                        <div class="confirm">确定</div>
+                        <div class="confirm" @click.stop="submit(1,1)">确定</div>
                     </div>
                 </div>
             </popup>
@@ -69,7 +69,8 @@
                 show1:false,
                 show2:false,
                 listData:[],
-
+                recyclePrice:0,
+                phone:null
             }
         },
         directives: {
@@ -83,8 +84,9 @@
             showPop (){
                 this.show1 = !this.show1;
             },
-            operation (status){
+            operation (status,id){
                 let button = null;         //操作按钮 1卖出 2处理-确认 3处理-留下 4取消出售 ,
+                let type = null;         //卖出方类别1给用户 2给商城
                 let _this = this;
                 switch (status){
                     case 1:
@@ -92,28 +94,71 @@
                         return '待报价'
                         break
                     case 2:
-                        // _this.$vux.confirm.show({
-                        //     // 组件除show外的属性
-                        //     onCancel () {
-                        //         console.log(_this) // 非当前 vm
-                        //         console.log(_this) // 当前 vm
-                        //     },
-                        //     onConfirm () {}
-                        // })
-                        return '处理'
+                        _this.$vux.confirm.show({
+                            // 组件除show外的属性
+                            content:"您的果树估价为540元，确定出售吗",
+                            confirmText:'确定',
+                            cancelText:'留下',
+                            onCancel () {
+                               button = 3;
+                               submit(button,type) 
+                               
+                            },
+                            onConfirm () {
+                                button = 2;
+                                submit(button,type) 
+                            }
+                        })
                         break
                     case 3:
-                        return '已完成'
+                        // return '已完成'
                         break
                     case 4:
                         button = 4;
-                        return '取消出售'
+                        submit()
+                        // return '取消出售'
                         break
                     case 6:
                         button = 1;
-                        return '卖出'
+                         _this.$vux.confirm.show({
+                            // 组件除show外的属性
+                            content:"选择卖出方向",
+                            confirmText:'商城，由平台工作人员报价',
+                            cancelText:'其他用户，由您自由定价',
+                            onCancel () {
+                               type = 1;
+                               _this.show2 = true;
+                            },
+                            onConfirm () {
+                               type = 2;
+                               submit(button,type) 
+                            }
+                        })
+                        
+                        // return '卖出'
                         break
                 }
+                
+            }, 
+            submit (button,type){
+                let _this = this;
+                if(button == 1 && type == 1){
+                    if(!_this.phone){
+                        return _this.showTips('请输入联系方式')
+                    }else if(!_this.recyclePrice){
+                        return _this.showTips('请输入定价')
+                    }
+                }
+                api.setDoTree({
+                    button:button,
+                    id:id,
+                    phone:_this.phone,
+                    type:type,
+                    recyclePrice:_this.recyclePrice  
+                }).then(data =>{
+                    _this.listData = [];
+                    _this.getMyTreeFun()
+                }).catch(e =>{})
             },
             getMyTreeFun (){
                 let _this = this;

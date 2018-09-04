@@ -61,7 +61,7 @@
                 linkItem:[{
                     title:'种植果园',
                     imgUrl:'src/assets/images/me_plant@2x.png',
-                    link:''
+                    link:'/me/fruiter'
                 },{
                     title:'果实售卖',
                     imgUrl:'src/assets/images/me_fruit_sell@2x.png',
