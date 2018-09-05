@@ -48,11 +48,17 @@
         left: 0;
         bottom: 0;
         width: 100%;
+        .weui-tabbar{
+            background-color: #fff;
+
+        }
         >div{
             // width: 25%;
+            
         }
         img{
-            display: block
+            display: block;
+            
         }
     }
 </style>

@@ -5,27 +5,8 @@
             <tab-item selected @on-item-click="onItemClick">大图</tab-item>
         </tab>
         <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+            <li v-for="(item,index) in num" :key="index"></li>
+           
         </ul>
         <div class="btn">
             一键操作
@@ -34,13 +15,27 @@
 </template>
 <script>
     import { Tab, TabItem, } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
-
+                num:0
             }
         },
-        components:{ Tab, TabItem }
+        components:{ Tab, TabItem },
+        methods:{
+            getMyfruiter (){
+                let _this = this;
+                api.getMyfruiterNum().then(data =>{
+                    if(data){
+                        _this.num = data;
+                    }
+                }).catch(e =>{})
+            }
+        },
+        created() {
+            this.getMyfruiter()
+        },
     }
 </script>
 <style lang="less" scoped>

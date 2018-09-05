@@ -62,6 +62,14 @@ export default {
             data
         })
     },
+    //移除购物车
+    delCart (data){
+        return fetch({
+            url:'/goods/auth/removeCar',
+            method:'post',
+            data
+        })
+    },
     // 确认下单
     getOrderData (data){
         return fetch({
@@ -186,6 +194,30 @@ export default {
             url:'/index/auth/doTree',
             method:'post',
             data
+        })
+    },
+    //我的果树数量-大图
+    getMyfruiterNum (){     
+        return fetch({
+            url:'/index/auth/myTreeCount',
+            method:'get',
+            
+        })
+    },
+    //可领取的优惠券列表
+    getTicketList (){     
+        return fetch({
+            url:'/goods/ticketList',
+            method:'get',
+            
+        })
+    },
+    //购物车列表
+    getCartList (){     
+        return fetch({
+            url:'/goods/auth/carList',
+            method:'get',
+            
         })
     },
 }

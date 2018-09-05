@@ -143,7 +143,8 @@
                         goodsId:_this.goodsId,
                         num:_this.goodsNum
                     }).then(data =>{
-                        _this.$router.push('/stores/cart')
+                        _this.showTips('添加成功')
+                        _this.$router.push('/store/cart')
                     }).catch(e =>{})
                 }else if(this.manner === 1){
                     this.$router.push({

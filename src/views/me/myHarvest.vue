@@ -18,7 +18,7 @@
                     <td class="red">{{item.type === 1 ? '未收获'  : '已收获' }}</td>
                     <td>{{item.weight}}</td>
                     <td>
-                        <x-button mini v-if="item.type === 2" @click.native.stop="showPop(item.id)">处理</x-button>
+                        <x-button mini v-if="item.type === 2" @click.native.stop="showPop(item.id);checkData = item">处理</x-button>
                     </td>
                 </tr>
                
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div v-transfer-dom class="one-pop">
-            <popup v-model="show1" @on-hide="log('hide')" @on-show="log('show')">
+            <popup v-model="show1" >
                 <div class="popup0">
                     <p class="title">选择卖出方向</p>
                     <div class="option-1" @click.stop="sellClick(1)">商城统一收购</div>
@@ -49,12 +49,12 @@
             </popup>
         </div>
         <div v-transfer-dom class="two-pop">
-            <popup v-model="show2" @on-hide="log('hide')" @on-show="log('show')">
+            <popup v-model="show2">
                 <div class="popup0">
                     <div class="info">
                         <p class="title">卖给植友</p>
-                        <p>品种：车厘子</p>
-                        <p>采摘时间：NO.214135</p>
+                        <p>品种：{{checkData.name}}</p>
+                        <p>采摘时间：{{checkData.modifiedTime}}</p>
                         <p>种植时长：30天</p>
                         <div>重量：<input type="number" v-model="sellWeight" placeholder="请输入重量"></div>
                         <div>定价：<input type="number" v-model="sellPrice" placeholder="请输入定价"></div>
@@ -79,9 +79,10 @@
                 show2:false,
                 listData:[],
                 fruitId:null, 
-                sellPrice:null,        ///卖给植友-价格
-                sellWeight:null,         //卖给植友 -重量
-                allCheck:false
+                sellPrice:0,        ///卖给植友-价格
+                sellWeight:0,         //卖给植友 -重量
+                allCheck:false,
+                checkData:{} 
             }
         },
         directives: {
@@ -112,7 +113,10 @@
                     price:_this.sellPrice,
                     weight:_this.sellWeight
                 }).then(data =>{
-                    
+                    _this.showTips('操作成功');
+                    _this.listData = [];
+                    _this.getMyFruit()
+
                 }).catch(e =>{})
             },
             getMyFruit (){
@@ -203,9 +207,10 @@
             padding: 0 13px;
             box-sizing: border-box;
             >div{
-                flex: 1;
+               
             }
             >div.btn{
+                flex: 1;
                .num{
                    display: inline-block;
                    span:nth-child(2){

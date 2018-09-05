@@ -45,9 +45,9 @@
             </tabbar>
            
         </div>
-         <group>
+         <group class="cell">
             <cell :title="item.title" is-link v-for="(item,index) in linkItem" :key="index" :link="item.link">
-                <img slot="icon" width="20" style="display:block;margin-right:20px;" :src="item.imgUrl">
+                <img slot="icon" height="20" style="display:block;margin-right:20px;" :src="item.imgUrl">
             </cell>
         </group>
     </div>
@@ -108,10 +108,14 @@
 <style lang="less" >
     .me{
         padding-bottom:51px;
+        min-height: 100vh;
+        background-color: #f3f3f3;
+
         .top{
             text-align: center;
             padding-bottom: 15px;
             position: relative;
+            background-color: #fff;
             .avatar{
                 width: 66px;
                 height: 66px;
@@ -151,6 +155,7 @@
         .tab{
             background-color: #f3f3f3;
             padding: 10px 0;
+           
            .weui-tabbar{
                 position: initial;
                 background-color: #fff;
@@ -161,6 +166,15 @@
            .weui-tabbar__icon{
                img{width: auto}
            }
+        }
+        .cell{
+             .weui-cell{
+                 background-color: #fff;
+                padding: 12px 15px !important;
+            }
+            .weui-cells{
+                margin-top: 0;
+            }
         }
     }
 </style>

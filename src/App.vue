@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 横屏提示 -->
-      <div >
+      <div v-transfer-dom>
           <div class="lateral-tip" v-show="showLateralTip">
               <p>为了更好的体验<br>请将您的手机或者平板竖起来</p>
           </div>
@@ -16,6 +16,7 @@
 
 <script>
 import BottomTab from "@/components/BottomTab.vue";
+import {TransferDom} from 'vux';
 import { mapState } from "vuex";
 import tool from "@/utils/tool";
 import api from "@/api";
@@ -28,6 +29,9 @@ export default {
   },
   components: {
     BottomTab
+  },
+  directives: {
+      TransferDom
   },
   computed: {
     ...mapState(["tabbarItems"]),

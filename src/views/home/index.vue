@@ -53,7 +53,7 @@
                     <img v-show="animation.vermifuge" src="/src/assets/images/home_vermifuge.gif" alt="" id="vermifuge">
                 </li>
                 <li class="fertilizer">
-                    <img v-show="animation.fertilizer" src="/src/assets/images/home_fertilizer.png" alt="" id="fertilizer">
+                    <img v-show="animation.fertilizer" src="/src/assets/images/home_fertilizer.gif" alt="" id="fertilizer">
                 </li>
                 <li class="scissor">
                     <img v-show="animation.scissor" src="/src/assets/images/home_scissor.gif" alt="" id="scissor">
@@ -229,10 +229,10 @@
                 .fertilizer{
                     position: absolute;
                     bottom: 0px;
-                    left: 0;
+                    left: 10%;
                 }
                 .fertilizer-animation{
-                    animation: fertilizer 3s ease 1;
+                    // animation: fertilizer 3s ease 1;
                 }
                 .scissor{
                     position: absolute;
@@ -246,8 +246,9 @@
                 }
                 .pollination{
                     position: absolute;
-                    top: -45%;
-                    left: 10%;
+                    width: 20%;
+                    top: -15%;
+                    left: 30%;
                 }
                  .pollination-animation{
                     // animation: pollination 3s ease 1;

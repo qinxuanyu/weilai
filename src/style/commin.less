@@ -162,3 +162,31 @@ div.line{
 .vux-check-icon > .weui-icon-success:before, .vux-check-icon > .weui-icon-success-circle:before{
     color: #60a609 !important;
 }
+.lateral-tip {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10086;
+    background-color: rgba(0, 0, 0, .5);
+
+    p {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        padding: 0 20px;
+        color: #fff;
+        font-size: 18px;
+        text-align: center;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+    }
+}
