@@ -1,6 +1,6 @@
 <template>
     <div class="order-form">
-        <tab custom-bar-width="34px" :line-width="2" class="tab">
+        <tab custom-bar-width="34px" :line-width="2" id="tab">
             <tab-item selected @on-item-click="onItemClick('')">全部</tab-item>
             <tab-item @on-item-click="onItemClick(1)">待付款</tab-item>
             <tab-item @on-item-click="onItemClick(2)">待发货</tab-item>
@@ -82,6 +82,8 @@
                     
                 }).catch(e =>{})
             },
+           
+
             goodsType (type){
                 switch (type){
                     case 1:
@@ -104,10 +106,12 @@
             }
         },created() {
             //  this.getOrderList()
+            let type = this.$route.param.type;
+            this.type = type;
         },
         mounted() {
             let window_h = window.innerHeight;
-            let tab_h = document.querySelector('.tab').clientHeight;
+            let tab_h = document.querySelector('#tab').clientHeight;
             document.querySelector('.my-scroll').style.height = (window_h - tab_h) +'px';
             document.querySelector('.my-scroll').style.top = tab_h +'px';
         },

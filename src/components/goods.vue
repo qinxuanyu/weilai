@@ -1,7 +1,7 @@
 <template>
     <div class="goods">
         <flexbox :gutter="0" wrap="wrap">
-            <flexbox-item @click.native.stop="$router.push('/store/detail/' + item.id)" v-for="(item,index) in listData" :key="index" :span="6">
+            <flexbox-item @click.native.stop="$router.push('/store/detail/' + item.id+'/'+type)" v-for="(item,index) in listData" :key="index" :span="6">
                 <div class="flex-demo">
                     <div class="img-wrap" :style="{'height' : imgWrapWidth + 'px'}">
                         <img :src="item.coverImage" alt="">
@@ -25,7 +25,7 @@
                  imgWrapWidth:160
             }
         },
-        props:['listData'],
+        props:['listData','type'],
         components:{Flexbox, FlexboxItem},
         methods:{
            

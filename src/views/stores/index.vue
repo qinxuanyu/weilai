@@ -10,7 +10,7 @@
         </div>
         <div class="tab">
             <tabbar>
-                <tabbar-item  link="/store/list/1">
+                <tabbar-item  link="/store/list/5">
                     <img slot="icon" src="src/assets/images/ho_sapling@2x.png" />
                     <span slot="label">树苗</span>
                 </tabbar-item>
@@ -18,11 +18,11 @@
                     <img slot="icon" src="src/assets/images/ho_fruiter@2x.png" />
                     <span slot="label">果树</span>
                 </tabbar-item>
-                <tabbar-item  link="/store/list/3">
+                <tabbar-item  link="/store/list/4">
                     <img slot="icon" src="src/assets/images/ho_fruits@2x.png" />
                     <span slot="label">水果</span>
                 </tabbar-item>
-                <tabbar-item ref="meTabbar" link="/store/list/4">
+                <tabbar-item ref="meTabbar" link="/me/integral">
                     <img slot="icon" src="src/assets/images/ho_integral@2x.png" />
                     <span slot="label">积分</span>
                 </tabbar-item>

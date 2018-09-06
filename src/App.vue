@@ -78,7 +78,7 @@ export default {
 @import "~vux/src/styles/reset.less";
 @import "style/commin.less";
 body {
-  background-color: #fbf9fe;
+  // background-color: #fbf9fe;
 }
 html {
   font-family: "微软雅黑";

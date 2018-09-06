@@ -9,32 +9,32 @@
                 <img src="src/assets/images/mer_site@2x.png" alt="">
             </div>
             <group class="select">
-                <cell title="小太阳  13020120102" value="" is-link inline-desc="广东省十大建设卡死了激发巅峰对决"></cell>
+                <cell :title="detailData.receiverName + detailData.receiverPhone" value="" is-link :inline-desc="detailData.address"></cell>
             </group>
         </div>
         <div class="goods">
             <div class="left">
-                <img src="http://img5.imgtn.bdimg.com/it/u=4101850099,151997626&fm=27&gp=0.jpg" alt="">
+                <img :src="detailData.coverImage" alt="">
             </div>
             <div class="right">
-                <p>黑珍珠车厘子  新鲜水果大樱桃  1kg</p>
-                <p>规格：1000g</p>
+                <p>{{detailData.introduce}}</p>
+                <p>规格：{{detailData.weight}}g</p>
                 <div class="num">
-                   <p><span>￥120.0</span>x1</p>
+                   <p><span>￥{{detailData.price}}</span>x{{detailData.num}}</p>
                    <x-button mini plain >取消订单</x-button>
                 </div>
             </div>
         </div>
         <group>
-            <cell title="运费" value="-￥10.0" ></cell>
-            <cell title="优惠券" value="-￥10.0" ></cell>
+            <cell title="运费" :value="detailData.priceDesc" ></cell>
+            <cell title="优惠券" :value="detailData.ticket" ></cell>
             <cell title="实付款（含运费）" value="-￥10.0" ></cell>
         </group>
        
         <div class="line"></div>
          <div class="time">
-             <p>订单编号：</p>
-             <p>创建时间：</p>
+             <p>订单编号：{{detailData.ordersId}}</p>
+             <p>创建时间：{{detailData.createTime}}</p>
              <p>成立时间：2018823</p>
          </div>
         <div class="bottom-btn">
@@ -61,7 +61,8 @@
                 } ],
                 color:'#60a609',
                 orderType:1,
-                orderId:null
+                orderId:null,
+                detailData:{}
             }
         },
         components:{
@@ -92,7 +93,10 @@
                 api.getMyOrderDetail({
                     id:_this.orderId
                 }).then(data =>{
-                    console.log(data)
+                    // console.log(data)
+                    if(data){
+                        _this.detailData = data;
+                    }
                 }).catch(e =>{})
             }
         },

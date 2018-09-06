@@ -19,22 +19,22 @@
         </div>
         <div class="tab">
             <group>
-                <cell title="我的订单" value="查看全部订单" is-link></cell>
+                <cell title="我的订单" value="查看全部订单" is-link link="/order/order-inform/0"></cell>
             </group>
            <tabbar>
-                <tabbar-item  link="/order/order-inform">
+                <tabbar-item  link="/order/order-inform/1">
                     <img slot="icon" src="src/assets/images/me_wait_payment@2x.png" />
                     <span slot="label">待付款</span>
                 </tabbar-item>
-                <tabbar-item  link="/order/order-inform">
+                <tabbar-item  link="/order/order-inform/2">
                     <img slot="icon" src="src/assets/images/me_wait_send@2x.png" />
                     <span slot="label">待发货</span>
                 </tabbar-item>
-                <tabbar-item  link="/order/order-inform">
+                <tabbar-item  link="/order/order-inform/3">
                     <img slot="icon" src="src/assets/images/me_wait_receiving@2x.png" />
                     <span slot="label">待收货</span>
                 </tabbar-item>
-                <tabbar-item ref="meTabbar" link="/order/order-inform">
+                <tabbar-item ref="meTabbar" link="/order/order-inform/4">
                     <img slot="icon" src="src/assets/images/me_wait_evaluate@2x.png" />
                     <span slot="label">待评价</span>
                 </tabbar-item>
@@ -151,6 +151,7 @@
                 }
 
             }
+            
         }
         .tab{
             background-color: #f3f3f3;
@@ -166,6 +167,10 @@
            .weui-tabbar__icon{
                img{width: auto}
            }
+           .weui-tabbar__icon{
+                width: 22px;
+                height: 22px;
+            }
         }
         .cell{
              .weui-cell{

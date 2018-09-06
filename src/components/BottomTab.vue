@@ -40,7 +40,7 @@
        },
     }
 </script>
-<style lang="less" scoped>
+<style lang="less">
     #bottom-tab{
         text-align: center;
         display: flex;
@@ -54,7 +54,11 @@
         }
         >div{
             // width: 25%;
-            
+           
+        }
+        .weui-tabbar__icon{
+            width: 24px;
+            height: 24px;
         }
         img{
             display: block;

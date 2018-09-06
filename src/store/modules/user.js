@@ -54,6 +54,7 @@ const user = {
             store.commit("SET_TOKEN", "");
             store.commit("SET_USER_ID", "");
             store.commit("SET_USER_INFO", "");
+            tool.local.clear('isAuth');
             tool.local.clear("tokenExpireDate");
         },
         GET_SESSION_TOKEN(store) {

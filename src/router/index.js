@@ -47,7 +47,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/detail/:id',
+      path: '/store/detail/:id/:type',     //type 2.果树 4果子 5树苗
       name: 'detail',
       component: () => import('@/views/stores/detail.vue'),
       meta:{
@@ -239,7 +239,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/order/order-inform',
+      path: '/order/order-inform/:type',
       name: 'orderForm',
       component: () => import('@/views/order/orderForm.vue'),
       meta:{

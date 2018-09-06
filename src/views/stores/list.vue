@@ -1,6 +1,6 @@
 <template>
     <div class="store-list">
-        <tab v-if="requestData.type == 3" :line-width="2" custom-bar-width="50px" active-color="#60a609">
+        <tab v-if="requestData.type == 4" :line-width="2" custom-bar-width="50px" active-color="#60a609">
             <tab-item selected @on-item-click="onItemClick(1)">商城直售</tab-item>
             <tab-item @on-item-click="onItemClick(2)">植友特卖</tab-item>
         </tab>
@@ -11,7 +11,7 @@
                   :height="scroller_h"
                   >
                  <div class="line"></div>
-                 <goods-list :list-data="listData"></goods-list>
+                 <goods-list :list-data="listData" :type="requestData.type"></goods-list>
         </scroller>
     </div>
     
@@ -97,18 +97,16 @@
             let type =  this.$route.params.type;
             this.requestData.type = type;
             switch (type){
-                case '1' :
+                case '5' :
                     this.$store.commit('UPDATE_TITLE','树苗');
                     break;
                 case '2':
                     this.$store.commit('UPDATE_TITLE','果树');
                     break;
-                case '3':
+                case '4':
                     this.$store.commit('UPDATE_TITLE','水果');
                     break;
-                case '4':
-                    this.$store.commit('UPDATE_TITLE','积分商城');
-                    break;
+               
             }
            
         },

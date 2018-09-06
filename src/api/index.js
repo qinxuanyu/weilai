@@ -7,6 +7,15 @@ export default {
             method:'get'
         })
     },
+     //登录
+     login (data){
+        return fetch({
+            url:'/user/login',
+            method:'post',
+            data
+        })
+
+    },
     //本地调试获取token
     getToken (data){
         return fetch({

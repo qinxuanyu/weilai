@@ -71,6 +71,7 @@
 <script>
     import { Flexbox, FlexboxItem, Grid, GridItem, } from 'vux';
     import api from '@/api'
+    import tool from '@/utils/tool'
     export default{
         name:'index',
         data (){
@@ -146,8 +147,25 @@
                
             }
         },created() {
-            this.getHomeDataFun();
-            // console.log(parseInt(11/10))
+            
+            let code = tool.utils.getUrlParam('code');
+            console.log(code);
+            let _this = this;
+            if(code){
+                api.login({
+                    code:code
+                }).then(data =>{
+                    if(data.token){
+                        _this.$store.commit('SET_TOKEN',data.token);
+                        let _location = window.location.origin;
+                        window.location.href = _location;
+                        // _this.$router.push(_location);
+                        // _this.getHomeDataFun();
+                    }
+                }).catch(e =>{})
+            }else{
+                this.getHomeDataFun();
+            }
             
         },
     }
@@ -298,6 +316,10 @@
                         
                     }
                 }
+            }
+            .weui-grid:after{
+                height: 0;
+                border: 0;
             }
         }
     }

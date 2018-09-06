@@ -43,7 +43,7 @@
                     <p>客服</p>
                 </router-link>
             </div>
-            <div class="add" @click.stop="cart_show = !cart_show;manner = 0" v-if="!isIntegral">加入购物车</div>
+            <div class="add" @click.stop="cart_show = !cart_show;manner = 0" v-if="!isIntegral && type == 4">加入购物车</div>
             <div class="buy" @click.stop="cart_show = !cart_show;manner = 1" v-if="!isIntegral">立即购买</div>
             <div class="buy" style="flex:1" @click.stop="$router.push({name:'order',params:{id:goodsId},query:{num:goodsNum,type:'integral'}})" v-if="isIntegral">立即兑换</div>
         </div>
@@ -118,7 +118,8 @@
                 detailData:{},
                 goodsNum:1,
                 manner:null,                 //0-加入购物车 1-立即购买
-                isIntegral:null               //是否是积分商城
+                isIntegral:null,               //是否是积分商城
+                type:null,                     //2.果树 4果子 5树苗
             }
         },
         directives: {
@@ -178,11 +179,13 @@
         },
         created() {
             let id = this.$route.params.id;
+            let type = this.$route.params.type;
             let isIntegral = this.$route.query.type;
             if(isIntegral){
                 this.isIntegral = isIntegral;
             }
             this.goodsId = id;
+            this.type = type;
             this.getDetailData()
         },
     }
@@ -267,6 +270,7 @@
                
             }
             .add{
+                flex: 1;
                 width: 110px;
                 height: 50px;
                 background-color: #84ba42;
@@ -275,6 +279,7 @@
                 text-align: center;
             }
             .buy{
+                flex: 1;
                 width: 110px;
                 height: 50px;
                 background-color: #60a609;
