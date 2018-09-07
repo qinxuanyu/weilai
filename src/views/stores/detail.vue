@@ -1,15 +1,22 @@
 <template>
     <div class="detail">
-        <swiper :aspect-ratio="300/800" dots-position="center">
+        <swiper :aspect-ratio="616/750" dots-position="center">
             <swiper-item class="swiper-demo-img" v-for="(item, index) in detailData.images" :key="index">
                 <img :src="item">
             </swiper-item>
         </swiper>
         <div class="main">
             <p class="name">{{ detailData.name }}</p>
-            <p class="price">{{!isIntegral ? '￥' : '积分：'}}{{ detailData.price }} 
-                <!-- <span>￥100</span> -->
-            </p> 
+            <div class="price-wrap">
+                <div class="price">
+                    {{!isIntegral ? '￥' : '积分：'}}{{ detailData.price }} 
+                    <span v-if="detailData.discount !== 1 && type == 6">￥{{ detailData.price / detailData.discount}}</span>
+                </div>
+                <div class="title" v-if="type == 6">
+                    <span>限时促销中</span>
+                </div>
+                <div class="timer" v-if="type == 6">{{remainingTime}}</div>
+            </div> 
             <flexbox :gutter="0" class="site">
                 <flexbox-item><div class="flex-demo">快递：000</div></flexbox-item>
                 <flexbox-item><div class="flex-demo" style="text-align:center">月销{{detailData.mouthSale}}笔</div></flexbox-item>
@@ -18,8 +25,8 @@
             <group>
                 <cell title="领券"  is-link @click.native.stop="ticket_show = !ticket_show" v-if="!isIntegral"></cell>
                 <cell title="规格参数"  is-link @click.native.stop="size_show = !size_show"></cell>
-                <cell title="商品评价"  is-link v-if="!isIntegral"></cell>
-                <div class="evaluate" v-if="detailData.evaluates.length">
+                <cell title="商品评价"  is-link v-if="!isIntegral" @click.native.stop="goEvaluateList"></cell>
+                <div class="evaluate" v-if="detailData.evaluates.length" @click.stop="goEvaluateList">
                     <div class="user">
                         <div class="avatar">
                             <img :src="detailData.evaluates[0].imageUrl" alt="">
@@ -62,10 +69,10 @@
                     <ul class="message">
                         <li class="">
                             <span>品名</span>
-                            <span>车厘子、大樱桃</span>
+                            <span>{{detailData.name}}</span>
                         </li>
                         <li class="">
-                            <span>山东</span>
+                            <span>{{detailData.area}}</span>
                             <span>1000g</span>
                         </li>
                         <li class="">
@@ -108,6 +115,7 @@
 <script>
     import { Swiper, SwiperItem, Flexbox, FlexboxItem, Cell, Group, Divider, Popup, TransferDom, XButton, XNumber  } from 'vux'
     import api from '@/api'
+    import tool from '@/utils/tool'
     export default{
         data(){
             return{
@@ -115,11 +123,14 @@
                 size_show:false,
                 cart_show:false,
                 goodsId:null,
-                detailData:{},
+                detailData:{
+                    evaluates:[]
+                },
                 goodsNum:1,
                 manner:null,                 //0-加入购物车 1-立即购买
                 isIntegral:null,               //是否是积分商城
-                type:null,                     //2.果树 4果子 5树苗
+                type:null,                     //2.果树 4果子 5树苗 6-折扣
+                remainingTime:''
             }
         },
         directives: {
@@ -135,6 +146,9 @@
                     id:_this.goodsId
                 }).then(data => {
                     _this.detailData = data;
+                    if(data.endTime && _this.type == 6){
+                        _this.computedDate(data.endTime)
+                    }
                 }).catch(e =>{})
             },
             addCartFun (){
@@ -163,6 +177,38 @@
             changeGoodsNum (){
 
             },
+            formatDuring: function(mss) {
+                // var days = parseInt(mss / (1000 * 60 * 60 * 24));
+                var hours = parseInt((mss ) / (1000 * 60 * 60));
+                var minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = (mss % (1000 * 60)) / 1000;
+                return    + hours + " : " + minutes + " : " + seconds ;
+            },
+            timestampToTime(timestamp) {
+                var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+                var D = date.getDate() + ' ';
+                var h = date.getHours() + ':';
+                var m = date.getMinutes() + ':';
+                var s = date.getSeconds();
+                return Y+M+D+h+m+s;
+            },
+            computedDate (date){
+               
+                let _this = this;
+                let interval = null;
+                interval = setInterval(()=>{
+                     let times = tool.utils.getUnixTime();
+                     let _ms = tool.utils.dateDifference(date,this.timestampToTime(times))
+                     if(_ms < 0 ){
+                         _this.remainingTime = '折扣活动已结束';
+                         clearInterval(interval)
+                         return 
+                     }
+                    _this.remainingTime = this.formatDuring()
+                },1000)
+            },
             getTicketFun (id){
                 let _this = this;
                 api.getTicket({
@@ -171,6 +217,11 @@
                     _this.showTips('领取成功')
                 }).catch(e =>{})
             },
+            goEvaluateList (){
+                if(this.detailData.evaluates.length){
+                    this.$router.push('/store/evaluate')
+                }
+            }
             // submitPointFun (){
             //     api.submitPoint({}).then(data =>{
             //         addressId:
@@ -198,14 +249,30 @@
             .name{
                 font-size: 16px;
             }
-            .price{
-                font-size: 20px;
-                color: #f11010;
+            .price-wrap{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 margin: 15px 0 18px 0;
-                span{
-                    color: #999999;
-                    text-decoration: line-through;
-                    font-size: 14px;
+                .price{
+                    font-size: 20px;
+                    color: #f11010;
+                    span{
+                        color: #999999;
+                        text-decoration: line-through;
+                        font-size: 14px;
+                    }
+                }
+                .title{
+                    span{
+                        color: #f11010;
+                        border:1px solid #f11010;
+                        padding: 3px;
+                        border-radius: 3px;
+                    }
+                }
+                .timer{
+                    color: #f11010;
                 }
             }
             .site{

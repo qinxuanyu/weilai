@@ -47,7 +47,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/detail/:id/:type',     //type 2.果树 4果子 5树苗
+      path: '/store/detail/:id/:type',     //type 2.果树 4果子 5树苗 6折扣
       name: 'detail',
       component: () => import('@/views/stores/detail.vue'),
       meta:{

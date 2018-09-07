@@ -12,7 +12,7 @@
                         <div>
                             <template>
                                  <group>
-                                    <x-number title="￥100" :value="item.num" :min="1" width="30px"   ></x-number>
+                                    <x-number title="￥100" :value="item.num" :min="1" width="30px" ></x-number>
                                 </group>
                             </template>
                         </div>
@@ -24,6 +24,7 @@
                 </div>
              </div>
          </check-icon>
+         <no-data v-if="!goodsList.length"></no-data>
          <div class="bottom-btn">
              <flexbox :gutter="0" wrap="wrap">
                 <!-- <flexbox-item class="left">
@@ -60,6 +61,7 @@
 <script>
     import { CheckIcon, Group, XNumber, Flexbox, FlexboxItem, XButton, Popup, TransferDom, Cell} from 'vux';
     import api from '@/api'
+    import noData from '@/components/nodata.vue'
     export default{
         data (){
             return{
@@ -74,7 +76,7 @@
         directives: {
             TransferDom
         },
-        components:{CheckIcon, XNumber, Group, Flexbox, FlexboxItem, XButton, Popup, Cell},
+        components:{CheckIcon, XNumber, Group, Flexbox, FlexboxItem, XButton, Popup, Cell, noData},
         methods:{
             delCartFun (id){
                 let _this = this;

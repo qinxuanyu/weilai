@@ -1,17 +1,18 @@
 <template>
     <div class="discount">
-        <scroller>
+        <scroller :on-infinite="infinite" 
+                  ref="myscroller" >
             <ul class="view">
-                <li class="item">
+                <li class="item" v-for="(item,index) in listData" :key="index" @click.stop="$router.push('/store/detail/'+item.id+'/6')">
                     <div class="left">
-                        <img src="http://image5.suning.cn/b2c/catentries/000000000140693701_2_800x800.jpg" alt="">
+                        <img :src="item.coverImage" alt="">
                     </div>
                     <div class="right">
-                        <p class="name">美国车厘子  新鲜水果  进口新鲜大樱桃1KG装  果经约28-30mm</p>
+                        <p class="name">{{item.introduce}}</p>
                         <div class="bottom">
                             <div class="data">
-                                <p class="price">￥115.2 <span>￥168</span></p>
-                                <p class="num">已售2451件</p>
+                                <p class="price">{{item.price }}<span>￥{{item.discount}}</span></p>
+                                <p class="num">已售{{item.saledNum}}件</p>
                             </div>
                             <x-button :mini="true">立即抢购</x-button>
                         </div>
@@ -23,8 +24,41 @@
 </template>
 <script>
     import { XButton } from 'vux';
+    import api from '@/api'
     export default{
-        components:{XButton}
+        data (){
+            return {
+                createTime:'',
+                size:10,
+                listData:[]
+            }
+        },
+        components:{ XButton },
+        methods:{
+            getDicounListFun (){
+                let _this = this;
+                api.getDicounList({
+                    createTime:_this.createTime,
+                    size:_this.size
+                }).then(data =>{
+                    
+                    if(data.length){
+                        _this.listData = _this.listData.concat(data)
+                    }
+                    if(data.length < _this.size){
+                       _this.$refs.myscroller.finishInfinite(2)
+                    }else{
+                        _this.$refs.myscroller.finishInfinite(0)
+                    }
+                }).catch(e =>{})
+            },
+            infinite (){
+                 this.getDicounListFun()
+            }
+        },
+        created() {
+            // this.getDicounListFun()
+        },
     }
 </script>
 <style lang="less" scoped>
@@ -53,6 +87,7 @@
                         display: -webkit-box;
                         -webkit-line-clamp: 2;
                         -webkit-box-orient: vertical;
+                        min-height: 44px;
                     }
                    .bottom{
                        display: flex;

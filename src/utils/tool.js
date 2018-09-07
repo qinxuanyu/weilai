@@ -250,7 +250,7 @@ tool.utils = (() => {
                     "s+": date.getSeconds()
                     // 秒
                 };
-                fmt = fmt || "yyyy-MM-dd hh:mm:ss";
+                fmt = fmt || "yyyy-MM-dd HH:mm:ss";
 
                 if (/(y+)/.test(fmt)) {
                     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "")

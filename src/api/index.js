@@ -229,4 +229,20 @@ export default {
             
         })
     },
+    //确认收货
+    confirmOrder (data){     
+        return fetch({
+            url:'/user/auth/sureOrder',
+            method:'post',
+            data
+        })
+    },
+    //折扣商城
+    getDicounList (data){     
+        return fetch({
+            url:'/goods/dicountList',
+            method:'get',
+            data
+        })
+    },
 }

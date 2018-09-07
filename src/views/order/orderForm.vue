@@ -1,11 +1,11 @@
 <template>
     <div class="order-form">
         <tab custom-bar-width="34px" :line-width="2" id="tab">
-            <tab-item selected @on-item-click="onItemClick('')">全部</tab-item>
-            <tab-item @on-item-click="onItemClick(1)">待付款</tab-item>
-            <tab-item @on-item-click="onItemClick(2)">待发货</tab-item>
-            <tab-item @on-item-click="onItemClick(3)">待收货</tab-item>
-            <tab-item @on-item-click="onItemClick(4)">待评价</tab-item>
+            <tab-item :selected="fromdata.type == 0 || fromdata.type == ''" @on-item-click="onItemClick('')">全部</tab-item>
+            <tab-item :selected="fromdata.type == 1" @on-item-click="onItemClick(1)">待付款</tab-item>
+            <tab-item :selected="fromdata.type == 2" @on-item-click="onItemClick(2)">待发货</tab-item>
+            <tab-item :selected="fromdata.type == 3" @on-item-click="onItemClick(3)">待收货</tab-item>
+            <tab-item :selected="fromdata.type == 4" @on-item-click="onItemClick(4)">待评价</tab-item>
         </tab>
         <scroller class="my-scroll" :on-infinite="infinite" ref="scroller">
             <div style="height: 1px;"></div>
@@ -27,7 +27,7 @@
                         </div>
                         <div class="btn" v-if="item.type == 3">
                             <x-button mini plain class="one">查看物流</x-button>
-                            <x-button mini plain class="two" >确认收货</x-button>
+                            <x-button mini plain class="two" @click.native.stop="confirmClick(item.id)">确认收货</x-button>
                         </div>
                          <div class="btn" v-if="item.type == 4">
                             <x-button mini plain class="two" @click.native.stop="$router.push('/order/evaluate')">评价</x-button>
@@ -63,6 +63,8 @@
             },
             getOrderList (){
                 let _this = this;
+                let type = null;
+                
                 api.getMyOrder({
                     type:_this.fromdata.type,
                     createTime:_this.fromdata.createTime,
@@ -103,11 +105,25 @@
             infinite (){
                 this.$refs.scroller.resize();
                 this.getOrderList()
+            },
+            confirmClick (id){
+                let _this = this;
+                api.confirmOrder({
+                    goodsId:id
+                }).then(data =>{
+                    _this.showTips('确认成功');
+                    _this.listData = [];
+                    _this.fromdata.createTime = '';
+                    _this.getOrderList()
+                }).catch(e =>{})
             }
         },created() {
             //  this.getOrderList()
-            let type = this.$route.param.type;
-            this.type = type;
+            
+            let type = this.$route.params.type;
+            if(type != 0){
+                this.fromdata.type = type;
+            }
         },
         mounted() {
             let window_h = window.innerHeight;

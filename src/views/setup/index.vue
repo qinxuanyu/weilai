@@ -5,7 +5,7 @@
             <cell title="意见反馈" is-link link="/setup/feedback"></cell>
             <cell title="消息设置" is-link ></cell>
         </group>
-        <x-button>退出登录</x-button>
+        <x-button @click.native.stop="loginOut">退出登录</x-button>
     </div>
 </template>
 <script>
@@ -17,6 +17,11 @@
             }
         },
         components:{ Group, Cell, XButton },
+        methods:{
+            loginOut (){
+                
+            }
+        }
     }
 </script>
 <style lang="less" scoped>

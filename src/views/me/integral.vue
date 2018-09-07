@@ -14,7 +14,7 @@
                 </div>
             </div>
             <ul class="list">
-                <li v-for="(item,index) in listData" :key="index" @click.stop="$router.push('/store/detail/'+ item.id + '?type=integral')">
+                <li v-for="(item,index) in listData" :key="index" @click.stop="$router.push('/store/detail/'+ item.id + '/4?type=integral')">
                     <div class="img">
                         <img :src="item.coverImage" alt="">
                     </div>
