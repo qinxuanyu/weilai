@@ -20,7 +20,7 @@
         color: #b8b8b8;
         text-align: center;
         img{
-            width: 150px;
+            width: 100px;
         }
     }
 </style>

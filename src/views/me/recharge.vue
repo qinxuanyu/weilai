@@ -9,18 +9,20 @@
             <x-input title="充值金额" type="tel" placeholder="请输入充值金额" v-model="num"></x-input>
         </group>
         <group title="请选择支付方式">
-            <radio :options="payList"  value="1">
+            <radio :options="payList"  v-model="payType">
                 
             </radio>
         </group>
         <div class="pay-btn">
-            <x-button >立即支付</x-button>
+            <x-button @click.native.stop="rechargeClick">立即支付</x-button>
         </div>
         
     </div>
 </template>
 <script>
     import { Group, Cell, XInput, Radio, XButton } from 'vux'
+    import api from '@/api'
+    import order from '@/mixins/order'
     export default{
         data (){
             return{
@@ -34,9 +36,28 @@
                     icon:'src/assets/images/mer_alipay@2x.png',
                     key: '2',
                 } ],
+                payType:1
             }
         },
-        components:{Group, Cell,XInput, Radio, XButton }
+        components:{Group, Cell,XInput, Radio, XButton },
+        mixins:[order],
+        methods:{
+            rechargeClick (){
+                let _this = this;
+                if(!_this.num){
+                    return this.showTips('请输入充值金额')
+                }
+                api.recharge({
+                    orderId:0,
+                    total_fee:_this.num,
+                    type:_this.payType 
+                }).then(data =>{
+                    if(data){
+                        _this.wxConfirmFun(data)
+                    }
+                })
+            }
+        }
     }
 </script>
 <style lang="less" scoped>
@@ -59,6 +80,7 @@
             button{
                 background-color: #60a609;
                 color: #fff;
+                font-size: 16px;
             }
            
         }

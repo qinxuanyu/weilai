@@ -6,10 +6,12 @@ import VueRouter from 'vue-router'
 import App from './App'
 import store from './store';
 import router from './router'
-import  { LoadingPlugin,ConfirmPlugin  } from 'vux'
+import  { LoadingPlugin,ConfirmPlugin,WechatPlugin  } from 'vux'
 import tool from '@/utils/tool'
 import VueScroller from 'vue-scroller'
 import api from '@/api'
+
+Vue.use(WechatPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(VueRouter)
 Vue.use(VueScroller)
@@ -40,15 +42,16 @@ Vue.config.productionTip = false
 
 
 if(!store.getters.token && !tool.local.get('isAuth')){
-  api.getToken({
-    id:1
-  }).then( data =>{
-    console.log('LOGIN')
-    store.commit('SET_TOKEN',data)
-  }).catch(e =>{})
-  // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http%3a%2f%2fplant.mikao1688.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+  // api.getToken({
+  //   id:1
+  // }).then( data =>{
+  //   console.log('LOGIN')
+  //   store.commit('SET_TOKEN',data)
+  // }).catch(e =>{})
+  window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http%3a%2f%2fplant.mikao1688.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
   tool.local.set('isAuth','on')
 }
+api.wxConfig()
 /* eslint-disable no-new */
 new Vue({
   store,

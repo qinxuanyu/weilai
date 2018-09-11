@@ -1,21 +1,21 @@
 <template>
     <div class="srot f-16">
         <div class="item" @click.stop="change(1)">销量
-            <div>
-                <span :class="{'active': !sales}">&lt;</span>
-                <span :class="{'active': sales}">&gt;</span>
+            <div :class="{'active': !sales}">
+                <!-- <span :class="{'active': !sales}">&lt;</span>
+                <span :class="{'active': sales}">&gt;</span> -->
             </div>
         </div>
         <div class="item" @click.stop="change(2)">新发布
-            <div>
-                <span :class="{'active': !time}">&lt;</span>
-                <span :class="{'active': time}">&gt;</span>
+            <div :class="{'active': !time}">
+                <!-- <span :class="{'active': !time}">&lt;</span>
+                <span :class="{'active': time}">&gt;</span> -->
             </div>
         </div>
         <div class="item" @click.stop="change(3)">价格
-            <div>
-                <span :class="{'active': !price}">&lt;</span>
-                <span :class="{'active': price}">&gt;</span>
+            <div :class="{'active': !price}">
+                <!-- <span :class="{'active': !price}">&lt;</span>
+                <span :class="{'active': price}">&gt;</span> -->
             </div>
         </div>
     </div>
@@ -31,6 +31,7 @@
         },
         methods:{
             change (index){
+                console.log(index)
                 switch (index){
                     case 1:
                         this.sales = !this.sales;
@@ -39,6 +40,7 @@
                         this.$emit('srot',{'sales':this.sales})
                         break;
                     case 2:
+                    
                         this.time = !this.time;
                         this.sales = false;
                         this.price = false;
@@ -64,13 +66,23 @@
         .item{
             >div{
                 display: inline-block;
-                font-size: 14px;
-                color: #8a8a8a;
-                transform: rotate(90deg);
-                font-weight: 600;
-                >span.active{
-                    color:#60a609
-                }
+                vertical-align: middle;
+                // font-size: 14px;
+                // color: #8a8a8a;
+                // transform: rotate(90deg);
+                // font-weight: 600;
+                // >span.active{
+                //     color:#60a609
+                // }
+                width: 10px;
+                height: 15px;
+                background:url(/src/assets/images/com_down@2x.png) no-repeat;
+                background-size: 100%;
+
+            }
+            >div.active{
+                background:url(/src/assets/images/com_up@2x.png) no-repeat;
+                background-size: 100%;
             }
            
         }

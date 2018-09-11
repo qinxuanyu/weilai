@@ -1,27 +1,46 @@
 <template>
     <div class="capital">
         <tab custom-bar-width="50px" class="tab-top">
-            <tab-item selected >支出</tab-item>
-            <tab-item >收入</tab-item>
+            <tab-item selected @on-item-click="type = 1;listData = [];getListData()">支出</tab-item>
+            <tab-item @on-item-click="type = 2;listData = [];getListData()">收入</tab-item>
         </tab>
-        <scroller>
+        <scroller ref="myscroller" :on-infinite="infinite">
             <group>
-                <cell title="购树" value="-100.0" inline-desc='2018-1-1'></cell>
+                <cell v-for="(item,index) in listData" :key="index" :title="item.introduce" :value="item.money" :inline-desc='item.createTime '></cell>
             </group>
         </scroller>
     </div>
 </template>
 <script>
     import { Group, Cell, Tab, TabItem  } from 'vux';
-    
+    import api from '@/api'
     export default{
         data (){
             return{
-
+                type:1,
+                listData:[]
             }
         },
         components:{ Group, Cell, Tab, TabItem  },
+        methods:{
+            getListData (){
+                let _this = this;
+                api.getMoneyDetail({
+                    type:_this.type
+                }).then(data =>{
+                    _this.listData = data;
+                    _this.$refs.myscroller.finishInfinite(2)
+                }).catch(e =>{})
+            },
+            infinite (){
+                
+            }
+        },
+        created() {
+             this.getListData()
+        },
         mounted() {
+           
             var window_h = window.innerHeight;
             console.log(window_h)
             document.querySelector('._v-container').style.height = (window_h - 44) +'px';

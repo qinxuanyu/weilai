@@ -302,6 +302,22 @@ let router =  new Router({
         title:'客服'
       }
     },
+    {
+      path: '/home/recent',
+      name: 'recent',
+      component: () => import('@/views/home/recent.vue'),
+      meta:{
+        title:'近况'
+      }
+    },
+    {
+      path: '/home/add-card',
+      name: 'addCard',
+      component: () => import('@/views/me/addCard.vue'),
+      meta:{
+        title:'银行卡'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {

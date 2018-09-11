@@ -245,4 +245,41 @@ export default {
             data
         })
     },
+    wxConfig (){
+        return fetch({
+            url:'/user/config',
+            method:'post',
+        })
+    },
+    wxPAy (data){
+        return fetch({
+            url:'/user/auth/pay',
+            method:'post',
+            data
+        })
+    },
+    //充值
+    recharge (data){
+        return fetch({
+            url:'/user/auth/charge',
+            method:'post',
+            data
+        })
+    },
+    //添加银行卡
+    addBankCard (data){
+        return fetch({
+            url:'/user/auth/addBankCard',
+            method:'post',
+            data
+        })
+    },
+    //资金明细
+    getMoneyDetail (data){
+        return fetch({
+            url:'/user/auth/moneyDetail',
+            method:'get',
+            data
+        })
+    },
 }

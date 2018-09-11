@@ -15,18 +15,23 @@
             <x-button class="pay" link="/me/recharge">充值</x-button>
             <x-button class="with" link="/me/withdraw">提现</x-button>
         </div>
+        <group>
+            <cell :title="!bankName ? '未添加银行卡' : bankName " link="/home/add-card" :inline-desc="!bankCode ? '点击添加银行卡' : bankCode"></cell>
+        </group>
     </div>
 </template>
 <script>
-    import { XButton } from 'vux'
+    import { XButton, Group, Cell } from 'vux'
     import api from '@/api'
     export default{
         data (){
             return{
-                remaining:0
+                remaining:0,
+                bankName:null,
+                bankCode:null
             }
         },
-        components:{ XButton },
+        components:{ XButton, Group, Cell },
         methods:{
             getWalletData (){
                 let _this = this;
@@ -34,6 +39,8 @@
                     if(data.money){
                         _this.remaining = data.money;
                     }
+                    _this.bankName = data.bankName;
+                    _this.bankCode = data.bankCode;
                 }).catch(e =>{})
             }
         },

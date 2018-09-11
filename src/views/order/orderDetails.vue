@@ -37,19 +37,42 @@
              <p>创建时间：{{detailData.createTime}}</p>
              <p>成立时间：2018823</p>
          </div>
-        <div class="bottom-btn">
+        <div class="bottom-btn" v-if="orderType == 1">
+            <x-button mini plain>找客服</x-button>
+            <x-button mini @click.native.stop="payType_show = true">付款</x-button>
+        </div>
+        <div class="bottom-btn" v-else-if="orderType == 2">
+            <x-button mini plain>找客服</x-button>
+        </div>
+        <div class="bottom-btn" v-else-if="orderType == 3">
             <x-button mini plain>查看物流</x-button>
-            <x-button mini >确认收货</x-button>
+            <x-button mini @click.native.stop="payClick">确认收货</x-button>
+        </div>
+        <div class="bottom-btn" v-else-if="orderType == 4">
+            <x-button mini plain>找客服</x-button>
+        </div>
+        <div v-transfer-dom class="size-pop">
+            <popup v-model="payType_show" >
+                <group title="请选择支付方式">
+                    <radio :options="payList"  v-model="payType">
+                        
+                    </radio>
+                </group>
+                <x-button type="primary" @click.native.stop="payType_show = !payType_show;payClick()">确定</x-button>
+            </popup>
         </div>
     </div>
+    
 </template>
 <script>
-    import { Cell, Group, XNumber, Radio, XInput, XButton } from 'vux'
+    import { Cell, Group, XNumber, Radio, XInput, XButton, Popup, TransferDom } from 'vux'
     import api from '@/api'
+    import order from '@/mixins/order'
     export default{
         data () {
             return{
                 changeValue:1,
+                payType_show:false,
                 payList: [{
                     value:'微信支付',
                     icon:'src/assets/images/mer_WeChat@2x.png',
@@ -62,12 +85,17 @@
                 color:'#60a609',
                 orderType:1,
                 orderId:null,
-                detailData:{}
+                detailData:{},
+                payType:'1'              //支付方式  1-微信 2-支付宝
             }
         },
-        components:{
-            Cell, Group, XNumber , Radio, XInput, XButton
+        directives: {
+            TransferDom
         },
+        components:{
+            Cell, Group, XNumber , Radio, XInput, XButton, Popup
+        },
+        mixins:[order],
         methods:{
             change (){
 
@@ -76,6 +104,22 @@
                 switch (type){
                     case '1':
                        return '待付款';
+                       break;
+                    case '2':
+                        return '待发货';
+                        break;
+                    case '3':
+                        return '待收货';
+                        break;
+                    case '4':
+                        return '待评价';
+                        break    
+                }
+            },
+            setBottomBtnText (type){
+                switch (type){
+                    case '1':
+                       return '付款';
                        break;
                     case '2':
                         return '待发货';
@@ -98,7 +142,22 @@
                         _this.detailData = data;
                     }
                 }).catch(e =>{})
-            }
+            },
+            payClick (){
+                let _this = this;
+                api.wxPAy({
+                    orderId:_this.detailData.ordersId,
+                    total_fee:_this.detailData.price ,
+                    type:_this.payType
+                }).then(data =>{
+                    if(data){
+                        _this.wxConfirmFun(data)
+                    }else{
+                        _this.showTips('参数错误')
+                    }
+                }).catch(e =>{})
+            },
+            
         },
         created() {
             let id = this.$route.params.id;
@@ -106,6 +165,20 @@
             this.orderId = id;
             this.orderType = type;
             this.getDetailData()
+                        
+            // if (typeof WeixinJSBridge == "undefined"){
+            //     if( document.addEventListener ){
+            //         document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+            //     }else if (document.attachEvent){
+            //         document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+            //         document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+            //     }
+            // }else{
+            //     this.onBridgeReady();
+            // }
+        },
+        mounted() {
+            
         },
     }
 </script>
@@ -226,6 +299,9 @@
             line-height: 30px;
             color: #999999;
             padding: 0 20px;
+        }
+        .weui-btn_plain-default{
+            border-color: #cecece !important;
         }
     }
 </style>

@@ -2,7 +2,7 @@
     <div class="home">
         <div class="top">
              <flexbox :gutter="0" align="flex-start">
-                <flexbox-item :span="2"><div class="flex-demo"><router-link to="">近况</router-link></div></flexbox-item>
+                <flexbox-item :span="2"><div class="flex-demo"><router-link to="/home/recent">近况</router-link></div></flexbox-item>
                 <flexbox-item>
                     <div class="flex-demo" >
                         <p>{{homeData.treeDtoList.introduce}}</p>
@@ -83,7 +83,7 @@
                     scissor:false,
                     pollination:false,
                     shovel:false
-                },
+                }, 
                 shortcut:[{
                     title:'我的果树',
                     icon:'src/assets/images/fruiter@2x.png',
@@ -128,7 +128,10 @@
                 let _this = this;
                 api.getHomeData().then(data =>{
                     _this.homeData = data;
-                    _this.setGrade(data.grade)
+                    _this.setGrade(data.grade);
+                    if(data.detail){
+                        tool.local.set('recent',data.detail)
+                    }
                 }).catch(e =>{})
             },
             setGrade (grade){
