@@ -5,10 +5,12 @@
             <tab-item @on-item-click="type = 2;listData = [];getListData()">收入</tab-item>
         </tab>
         <scroller ref="myscroller" :on-infinite="infinite">
+            <div></div>
             <group>
-                <cell v-for="(item,index) in listData" :key="index" :title="item.introduce" :value="item.money" :inline-desc='item.createTime '></cell>
+                <cell v-for="(item,index) in listData" :key="index" :title="item.introduce" :value="type === 1 ? '-' + item.money : '+' + item.money" :inline-desc='item.createTime '></cell>
             </group>
         </scroller>
+       
     </div>
 </template>
 <script>
@@ -33,11 +35,12 @@
                 }).catch(e =>{})
             },
             infinite (){
-                
+                console.log(1)
+                this.getListData()
             }
         },
         created() {
-             this.getListData()
+            this.getListData()
         },
         mounted() {
            

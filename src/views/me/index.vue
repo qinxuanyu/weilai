@@ -38,7 +38,7 @@
                     <img slot="icon" src="src/assets/images/me_wait_evaluate@2x.png" />
                     <span slot="label">待评价</span>
                 </tabbar-item>
-                <tabbar-item ref="meTabbar" link="/order/order-inform">
+                <tabbar-item ref="meTabbar" link="/order/order-inform/5">
                     <img slot="icon" src="src/assets/images/me_after_sale@2x.png" />
                     <span slot="label">售后处理</span>
                 </tabbar-item>
@@ -65,7 +65,7 @@
                 },{
                     title:'果实售卖',
                     imgUrl:'src/assets/images/me_fruit_sell@2x.png',
-                    link:'/me/my-sale'
+                    link:'/me/my-harvest'
                 },{
                     title:'我的钱包',
                     imgUrl:'src/assets/images/me_wallet@2x.png',
@@ -135,7 +135,7 @@
                     display: flex;
                     justify-content: flex-end;
                     img{
-                        width: 20px;
+                        height: 20px;
                     }
                     >div:nth-child(1){
                         margin-right: 13px;

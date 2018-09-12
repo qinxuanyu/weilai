@@ -66,7 +66,7 @@ service.interceptors.response.use(
     response => {
         store.commit("UPDATE_LOADING", false);
         if (response.status === 200 ) {
-            return Promise.resolve(response.data.data);
+            // return Promise.resolve(response.data.data);
             if (response.data.code === 200) {
                 return Promise.resolve(response.data.data);
             } else {

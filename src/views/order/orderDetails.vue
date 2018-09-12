@@ -21,7 +21,7 @@
                 <p>规格：{{detailData.weight}}g</p>
                 <div class="num">
                    <p><span>￥{{detailData.price}}</span>x{{detailData.num}}</p>
-                   <x-button mini plain >取消订单</x-button>
+                   <x-button mini plain @click.native.stop="deleteOrderFun(detailData.ordersId)">取消订单</x-button>
                 </div>
             </div>
         </div>
@@ -157,7 +157,15 @@
                     }
                 }).catch(e =>{})
             },
-            
+            deleteOrderFun (id){
+                let _this = this;
+                api.deleteOrder({
+                    orderId:id
+                }).then(data =>{
+                    _this.showTips('取消成功')
+                   history.go(-1)
+                }).catch(e =>{})
+            }
         },
         created() {
             let id = this.$route.params.id;

@@ -111,10 +111,11 @@ export default {
         })
     },
     //获取我的优惠券列表
-    getMyTicketList (){
+    getMyTicketList (data){
         return fetch({
             url:'/goods/auth/myTicketList',
             method:'get',
+            data
         })
     },
      //确认订单
@@ -279,6 +280,22 @@ export default {
         return fetch({
             url:'/user/auth/moneyDetail',
             method:'get',
+            data
+        })
+    },
+    //取消订单
+    deleteOrder (data){
+        return fetch({
+            url:'/goods/auth/deleteOrder',
+            method:'post',
+            data
+        })
+    },
+    //提现
+    withdraw (data){
+        return fetch({
+            url:'/user/auth/withdraw',
+            method:'post',
             data
         })
     },

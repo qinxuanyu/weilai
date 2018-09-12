@@ -60,6 +60,7 @@
 <script>
     import { Cell, Group, XNumber, Radio, XInput, Popup, TransferDom, XButton } from 'vux'
     import api from '@/api'
+    import order from '@/mixins/order'
     export default{
         data () {
             return{
@@ -89,6 +90,7 @@
 
             }
         },
+        mixins:[order],
         directives: {
             TransferDom
         },
@@ -110,7 +112,9 @@
             //获取我的优惠券
             getMyTicketListFun (){
                 let _this = this;
-                api.getMyTicketList().then(data =>{
+                api.getMyTicketList({
+                    status:false
+                }).then(data =>{
                     _this.ticketList = data;
                 }).catch(e =>{})
             },
@@ -134,18 +138,37 @@
                         ticketId:_this.ticketData.id,
                         payType:_this.payType
                     }).then(data =>{
-                        
+                        if(data){
+                            _this.payFun(data)
+                        }else{
+                            _this.showTips('订单id错误')
+                        }
                     }).catch(e =>{})
                 }else{
                     api.submitPoint({
                         addressId:_this.goodsData.addressId,
                         goodsId:this.goodsData.goodsId,
                     }).then(data =>{
-                        _this.shouTips('兑换成功')
+                        _this.showTips('兑换成功');
+                        _this.$router.push('/order/order-inform/0')
                     }).catch(e =>{})
                 }
                 
 
+            },
+            payFun (id){
+                let _this = this;
+                api.wxPAy({
+                    orderId:id,
+                    total_fee:_this.totalPrices,
+                    type:_this.payType
+                }).then(data =>{
+                    if(data){
+                        _this.wxConfirmFun(data)
+                    }else{
+                        _this.showTips('参数错误')
+                    }
+                }).catch(e =>{})
             }
         },
         computed:{

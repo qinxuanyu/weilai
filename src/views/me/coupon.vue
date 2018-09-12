@@ -1,46 +1,80 @@
 <template>
     <div class="coupon">
-        <tab custom-bar-width="50px" class="tab-top">
-            <tab-item selected >未使用</tab-item>
-            <tab-item >不可用</tab-item>
+        <tab custom-bar-width="50px" class="tab-top" :line-width="2">
+            <tab-item selected @on-item-click="status = false;listData = [];getMyTicketListFun()">未使用</tab-item>
+            <tab-item @on-item-click="status = true;listData = [];getMyTicketListFun()">不可用</tab-item>
         </tab>
         <div class="list">
-            <ul>
-                <li>
-                    <i></i>
-                    <div class="center">
-                        <p class="value">￥10</p>
-                        <p>满199减10</p>
-                    </div>
-                    <div class="right">
-                        <span>去购物</span>
-                    </div>
-                </li>
-               
-            </ul>
+            <scroller ref="myscroller" :on-infinite="infinite">
+                <div></div>
+                <ul>
+                    <li v-for="(item,index) in listData" :key="index" >
+                        <i></i>
+                        <div class="center">
+                            <p class="value">￥{{item.price}}</p>
+                            <p>满{{item.suitPrice}}减{{item.price}}</p>
+                        </div>
+                        <div class="right" @click.stop="$router.push('/store/index')">
+                            <span>去购物</span>
+                        </div>
+                    </li>
+                
+                </ul>
+            </scroller>
+            
         </div>
     </div>
 </template>
 <script>
     import { Tab, TabItem } from 'vux';
+    import api from '@/api'
     export default{
         data (){
             return{
-
+                status:false,
+                listData:[]
             }
         },
         components:{
             Tab, TabItem
-        }
+        },
+        methods:{
+            getMyTicketListFun (){
+                let _this = this;
+                api.getMyTicketList({
+                    status:this.status
+                }).then(data =>{
+                    if(data.length){
+                        _this.listData = data;
+                    }
+                    _this.$refs.myscroller.finishInfinite(2)
+                }).catch(e =>{})
+            },
+            infinite (){
+
+            }
+        },
+        created() {
+            this.getMyTicketListFun()
+        },
+        mounted() {
+           
+            var window_h = window.innerHeight;
+            document.querySelector('._v-container').style.height = (window_h - 44) +'px';
+            document.querySelector('._v-container').style.top = '44px'
+        },
     }
 </script>
 <style lang="less" scoped>
     .coupon{
         .list{
-            >ul{
-                height: 100vh;
-                padding: 13px 10px;
+            ._v-container{
                 background-color: #f3f3f3;
+            }
+            ul{
+                // min-height: 100vh;
+                padding: 13px 10px;
+                
                 li{
                     display: flex;
                     align-items: center;

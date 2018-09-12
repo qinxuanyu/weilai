@@ -143,7 +143,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/me/withdraw',
+      path: '/me/withdraw/:num',
       name: 'withdraw',
       component: () => import('@/views/me/withdraw.vue'),
       meta:{
@@ -263,7 +263,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/order/evaluate',
+      path: '/order/evaluate/:orderId',
       name: 'evaluate',
       component: () => import('@/views/order/evaluate.vue'),
       meta:{

@@ -13,7 +13,7 @@
         </div>
         <div class="btn">
             <x-button class="pay" link="/me/recharge">充值</x-button>
-            <x-button class="with" link="/me/withdraw">提现</x-button>
+            <x-button class="with" @click.native.stop="withdrawLink">提现</x-button>
         </div>
         <group>
             <cell :title="!bankName ? '未添加银行卡' : bankName " link="/home/add-card" :inline-desc="!bankCode ? '点击添加银行卡' : bankCode"></cell>
@@ -42,6 +42,24 @@
                     _this.bankName = data.bankName;
                     _this.bankCode = data.bankCode;
                 }).catch(e =>{})
+            },
+            withdrawLink (){
+                let _this = this;
+                if(!this.bankCode){
+                    this.$vux.confirm.show({
+                        // 组件除show外的属性
+                        title:'提示',
+                        content:'请先添加银行卡',
+                        onCancel () {
+                            
+                        },
+                        onConfirm () {
+                            _this.$router.push('/me/withdraw/'+_this.remaining)
+                        }
+                    })
+                }else{
+                    _this.$router.push('/me/withdraw/'+_this.remaining)
+                }
             }
         },
         created() {

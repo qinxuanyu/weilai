@@ -122,6 +122,7 @@
                         display: flex;
                         font-size: 16px;
                         margin-top: 32px;
+                        justify-content: space-between;
                         span{
                             color: #f11010;
                         }
@@ -129,6 +130,9 @@
                             font-size: 14px;
                             background-color: #60a609;
                             color: #fff;
+                            margin: 0;
+                            padding-left: 8px;
+                            padding-right: 8px;
                         }
                     }
                     >p{

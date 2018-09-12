@@ -25,7 +25,7 @@
              </div>
          </check-icon>
          <no-data v-if="!goodsList.length"></no-data>
-         <div class="bottom-btn">
+         <div class="bottom-btn" v-else>
              <flexbox :gutter="0" wrap="wrap">
                 <!-- <flexbox-item class="left">
                     <div class="flex-demo">

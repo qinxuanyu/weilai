@@ -6,6 +6,7 @@
             <tab-item :selected="fromdata.type == 2" @on-item-click="onItemClick(2)">待发货</tab-item>
             <tab-item :selected="fromdata.type == 3" @on-item-click="onItemClick(3)">待收货</tab-item>
             <tab-item :selected="fromdata.type == 4" @on-item-click="onItemClick(4)">待评价</tab-item>
+            <tab-item :selected="fromdata.type == 5" @on-item-click="onItemClick(5)">售后处理</tab-item>
         </tab>
         <scroller class="my-scroll" :on-infinite="infinite" ref="scroller">
             <div style="height: 1px;"></div>
@@ -21,7 +22,7 @@
                             <p>{{item.introduce }}</p>
                             <p class="size">规格：{{item.weight}}</p>
                             <div class="btn" v-if="item.type == 1">
-                                <x-button mini plain class="one">取消订单</x-button>
+                                <x-button mini plain class="one" @click.native.stop="deleteOrderFun(item.id)">取消订单</x-button>
                                 <x-button mini plain class="two" @click.native.stop="payType_show = true;orderData = item;">付款</x-button>
                             </div>
                             <div class="btn" v-if="item.type == 2">
@@ -105,9 +106,10 @@
                         _this.$refs.scroller.finishInfinite(0)
                     }
                     if(data && data.length){
-                        _this.listData = data;
+                        _this.listData = _this.listData.concat(data);
                         let dataLength = data.length;
-                        _this.fromdata.createTime = data[dataLength].createTime;
+                        console.log(data[dataLength - 1])
+                        _this.fromdata.createTime = data[dataLength - 1].createTime;
                         
                     };
                     
@@ -118,7 +120,7 @@
                 if(this.orderData.id && this.orderData.price && this.orderData.num){
                     api.wxPAy({
                         orderId:_this.orderData.id,
-                        total_fee:_this.orderData.price * _this.orderData.num,
+                        total_fee:1,
                         type:_this.payType
                     }).then(data =>{
                         if(data){
@@ -149,8 +151,12 @@
                 }
             },
             infinite (){
+                let _this = this;
                 this.$refs.scroller.resize();
-                this.getOrderList()
+                setTimeout(()=>{
+                    _this.getOrderList()
+
+                },2000)
             },
             confirmClick (id){
                 let _this = this;
@@ -160,6 +166,16 @@
                     _this.showTips('确认成功');
                     _this.listData = [];
                     _this.fromdata.createTime = '';
+                    _this.getOrderList()
+                }).catch(e =>{})
+            },
+            deleteOrderFun (id){
+                let _this = this;
+                api.deleteOrder({
+                    orderId:id
+                }).then(data =>{
+                    _this.showTips('取消成功')
+                    _this.listData = [];
                     _this.getOrderList()
                 }).catch(e =>{})
             }

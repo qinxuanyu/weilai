@@ -4,38 +4,60 @@
             <div class="num">
                 <p>我的余额</p>
                 <span class="icon">￥</span>
-                <span>{{ num || 0 }}</span>
+                <span>{{ maxNum || 0 }}</span>
             </div>
             <group class="input">
-                <x-input title="提现金额" type="number" placeholder="请输入提现金额" class="weui-vcode" v-model="num" :show-clear="false">
-                    <div slot="right" class="all">发送验证码</div>
-                </x-input>
+                <!-- <x-input title="提现金额" type="number" placeholder="请输入提现金额" class="weui-vcode" v-model="num" @on-change="inputKeyUp" :show-clear="false"> -->
+                    <!-- <div slot="right" class="all">发送验证码</div> -->
+                <!-- </x-input> -->
+                <x-number title="提现金额" v-model="num" :min="0" :max="maxNum" :fillable="true"></x-number>
             </group>
             <div class="pay-btn">
-                <x-button >提现</x-button>
+                <x-button @click.native.stop="withdrawFun">提现</x-button>
             </div>
         </div>
         <div v-else>
             <div class="success">
                 <img src="src/assets/images/ho_sapling@2x.png" alt="">
                 <p class="f-16">已申请</p>
-                <p class="f-16">已发起提现<span>￥800.0</span>元</p>
-                <p class="hint">请留意微信零钱入账通知</p>
-                <x-button mini plain>返回钱包</x-button>
+                <p class="f-16">已发起提现<span>￥{{num}}</span>元</p>
+                <p class="hint">请留意银行卡入账通知</p>
+                <x-button mini plain @click.native.stop="$router.go(-1)">返回钱包</x-button>
             </div>
         </div>
     </div>
 </template>
 <script>
-    import { Group, XInput, XButton } from 'vux'
+    import { Group, XInput, XButton, XNumber } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
-                succeed:true,
-                num:null,
+                succeed:false,
+                num:0,
+                maxNum:0
             }
         },
-        components:{ Group, XInput,XButton }
+        components:{ Group, XInput,XButton, XNumber },
+        methods:{
+            withdrawFun (){
+                let _this = this;
+                if(!this.num){
+                    return this.showTips('请输入金额')
+                }
+                api.withdraw({
+                    money:this.num
+                }).then(data =>{
+                    _this.succeed = true;
+                    
+                }).catch(e =>{})
+            },
+           
+        },
+        created() {
+            let maxNum = this.$route.params.num;
+            this.maxNum = parseInt(maxNum);
+        },
     }
 </script>
 <style lang="less" scoped>
