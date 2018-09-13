@@ -4,7 +4,7 @@
             <tab-item selected @on-item-click="onItemClick" >列表</tab-item>
             <tab-item @on-item-click="$router.push('/me/farm')">大图</tab-item>
         </tab>
-        <x-table class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
+        <x-table v-if="listData.length" class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
             <thead>
                 <tr style="background-color: #F7F7F7">
                     <th>品种</th>
@@ -27,6 +27,7 @@
                
             </tbody>
         </x-table>
+        <no-data v-else></no-data>
         <div v-transfer-dom class="one-pop">
             <popup v-model="show1" @on-hide="log('hide')" @on-show="log('show')">
                 <div class="popup0">
@@ -63,6 +64,7 @@
 <script>
     import { Tab, TabItem, XTable, XButton, Group, Popup, TransferDom, InlineXNumber } from 'vux'
     import api from '@/api'
+    import noData from '@/components/nodata.vue'
     export default{
         data (){
             return{
@@ -76,7 +78,7 @@
         directives: {
             TransferDom
         },
-        components:{ Tab, TabItem, XTable, XButton,Group, Popup, InlineXNumber },
+        components:{ Tab, TabItem, XTable, XButton,Group, Popup, InlineXNumber, noData },
         methods:{
             onItemClick (){
 
@@ -101,12 +103,12 @@
                             cancelText:'留下',
                             onCancel () {
                                button = 3;
-                               submit(button,type) 
+                               _this.submit(button,type,id) 
                                
                             },
                             onConfirm () {
                                 button = 2;
-                                submit(button,type) 
+                                 _this.submit(button,type,id) 
                             }
                         })
                         break
@@ -115,7 +117,7 @@
                         break
                     case 4:
                         button = 4;
-                        submit()
+                         _this.submit(button,type,id)
                         // return '取消出售'
                         break
                     case 6:
@@ -131,7 +133,7 @@
                             },
                             onConfirm () {
                                type = 2;
-                               submit(button,type) 
+                                _this.submit(button,type,id) 
                             }
                         })
                         
@@ -140,7 +142,7 @@
                 }
                 
             }, 
-            submit (button,type){
+            submit (button,type,id){
                 let _this = this;
                 if(button == 1 && type == 1){
                     if(!_this.phone){

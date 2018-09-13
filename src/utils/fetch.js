@@ -70,12 +70,13 @@ service.interceptors.response.use(
             if (response.data.code === 200) {
                 return Promise.resolve(response.data.data);
             } else {
-                Vue.$vux.toast.show({
-                    text: response.data.msg || "服务器内部错误",
-                    type: "warn",
-                    width: "10em",
-                    position: "middle"
-                });
+                return Promise.reject(response);
+                // Vue.$vux.toast.show({
+                //     text: response.data.msg || "服务器内部错误",
+                //     type: "warn",
+                //     width: "10em",
+                //     position: "middle"
+                // });
             }
         } else {
             Vue.$vux.toast.show({

@@ -113,6 +113,9 @@ tool.utils = (() => {
                 let rule = this.phoneRule(countryCode);
                 return rule ? rule.pattern.test(phone) : true;
             },
+            isCNPhone:function(phone){
+                return /^(13|14|15|17|18|19)\d{9}$/.test(phone)
+            },
             isPassword: function (pwd) {
                 // 6-16 数字 字母 特殊字符
                 return /\S{6,16}/.test(pwd);

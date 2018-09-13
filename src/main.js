@@ -51,7 +51,6 @@ if(!store.getters.token && !tool.local.get('isAuth')){
   window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http%3a%2f%2fplant.mikao1688.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
   tool.local.set('isAuth','on')
 }
-api.wxConfig()
 /* eslint-disable no-new */
 new Vue({
   store,

@@ -1,11 +1,11 @@
 <template>
     <div  class="order">
-        <div class="site">
-            <div class="icon">
+        <div class="site" v-if="type == 4">
+            <div class="icon" >
                 <img src="src/assets/images/mer_site@2x.png" alt="">
             </div>
             <group class="select" v-if="goodsData.receiverName && goodsData.address && goodsData.receiverPhone">
-                <cell :title="goodsData.receiverName + goodsData.receiverPhone" value="" is-link :inline-desc="goodsData.address"></cell>
+                <cell :title="goodsData.receiverName + goodsData.receiverPhone" value="" is-link :inline-desc="goodsData.address" link="/me/add-site"></cell>
             </group>
             <group class="select" v-else>
                 <cell title="添加收货地址" value="" is-link link="/me/add-site"></cell>
@@ -84,10 +84,14 @@
                 totalPrices_no:0,         //总价(未使用优惠券)
                 usable_ticketList:[],       //可以的优惠券id列表
                 usable_ticketData:[],       //可以的优惠券数据列表
-                ticketData:{},               //正在使用的优惠券
+                ticketData:{
+                    price:0,
+                    id:0,
+                    suitPrice:0
+                },               //正在使用的优惠券
                 touch:0,
                 message:'',                      //留言
-
+                type:null                   //2.果树 4果子 5树苗 
             }
         },
         mixins:[order],
@@ -127,19 +131,28 @@
                 this.ticketData = data;
                 this.ticket_show = false;
             },
+            //提交订单
             submitClick (){
                 let _this = this;
                 if(!this.isIntegral){
+                    if(!this.goodsData.addressId && this.type == 4){
+                       return this.showTips('请先选择地址')
+                    }
                     api.submitOrder({
                         addressId:_this.goodsData.addressId,
                         goodsId:_this.goodsData.goodsId,
                         message:_this.message,
                         num:_this.goodsNum,
-                        ticketId:_this.ticketData.id,
+                        ticketId:_this.ticketData.id || 0,
                         payType:_this.payType
                     }).then(data =>{
                         if(data){
-                            _this.payFun(data)
+                            if(_this.type == 4){
+                                _this.payFun(data)
+
+                            }else{
+                                _this.payTreeFun(data)
+                            }
                         }else{
                             _this.showTips('订单id错误')
                         }
@@ -156,14 +169,31 @@
                 
 
             },
+            //支付水果
             payFun (id){
                 let _this = this;
                 api.wxPAy({
                     orderId:id,
-                    total_fee:_this.totalPrices,
+                    total_fee:1,
                     type:_this.payType
                 }).then(data =>{
                     if(data){
+                        _this.wxConfirmFun(data)
+                    }else{
+                        _this.showTips('参数错误')
+                    }
+                }).catch(e =>{})
+            },
+            //支付果树、树苗
+            payTreeFun (id){
+                let _this = this;
+                api.payTree({
+                    orderId:id,
+                    total_fee:1,
+                    type:_this.payType
+                }).then(data =>{
+                    if(data){
+                        alert('pay')
                         _this.wxConfirmFun(data)
                     }else{
                         _this.showTips('参数错误')
@@ -176,6 +206,7 @@
                 this.totalPrices_no = this.goodsNum * this.goodsData.price;
                 let _this = this;
                 this.usable_ticketList = [];
+                
                 this.ticketList.forEach(item => {        //判断优惠券是否可用
                     if(item.suitPrice <= _this.totalPrices_no){
                         this.usable_ticketList.push(item.id);
@@ -207,9 +238,11 @@
             let id = this.$route.params.id;
             this.goodsId = id;
             let num = this.$route.query.num;
-            let type = this.$route.query.type;
-            if(type){
-                this.isIntegral = type;
+            let type = this.$route.params.type;
+            let isIntegral = this.$route.query.type;
+            this.type = type;
+            if(isIntegral){
+                this.isIntegral = isIntegral;
             }else{
                 this.getMyTicketListFun()
             }

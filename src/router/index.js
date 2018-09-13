@@ -55,7 +55,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/evaluate',
+      path: '/store/evaluate/:goodsId',
       name: 'evaluate',
       component: () => import('@/views/stores/evaluate.vue'),
       meta:{
@@ -63,7 +63,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/order/:id',
+      path: '/store/order/:id/:type',
       name: 'order',
       component: () => import('@/views/stores/order.vue'),
       meta:{
@@ -263,7 +263,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/order/evaluate/:orderId',
+      path: '/order/evaluate/:orderId/:goodsId',
       name: 'evaluate',
       component: () => import('@/views/order/evaluate.vue'),
       meta:{

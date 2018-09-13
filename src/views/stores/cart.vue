@@ -1,7 +1,7 @@
 <template>
     <div class="cart">
-         <check-icon :value.sync="demo1" v-for="(item,index) in goodsList" :key="index">
-             <div>
+         <check-icon :value.sync="item.checked" v-for="(item,index) in goodsList" :key="index" @click.native.stop="checkboxChange(item)">
+             <div  @click.stop="$router.push('/store/detail/'+item.goodsId+'/4')"> 
                  <div class="goods">
                     <div class="left">
                         <img :src="item.coverImage" alt="">
@@ -37,12 +37,12 @@
                 <flexbox-item class="center" style="padding-left:15px;">
                     <div class="flex-demo">
                         <span>总价：</span>
-                        <span>￥180.0</span>
+                        <span>￥{{setTotal}}</span>
                     </div>
                 </flexbox-item>
                 <flexbox-item class="right">
                     <div class="flex-demo">
-                        <div class="btn">结算</div>
+                        <div class="btn" @click.stop="ordersClick">结算</div>
                     </div>
                 </flexbox-item>
             </flexbox>
@@ -70,7 +70,11 @@
                 demo1:false,
                 ticket_show:false,
                 ticketList:[],
-                goodsList:[]
+                goodsList:[],
+                checkedData:{
+                    price:0,
+                    num:0
+                }
             }
         },
         directives: {
@@ -103,19 +107,55 @@
                     ticketId:id
                 }).then(data =>{
                     _this.showTips('领取成功')
-                }).catch(e =>{})
+                }).catch(e =>{
+                    _this.showTips('已经领取过该优惠券')
+                })
             },
             getCartListFun (){
                 let _this = this;
                 api.getCartList().then(data =>{
-                    if(data.lenght){
+                    if(data.length){
+                        data.forEach(item => {
+                            item.checked = false;
+                        });
                         _this.goodsList = data;
                     }else{
-                         _this.showTips('购物车为空')
+                        //  _this.showTips('购物车为空')
                     }
                 }).catch(e =>{})
+            },
+            checkboxChange(data){
+                // console.log(data.checked);
+                if(data.checked){
+                    this.checkedData = data;
+                }else{
+                    this.checkedData.price = 0;
+                    this.checkedData.num = 0;
+                }
+            }, 
+            ordersClick (){
+                if(this.checkedData.goodsId && this.checkedData.num){
+                    this.$router.push({
+                        name:'order',
+                        params:{
+                            id:this.checkedData.goodsId,
+                            type:4
+                        },
+                        query:{
+                            num:this.checkedData.num
+                        }
+                    })
+                }else{
+                    this.showTips('请先选择商品')
+                }
             }
-        },created() {
+        },
+        computed:{
+            setTotal (){
+                return  (parseInt(this.checkedData.price) * this.checkedData.num) || 0
+            }
+        },
+        created() {
             this.getTicketListFun();
             this.getCartListFun()
         },
@@ -126,6 +166,7 @@
         .vux-check-icon{
             display: flex;
             align-items: center;
+            border-bottom: 1px solid #f3f3f3;
             >span{
                 flex: 1;
             }

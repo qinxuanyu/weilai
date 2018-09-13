@@ -1,7 +1,7 @@
 <template>
     <div class="fruiter">
         
-        <x-table class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
+        <x-table v-if="listData.length" class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
             <thead>
                 <tr style="background-color: #F7F7F7">
                     <th>品种</th>
@@ -24,7 +24,8 @@
                
             </tbody>
         </x-table>
-        <div class="check-all">
+        <no-data v-else></no-data>
+        <!-- <div class="check-all">
             <div>
                 <check-icon :value.sync="allCheck"> </check-icon>
                 <span>全选</span>
@@ -37,7 +38,7 @@
                 </div>
                 <x-button mini >处理</x-button>
             </div>
-        </div>
+        </div> -->
         <div v-transfer-dom class="one-pop">
             <popup v-model="show1" >
                 <div class="popup0">
@@ -71,6 +72,7 @@
 </template>
 <script>
     import { Tab, TabItem, XTable, XButton, Group, Popup, TransferDom, InlineXNumber, CheckIcon } from 'vux'
+    import noData from '@/components/nodata.vue'
     import api from '@/api'
     export default{
         data (){
@@ -88,7 +90,7 @@
         directives: {
             TransferDom
         },
-        components:{ Tab, TabItem, XTable, XButton,Group, Popup, InlineXNumber, CheckIcon },
+        components:{ Tab, TabItem, XTable, XButton,Group, Popup, InlineXNumber, CheckIcon, noData },
         methods:{
             onItemClick (){
 

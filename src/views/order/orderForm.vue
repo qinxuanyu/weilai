@@ -33,7 +33,7 @@
                                 <x-button mini plain class="two" @click.native.stop="confirmClick(item.id)">确认收货</x-button>
                             </div>
                             <div class="btn" v-if="item.type == 4">
-                                <x-button mini plain class="two" @click.native.stop="$router.push('/order/evaluate')">评价</x-button>
+                                <x-button mini plain class="two" @click.native.stop="$router.push('/order/evaluate/'+item.id + '/'+item.goodsId)">评价</x-button>
                             </div>
                         </div>
                     </div>
@@ -113,7 +113,9 @@
                         
                     };
                     
-                }).catch(e =>{})
+                }).catch(e =>{
+                     _this.$refs.scroller.finishInfinite(2)
+                })
             },
             payClick (){
                 let _this = this;

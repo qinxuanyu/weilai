@@ -165,7 +165,8 @@
                     this.$router.push({
                         name:'order',
                         params:{
-                            id:this.goodsId
+                            id:this.goodsId,
+                            type:this.type
                         },
                         query:{
                             num:this.goodsNum
@@ -219,7 +220,7 @@
             },
             goEvaluateList (){
                 if(this.detailData.evaluates.length){
-                    this.$router.push('/store/evaluate')
+                    this.$router.push('/store/evaluate/'+ this.goodsId)
                 }
             }
             // submitPointFun (){

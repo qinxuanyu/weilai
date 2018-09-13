@@ -7,12 +7,12 @@
                 </div>
                 <p>{{item.province + item.city + item.area + item.address}}</p>
                 <div class="btn">
-                    <span>编辑</span>
-                    <span>删除</span>
+                    <span v-if="!item.isSelected" @click.stop="setSelected(item)">设为默认</span>
+                    <span @click.stop="delAddressClick(item)">删除</span>
                 </div>
             </div>
         </check-icon>
-        <x-button>+新增地址</x-button>
+        <x-button link="/me/add-site">+新增地址</x-button>
     </div>
 </template>
 <script>
@@ -33,6 +33,28 @@
                     if(data){
                         _this.listData = data;
                     }
+                }).catch(e =>{})
+            },
+            delAddressClick (data){
+                let _this = this;
+                api.deleteAddress({
+                    id:data.id,
+                    isSelected:data.isSelected
+                }).then(data =>{
+                    _this.showTips('删除成功');
+                    _this.listData = [];
+                    _this.getMyaddressList()
+                }).catch(e =>{})
+            },
+            setSelected (data){
+                let _this = this;
+                ap.setAddress({
+                    id:data.id,
+                    isSelected:data.isSelected
+                }).then(data =>{
+                    _this.showTips('设置成功');
+                    _this.listData = [];
+                    _this.getMyaddressList()
                 }).catch(e =>{})
             }
         },

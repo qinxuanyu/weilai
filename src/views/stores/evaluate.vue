@@ -4,22 +4,22 @@
             <div class="top">
                 <img src="src/assets/images/com_goodreputation@2x.png" alt="">
                 <div class="text">
-                    <p><span>100%</span> 好评</p>
-                    <p class="num">1121人好评</p>
+                    <p><span>{{goodsRate}}%</span> 好评</p>
+                    <p class="num">{{goodsNum}}人好评</p>
                 </div>
             </div>
             <div class="line"></div>
-            <ul class="list">
+            <ul class="list" v-for="(item,index) in listData" :key="index">
                 <li>
                     <div class="user">
                         <div class="avatar">
-                            <img src="http://img5.imgtn.bdimg.com/it/u=4101850099,151997626&fm=27&gp=0.jpg" alt="">
+                            <img :src="item.imageUrl" alt="">
                         </div>
-                        <span>123456</span>
+                        <span>{{item.nickname}}</span>
                     </div>
-                    <div class="content">车厘子很新鲜，很甜。是在做活动的时候买的很划算，以后还会回购。</div>
+                    <div class="content">{{item.content}}</div>
                     <div class="time">
-                        <span>2018-10-10</span>
+                        <span>{{item.createTime}}</span>
                         <span>规格：标准（100g）</span>
                     </div>
                 </li>
@@ -28,8 +28,39 @@
     </div>
 </template>
 <script>
+    import api from '@/api'
     export default{
-
+        data (){
+            return{
+                createTime:'',
+                size:10,
+                goodsId:null,
+                listData:[],
+                goodsRate:0,
+                goodsNum:0
+            }
+        },
+        methods:{
+            getListData (){
+                let _this = this;
+                api.evaluateList({
+                    createTime:this.createTime,
+                    size:this.size,
+                    goodsId:this.goodsId
+                }).then(data =>{
+                    if(data.evaluates.length){
+                        _this.listData = _this.listData.concat(data.evaluates);
+                    }
+                    _this.goodsRate = Number(data.goodsRate) * 100;
+                    _this.goodsNum = data.goodsNum;
+                }).catch(e =>{})
+            }
+        },
+        created() {
+            let goodsId = this.$route.params.goodsId;
+            this.goodsId = goodsId;
+            this.getListData()
+        },
     }
 </script>
 <style lang="less" scoped>

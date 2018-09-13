@@ -299,4 +299,52 @@ export default {
             data
         })
     },
+    //订单评价
+    evaluate (data){
+        return fetch({
+            url:'/goods/auth/evaluate',
+            method:'post',
+            data
+        })
+    },
+    //果树支付
+    payTree (data){
+        return fetch({
+            url:'/user/auth/payTree',
+            method:'post',
+            data
+        })
+    },
+     //添加收货地址
+     addMyAddress (data){
+        return fetch({
+            url:'/user/auth/addMyAddress',
+            method:'post',
+            data
+        })
+    },
+    //删除地址
+    deleteAddress (data){
+        return fetch({
+            url:'/user/auth/deleteAddress',
+            method:'post',
+            data
+        })
+    },
+    //设置地址为默认
+    setAddress (data){
+        return fetch({
+            url:'/user/auth/setAddress',
+            method:'post',
+            data
+        })
+    },
+    //评价列表
+    evaluateList (data){
+        return fetch({
+            url:'/goods/evaluateList',
+            method:'get',
+            data
+        })
+    },
 }
