@@ -46,8 +46,8 @@
            
         </div>
          <group class="cell">
-            <cell :title="item.title" is-link v-for="(item,index) in linkItem" :key="index" :link="item.link">
-                <img slot="icon" height="20" style="display:block;margin-right:20px;" :src="item.imgUrl">
+            <cell :title="item.title" is-link v-for="(item,index) in linkItem" :key="index" :link="item.link" @click.native.stop="invite(item.link)">
+                <img slot="icon" height="20" style="display:block;margin-right:20px;" :src="item.imgUrl" >
             </cell>
         </group>
     </div>
@@ -84,7 +84,8 @@
                     link:'/setup'
                 },{
                     title:'邀请朋友',
-                    imgUrl:'src/assets/images/me_invitation@2x.png'
+                    imgUrl:'src/assets/images/me_invitation@2x.png',
+                    link:''
                 }],
                 myInfo:{}
             }
@@ -98,6 +99,18 @@
                 api.getInfo().then(data =>{
                     _this.myInfo = data;
                 }).catch(e =>{})
+            },
+            invite(link){
+                if(!link){
+                    this.$vux.confirm.show({
+                        // 组件除show外的属性
+                        title:'提示',
+                        content:'点击右上角可分享给朋友',
+                        onCancel () {
+                        },
+                        onConfirm () {}
+                    })
+                }
             }
         },
         created() {

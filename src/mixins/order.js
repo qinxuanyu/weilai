@@ -1,3 +1,4 @@
+import '@/utils/ap'
 export default{
     methods:{
         wxConfirmFun(data){
@@ -24,6 +25,12 @@ export default{
             },function(res){
                 console.log(res)
             })
+        },
+        alipayPay (params){
+            console.log('https://openapi.alipay.com/gateway.do?'+params)
+            // alert()
+            _AP.pay('https://openapi.alipay.com/gateway.do?'+params);
+            // window.location.href = 'https://openapi.alipay.com/gateway.do?'+params
         }
     }
 }

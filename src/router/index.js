@@ -27,7 +27,15 @@ let router =  new Router({
       name: 'search',
       component: () => import('@/views/stores/search.vue'),
       meta:{
-        title:'问鼎种植商城'
+        title:'搜索商品'
+      }
+    },
+    {
+      path: '/store/search-list/:name',
+      name: 'searchList',
+      component: () => import('@/views/stores/searchList.vue'),
+      meta:{
+        title:'搜索商品'
       }
     },
     {

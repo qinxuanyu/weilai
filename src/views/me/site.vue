@@ -48,7 +48,7 @@
             },
             setSelected (data){
                 let _this = this;
-                ap.setAddress({
+                api.setAddress({
                     id:data.id,
                     isSelected:data.isSelected
                 }).then(data =>{

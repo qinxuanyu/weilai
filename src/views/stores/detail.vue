@@ -2,7 +2,7 @@
     <div class="detail">
         <swiper :aspect-ratio="616/750" dots-position="center">
             <swiper-item class="swiper-demo-img" v-for="(item, index) in detailData.images" :key="index">
-                <img :src="item">
+                <img :src="item.replace('[','').replace(']','')">
             </swiper-item>
         </swiper>
         <div class="main">

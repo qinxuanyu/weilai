@@ -347,4 +347,12 @@ export default {
             data
         })
     },
+     //搜索商品
+     searchGoods (data){
+        return fetch({
+            url:'/goods/searchGoods',
+            method:'get',
+            data
+        })
+    },
 }

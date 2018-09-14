@@ -135,9 +135,9 @@
             submitClick (){
                 let _this = this;
                 if(!this.isIntegral){
-                    if(!this.goodsData.addressId && this.type == 4){
-                       return this.showTips('请先选择地址')
-                    }
+                    // if(!this.goodsData.addressId && this.type == 4){
+                    //    return this.showTips('请先选择地址')
+                    // }
                     api.submitOrder({
                         addressId:_this.goodsData.addressId,
                         goodsId:_this.goodsData.goodsId,
@@ -178,7 +178,12 @@
                     type:_this.payType
                 }).then(data =>{
                     if(data){
-                        _this.wxConfirmFun(data)
+                        if(_this.payType == 1){
+                            _this.wxConfirmFun(data)
+                        }else if(_this.payType == 2){
+                            _this.alipayPay(data)
+                        }
+                       
                     }else{
                         _this.showTips('参数错误')
                     }

@@ -12,7 +12,8 @@
                         <div>
                             <template>
                                  <group>
-                                    <x-number title="￥100" :value="item.num" :min="1" width="30px" ></x-number>
+                                    <x-number :title="'￥'+item.price" v-model="item.num" :min="1" width="30px" 
+                                    @input="changeGoodsNum"></x-number>
                                 </group>
                             </template>
                         </div>
@@ -129,8 +130,12 @@
                 if(data.checked){
                     this.checkedData = data;
                 }else{
-                    this.checkedData.price = 0;
-                    this.checkedData.num = 0;
+                    this.checkedData = {
+                        price:0,
+                        num:0
+                    }
+                    // this.checkedData.price = 0;
+                    // this.checkedData.num = 0;
                 }
             }, 
             ordersClick (){
@@ -148,6 +153,9 @@
                 }else{
                     this.showTips('请先选择商品')
                 }
+            },
+            changeGoodsNum (val){
+                this.checkedData.num = val;
             }
         },
         computed:{
