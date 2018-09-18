@@ -7,7 +7,7 @@
                 <span @click.stop="clearData">清除</span>
             </div>
             <ul class="view">
-                <li v-for="(i,index) in searchHistoryArr" :key="index">{{i}}</li>
+                <li v-for="(i,index) in searchHistoryArr" :key="index" @click.stop="$router.push('/store/search-list/'+i)">{{i}}</li>
             </ul>
         </div>
     </div>
@@ -32,7 +32,12 @@
                 }
                 let searchHistory = tool.local.get('searchHistory') || '[]';
                 searchHistory = JSON.parse(searchHistory);
-                searchHistory.push(this.name);
+                for(let i = 0;i < searchHistory.length;i++){
+                    if(searchHistory[i] === _this.name){
+                        searchHistory.splice(i,1)
+                    }
+                }
+                searchHistory.unshift(_this.name);
                 searchHistory = JSON.stringify(searchHistory);
                 tool.local.set('searchHistory',searchHistory)
                 this.updateSearch()
@@ -68,12 +73,14 @@
                 display: flex;
                 justify-content: flex-start;
                 margin-top: 21px;
+                flex-wrap: wrap;
                 li{
                     padding: 9px 20px;
                     color: #777;
                     background-color: #f2f2f2;
                     border-radius: 3px;
                     margin-right: 8px;
+                    margin-top: 8px;
                 }
             }
         }

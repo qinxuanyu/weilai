@@ -6,11 +6,17 @@
             </div>
         </div>
         <group>
-            <cell title="用户名" value="追随威风"></cell>
-            <cell title="性别" value="女" is-link></cell>
+            <cell title="用户名" :value="detalis.name" @click.native.stop="changeName"></cell>
+           
+    
+            <popup-radio title="性别" :options="options1" @on-hide="submitData;" :placeholder="detalis.sex == 1 ? '男' :'女'">
+               
+            </popup-radio>
+   
             <datetime
-                v-model="value1"
-                @on-change="change"
+                v-model="detalis.birthday" 
+                :min-year="1900"
+                @on-hide="change"
                 title="生日"
                 ></datetime>
             <cell title="地址管理" is-link link="/me/site"></cell>
@@ -18,19 +24,61 @@
     </div>
 </template>
 <script>
-    import { Group, Cell, Datetime } from 'vux'
+    import { Group, Cell, Datetime, PopupRadio  } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
-                value1:'2015-11-12'
+                value1:'2015-11-12',
+                detalis:{},
+                options1: ['男', '女',],
             }
         },
-        components:{ Group, Cell, Datetime },
+        components:{ Group, Cell, Datetime, PopupRadio  },
         methods:{
             change (){
-
+                this.submitData()
+            },
+            getMyData (){
+                let _this = this;
+                api.getMyInfo().then(data =>{
+                    if(data){
+                        _this.detalis = data;
+                    }
+                }).catch(e =>{})
+            },
+            changeName (){
+                let _this = this;
+                this.$vux.confirm.prompt('placeholder', {
+                    title:'修改昵称',
+                    onCancel () {},
+                    onConfirm (val) {
+                        _this.detalis.name = val;
+                        _this.submitData()
+                    }
+                })
+                this.$vux.confirm.setInputValue(this.detalis.name)
+            },
+            submitData (){
+                let Isex = this.detalis.sex;
+                let _this = this;
+                if(Isex === '男'){
+                    Isex = 1
+                }else if(Isex === '女'){
+                     Isex = 2
+                }
+                api.changeMyInfo({
+                    birthday:this.detalis.birthday,
+                    name:this.detalis.name,
+                    sex:Isex
+                }).then(data =>{
+                    _this.showTips('修改成功')
+                }).catch(e =>{})
             }
-        }
+        },
+        created() {
+            this.getMyData()
+        },
     }
 </script>
 <style lang="less" scoped>

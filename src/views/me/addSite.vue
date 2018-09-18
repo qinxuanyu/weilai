@@ -49,9 +49,9 @@
                     receiverName:_this.receiverName,
                     receiverPhone:_this.receiverPhone,
                     address:_this.address,
-                    province:_this.address,
-                    city:_this.address,
-                    area:_this.address
+                    province:_this.province,
+                    city:_this.city,
+                    area:_this.area
                  }).then(data =>{
                      _this.showTips('添加成功')
                      _this.$router.go(-1)

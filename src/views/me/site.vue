@@ -1,6 +1,7 @@
 <template>
     <div class="site">
-        <check-icon v-for="(item,index) in listData" :key="index" :value.sync="bool">
+        
+        <check-icon v-for="(item,index) in listData" :key="index" :value.sync="item.checkBul">
             <div class="warp">
                 <div class="name">
                     <span>{{item.receiverName}}</span><span>{{item.receiverPhone}}</span>
@@ -16,7 +17,7 @@
     </div>
 </template>
 <script>
-    import { CheckIcon, XButton } from 'vux'
+    import { CheckIcon, XButton, Group, Cell } from 'vux'
     import api from '@/api'
     export default{
         data (){
@@ -25,13 +26,16 @@
                 bool:false
             }
         },
-        components:{CheckIcon, XButton},
+        components:{CheckIcon, XButton, Group, Cell },
         methods:{
             getMyaddressList (){
                 let _this = this;
                 api.getMyAddress().then(data =>{
                     if(data){
                         _this.listData = data;
+                        _this.listData.foreach(item => {
+                            item.checkBul = false
+                        });
                     }
                 }).catch(e =>{})
             },

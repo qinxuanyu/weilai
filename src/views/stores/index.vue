@@ -2,7 +2,7 @@
     <div class="store">
         <search  placeholder="输入你想搜索的商品" @search-bg-color="'#f3f3f3'" @on-focus="$router.push('/store/search')"></search>
         <div class="swiper">
-            <swiper :aspect-ratio="330/750" dots-position="center">
+            <swiper :aspect-ratio="375/750" dots-position="center">
                 <swiper-item class="swiper-demo-img" v-for="(item, index) in banner_list" :key="index" >
                     <img :src="item.imageUrl">
                 </swiper-item>
@@ -71,6 +71,12 @@
 <style lang="less">
     .store{
         background-color: #fff;
+        .swiper{
+            text-align: center;
+            img{
+                height: 100%;
+            }
+        }
         .tab{
             padding: 20px 0;
             .weui-tabbar{

@@ -11,7 +11,7 @@
                         <p class="name">{{item.introduce}}</p>
                         <div class="bottom">
                             <div class="data">
-                                <p class="price">{{item.price }}<span>￥{{item.price / item.discount}}</span></p>
+                                <p class="price">￥{{item.price }}<span>￥{{item.price / item.discount}}</span></p>
                                 <p class="num">已售{{item.saledNum}}件</p>
                             </div>
                             <x-button :mini="true">立即抢购</x-button>

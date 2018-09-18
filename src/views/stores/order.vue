@@ -5,7 +5,7 @@
                 <img src="src/assets/images/mer_site@2x.png" alt="">
             </div>
             <group class="select" v-if="goodsData.receiverName && goodsData.address && goodsData.receiverPhone">
-                <cell :title="goodsData.receiverName + goodsData.receiverPhone" value="" is-link :inline-desc="goodsData.address" link="/me/add-site"></cell>
+                <cell :title="goodsData.receiverName + goodsData.receiverPhone" value="" is-link :inline-desc="goodsData.address" link="/me/site"></cell>
             </group>
             <group class="select" v-else>
                 <cell title="添加收货地址" value="" is-link link="/me/add-site"></cell>
@@ -42,7 +42,7 @@
             </group>
         </div>
         <div class="bottom-btn">
-            <div class="total">总价：<span>{{totalPrices}}</span></div>
+            <div class="total">总价：<span>￥{{totalPrices}}</span></div>
             <div class="num">共{{goodsNum}}件商品</div>
             <div class="btn" @click.stop="submitClick">提交订单</div>
         </div>
@@ -135,9 +135,9 @@
             submitClick (){
                 let _this = this;
                 if(!this.isIntegral){
-                    // if(!this.goodsData.addressId && this.type == 4){
-                    //    return this.showTips('请先选择地址')
-                    // }
+                    if(!this.goodsData.addressId && this.type == 4){
+                       return this.showTips('请先选择地址')
+                    }
                     api.submitOrder({
                         addressId:_this.goodsData.addressId,
                         goodsId:_this.goodsData.goodsId,
@@ -158,13 +158,19 @@
                         }
                     }).catch(e =>{})
                 }else{
+                    if(!this.goodsData.addressId){
+                       return this.showTips('请先选择地址')
+                    }
                     api.submitPoint({
                         addressId:_this.goodsData.addressId,
                         goodsId:this.goodsData.goodsId,
                     }).then(data =>{
                         _this.showTips('兑换成功');
-                        _this.$router.push('/order/order-inform/0')
-                    }).catch(e =>{})
+                        _this.$router.push('/order/order-inform/2')
+                    }).catch(e =>{
+                        console.log(e)
+                        _this.showTips(e.data.msg);
+                    })
                 }
                 
 

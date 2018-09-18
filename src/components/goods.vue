@@ -1,6 +1,6 @@
 <template>
     <div class="goods">
-        <flexbox :gutter="0" wrap="wrap">
+        <flexbox :gutter="0" wrap="wrap" align="flex-start">
             <flexbox-item @click.native.stop="$router.push('/store/detail/' + item.id+'/'+type)" v-for="(item,index) in listData" :key="index" :span="6">
                 <div class="flex-demo">
                     <div class="img-wrap" :style="{'height' : imgWrapWidth + 'px'}">
@@ -53,6 +53,7 @@
                 }
             }
             >p{
+                min-height: 38px;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;  
@@ -61,7 +62,7 @@
             .price{
                 font-size: 16px;
                 :nth-child(1){
-                    color: #f11010
+                    color: #f11010 
                 }
                 :nth-child(2){
                     margin-left: 8px;

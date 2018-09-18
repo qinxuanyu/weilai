@@ -38,18 +38,18 @@
              <p>成立时间：2018823</p>
          </div>
         <div class="bottom-btn" v-if="orderType == 1">
-            <x-button mini plain>找客服</x-button>
+            <x-button mini plain @click.native.stop="$router.push('/me/service')">找客服</x-button>
             <x-button mini @click.native.stop="payType_show = true">付款</x-button>
         </div>
         <div class="bottom-btn" v-else-if="orderType == 2">
-            <x-button mini plain>找客服</x-button>
+            <x-button mini plain @click.native.stop="$router.push('/me/service')">找客服</x-button>
         </div>
         <div class="bottom-btn" v-else-if="orderType == 3">
             <x-button mini plain>查看物流</x-button>
             <x-button mini @click.native.stop="payClick">确认收货</x-button>
         </div>
         <div class="bottom-btn" v-else-if="orderType == 4">
-            <x-button mini plain>找客服</x-button>
+            <x-button mini plain @click.native.stop="$router.push('/me/service')">找客服</x-button>
         </div>
         <div v-transfer-dom class="size-pop">
             <popup v-model="payType_show" >

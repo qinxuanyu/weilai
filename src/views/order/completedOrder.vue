@@ -1,13 +1,6 @@
 <template>
     <div class="order-form">
-        <tab custom-bar-width="34px" :line-width="2" id="tab">
-            <tab-item :selected="fromdata.type == 0 || fromdata.type == ''" @on-item-click="onItemClick('')">全部</tab-item>
-            <tab-item :selected="fromdata.type == 1" @on-item-click="onItemClick(1)">待付款</tab-item>
-            <tab-item :selected="fromdata.type == 2" @on-item-click="onItemClick(2)">待发货</tab-item>
-            <tab-item :selected="fromdata.type == 3" @on-item-click="onItemClick(3)">待收货</tab-item>
-            <tab-item :selected="fromdata.type == 4" @on-item-click="onItemClick(4)">待评价</tab-item>
-            <!-- <tab-item :selected="fromdata.type == 5" @on-item-click="onItemClick(5)">售后处理</tab-item> -->
-        </tab>
+      
         <scroller class="my-scroll" :on-infinite="infinite" ref="scroller">
             <div style="height: 1px;"></div>
             <ul class="list">
@@ -62,7 +55,7 @@
             return{
                 listData:[],
                 fromdata:{
-                    type:'',
+                    type:5,
                     createTime:'',
                     size:10
                 },
@@ -88,7 +81,6 @@
         methods:{
             onItemClick (type){
                 this.fromdata.type = type;
-                this.fromdata.createTime = '';
                 this.listData = [];
                 this.getOrderList()
             },
@@ -172,7 +164,6 @@
                     _this.getOrderList()
                 }).catch(e =>{})
             },
-            //取消订单
             deleteOrderFun (id){
                 let _this = this;
                 api.deleteOrder({
@@ -180,23 +171,16 @@
                 }).then(data =>{
                     _this.showTips('取消成功')
                     _this.listData = [];
-                    _this.fromdata.createTime = '';
                     _this.getOrderList()
                 }).catch(e =>{})
             }
         },created() {
             //  this.getOrderList()
             
-            let type = this.$route.params.type;
-            if(type != 0){
-                this.fromdata.type = type;
-            }
+            
         },
         mounted() {
-            let window_h = window.innerHeight;
-            let tab_h = document.querySelector('#tab').clientHeight;
-            document.querySelector('.my-scroll').style.height = (window_h - tab_h) +'px';
-            document.querySelector('.my-scroll').style.top = tab_h +'px';
+            
         },
     }
 </script>

@@ -6,8 +6,8 @@
                 <flexbox-item>
                     <div class="flex-demo" >
                         <p>{{homeData.treeDtoList.introduce}}</p>
-                        <p>编号{{homeData.treeDtoList.id}}</p>
-                        <p>维护到期：{{homeData.treeDtoList.protectTime}}</p>
+                        <p v-if="homeData.treeDtoList.id">编号{{homeData.treeDtoList.id}}</p>
+                        <p v-if="homeData.treeDtoList.protectTime">维护到期：{{homeData.treeDtoList.protectTime}}</p>
                     </div>
                 </flexbox-item >
                 <flexbox-item :span="2"><div class="flex-demo"><router-link to="/home/strategy">攻略</router-link></div></flexbox-item>
@@ -152,23 +152,36 @@
         },created() {
             
             let code = tool.utils.getUrlParam('code');
-            console.log(code);
             let _this = this;
+           
             if(code){
-                api.login({
-                    code:code
-                }).then(data =>{
-                    if(data.token){
-                        _this.$store.commit('SET_TOKEN',data.token);
-                        let _location = window.location.origin;
-                        window.location.href = _location;
-                        // _this.$router.push(_location);
-                        // _this.getHomeDataFun();
-                    }
-                }).catch(e =>{})
+                if(!this.$store.getters.token){
+                    api.login({
+                        code:code
+                    }).then(data =>{
+                        if(data.token){
+                            _this.$store.commit('SET_TOKEN',data.token);
+                            let _location = window.location.origin;
+                            // window.location.href = _location;
+                            // _this.$router.push(_location);
+                            // _this.getHomeDataFun();
+                        }
+                    }).catch(e =>{})
+                }else{
+                    this.getHomeDataFun();
+                }
+                
             }else{
                 this.getHomeDataFun();
+                if(!this.$store.getters.token && !tool.local.get('isAuth')){
+                    tool.local.set('isAuth','on');
+                    setTimeout(()=>{
+                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http%3a%2f%2fplant.mikao1688.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+                    },100)
+                }
             }
+            
+           
             
         },
     }

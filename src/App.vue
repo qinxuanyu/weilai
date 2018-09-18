@@ -62,7 +62,6 @@ export default {
     window.addEventListener("orientationchange", this.orientationChange, false);
   },
   updated() {
-    // window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http://192.168.1.123:8080&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
   },
   destoryed() {
     window.removeEventListener(

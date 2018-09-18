@@ -17,7 +17,7 @@
          
             <div >
                 <group>
-                    <cell v-for="(item,index) in listData" :key="index" :title="item.explain " :value="'-' + item.point" :inline-desc='item.createTime '></cell>
+                    <cell v-for="(item,index) in listData" :key="index" :title="item.explains" :value="'-' + item.point" :inline-desc='item.createTime '></cell>
                 </group>
             </div>
   

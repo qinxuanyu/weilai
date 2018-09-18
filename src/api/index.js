@@ -355,4 +355,20 @@ export default {
             data
         })
     },
+     //获取我的信息
+     getMyInfo (){
+        return fetch({
+            url:'/user/auth/myInfo',
+            method:'get',
+            
+        })
+    },
+    //修改我的信息
+    changeMyInfo (data){
+        return fetch({
+            url:'/user/auth/changeMyInfo',
+            method:'post',
+            data
+        })
+    },
 }

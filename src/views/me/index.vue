@@ -38,7 +38,7 @@
                     <img slot="icon" src="src/assets/images/me_wait_evaluate@2x.png" />
                     <span slot="label">待评价</span>
                 </tabbar-item>
-                <tabbar-item ref="meTabbar" link="/order/order-inform/5">
+                <tabbar-item ref="meTabbar" link="/order/completed-order">
                     <img slot="icon" src="src/assets/images/me_after_sale@2x.png" />
                     <span slot="label">售后处理</span>
                 </tabbar-item>
@@ -47,7 +47,7 @@
         </div>
          <group class="cell">
             <cell :title="item.title" is-link v-for="(item,index) in linkItem" :key="index" :link="item.link" @click.native.stop="invite(item.link)">
-                <img slot="icon" height="20" style="display:block;margin-right:20px;" :src="item.imgUrl" >
+                <img slot="icon" width="20" height="23px" style="display:block;margin-right:20px;" :src="item.imgUrl" >
             </cell>
         </group>
     </div>
@@ -129,6 +129,7 @@
             padding-bottom: 15px;
             position: relative;
             background-color: #fff;
+            overflow: hidden;
             .avatar{
                 width: 66px;
                 height: 66px;
@@ -142,7 +143,7 @@
             .message{
                 width: 95px;
                 position: absolute;
-                top: 0px;
+                top: 45px;
                 right: 10px; 
                 .icon{
                     display: flex;
@@ -187,7 +188,7 @@
         }
         .cell{
              .weui-cell{
-                 background-color: #fff;
+                background-color: #fff;
                 padding: 12px 15px !important;
             }
             .weui-cells{

@@ -27,8 +27,12 @@ export default{
             })
         },
         alipayPay (params){
-            console.log('https://openapi.alipay.com/gateway.do?'+params)
-            // alert()
+            console.log(params)
+
+            // document.body.innerHTML = params;
+            // document.forms[0].submit();
+            // console.log('https://openapi.alipay.com/gateway.do?'+params)
+            // // alert()
             _AP.pay('https://openapi.alipay.com/gateway.do?'+params);
             // window.location.href = 'https://openapi.alipay.com/gateway.do?'+params
         }

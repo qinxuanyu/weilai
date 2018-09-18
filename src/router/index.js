@@ -326,6 +326,14 @@ let router =  new Router({
         title:'银行卡'
       }
     },
+    {
+      path: '/order/completed-order',
+      name: 'completedOrder',
+      component: () => import('@/views/order/completedOrder.vue'),
+      meta:{
+        title:'已完成订单'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {

@@ -51,7 +51,7 @@
                 </router-link>
             </div>
             <div class="add" @click.stop="cart_show = !cart_show;manner = 0" v-if="!isIntegral && type == 4">加入购物车</div>
-            <div class="buy" @click.stop="cart_show = !cart_show;manner = 1" v-if="!isIntegral">立即购买</div>
+            <div class="buy" @click.stop="cart_show = !cart_show;manner = 1" v-if="!isIntegral" :disabled="type == 6 && remainingTime === '折扣活动已结束'">立即购买</div>
             <div class="buy" style="flex:1" @click.stop="$router.push({name:'order',params:{id:goodsId},query:{num:goodsNum,type:'integral'}})" v-if="isIntegral">立即兑换</div>
         </div>
         <div class="pop">
@@ -153,6 +153,7 @@
             },
             addCartFun (){
                 let _this = this;
+                
                 if(this.manner === 0){
                     api.addCart({
                         goodsId:_this.goodsId,
@@ -207,7 +208,7 @@
                          clearInterval(interval)
                          return 
                      }
-                    _this.remainingTime = this.formatDuring()
+                    _this.remainingTime = this.formatDuring(_ms)
                 },1000)
             },
             getTicketFun (id){
@@ -216,7 +217,9 @@
                     ticketId:id
                 }).then(data =>{
                     _this.showTips('领取成功')
-                }).catch(e =>{})
+                }).catch(e =>{
+                     _this.showTips('已经领取过该优惠券')
+                })
             },
             goEvaluateList (){
                 if(this.detailData.evaluates.length){
@@ -255,6 +258,9 @@
                 justify-content: space-between;
                 align-items: center;
                 margin: 15px 0 18px 0;
+                >div{
+                    flex: auto;
+                }
                 .price{
                     font-size: 20px;
                     color: #f11010;
