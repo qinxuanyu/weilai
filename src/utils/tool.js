@@ -226,6 +226,22 @@ tool.utils = (() => {
             getUnixTime() {
                 return parseInt(new Date().getTime() / 1000);
             },
+            // 获取当前系统日期
+            getUnixDate (){
+                var date = new Date();
+                var seperator1 = "-";
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = year + seperator1 + month + seperator1 + strDate;
+                return currentdate;
+            },
             /***
              * 中国标准日期格式=> 2017-05-17 10:38:06
              * @param date
@@ -253,7 +269,7 @@ tool.utils = (() => {
                     "s+": date.getSeconds()
                     // 秒
                 };
-                fmt = fmt || "yyyy-MM-dd HH:mm:ss";
+                fmt = fmt || "yyyy-MM-dd hh:mm:ss";
 
                 if (/(y+)/.test(fmt)) {
                     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "")

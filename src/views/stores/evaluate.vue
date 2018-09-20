@@ -2,7 +2,7 @@
     <div class="evaluate">
         <scroller>
             <div class="top">
-                <img src="src/assets/images/com_goodreputation@2x.png" alt="">
+                <img :src="avatar" alt="">
                 <div class="text">
                     <p><span>{{goodsRate}}%</span> 好评</p>
                     <p class="num">{{goodsNum}}人好评</p>
@@ -29,6 +29,7 @@
 </template>
 <script>
     import api from '@/api'
+    import tool from '@/utils/tool'
     export default{
         data (){
             return{
@@ -37,7 +38,8 @@
                 goodsId:null,
                 listData:[],
                 goodsRate:0,
-                goodsNum:0
+                goodsNum:0,
+                avatar:''
             }
         },
         methods:{
@@ -59,6 +61,7 @@
         created() {
             let goodsId = this.$route.params.goodsId;
             this.goodsId = goodsId;
+            this.avatar = tool.local.get('avatar')
             this.getListData()
         },
     }

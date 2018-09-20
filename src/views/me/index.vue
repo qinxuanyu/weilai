@@ -7,9 +7,9 @@
             <p>用户名：{{myInfo.name}}</p>
             <div class="message">
                 <div class="icon">
-                    <div @click.stop="$router.push('/me/message')">
+                    <!-- <div @click.stop="$router.push('/me/message')">
                         <img src="src/assets/images/me_news@2x.png" alt="">
-                    </div>
+                    </div> -->
                     <div @click.stop="$router.push('/me/service')">
                         <img src="src/assets/images/me_service@2x.png" alt="">
                     </div>
@@ -21,7 +21,7 @@
             <group>
                 <cell title="我的订单" value="查看全部订单" is-link link="/order/order-inform/0"></cell>
             </group>
-           <tabbar>
+           <tabbar style="padding-bottom:5px;">
                 <tabbar-item  link="/order/order-inform/1">
                     <img slot="icon" src="src/assets/images/me_wait_payment@2x.png" />
                     <span slot="label">待付款</span>
@@ -187,6 +187,7 @@
             }
         }
         .cell{
+            padding-bottom: 50px;
              .weui-cell{
                 background-color: #fff;
                 padding: 12px 15px !important;

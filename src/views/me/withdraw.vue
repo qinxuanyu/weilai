@@ -48,9 +48,12 @@
                 api.withdraw({
                     money:this.num
                 }).then(data =>{
+                    // _this.showTips('申请成功，请耐心等待后台人员处理')
                     _this.succeed = true;
                     
-                }).catch(e =>{})
+                }).catch(e =>{
+                    _this.showTips(e.data.msg)
+                })
             },
            
         },

@@ -9,7 +9,7 @@
             <cell title="用户名" :value="detalis.name" @click.native.stop="changeName"></cell>
            
     
-            <popup-radio title="性别" :options="options1" @on-hide="submitData;" :placeholder="detalis.sex == 1 ? '男' :'女'">
+            <popup-radio title="性别" :options="options1" @on-hide="submitData()" :placeholder="detalis.sex == 1 ? '男' :'女'">
                
             </popup-radio>
    

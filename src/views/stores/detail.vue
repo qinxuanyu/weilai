@@ -18,15 +18,16 @@
                 <div class="timer" v-if="type == 6">{{remainingTime}}</div>
             </div> 
             <flexbox :gutter="0" class="site">
-                <flexbox-item><div class="flex-demo">快递：000</div></flexbox-item>
-                <flexbox-item><div class="flex-demo" style="text-align:center">月销{{detailData.mouthSale}}笔</div></flexbox-item>
+                <flexbox-item v-if="type == 5"><div class="flex-demo">维护费:￥200/1年</div></flexbox-item>
+                <flexbox-item v-if="type == 4"><div class="flex-demo">快递:￥0</div></flexbox-item>
+                <flexbox-item><div class="flex-demo" style="text-align:center">已售{{detailData.mouthSale}}笔</div></flexbox-item>
                 <flexbox-item><div class="flex-demo" style="text-align:right">{{ detailData.area }}</div></flexbox-item>
             </flexbox>
             <group>
                 <cell title="领券"  is-link @click.native.stop="ticket_show = !ticket_show" v-if="!isIntegral"></cell>
                 <cell title="规格参数"  is-link @click.native.stop="size_show = !size_show"></cell>
-                <cell title="商品评价"  is-link v-if="!isIntegral" @click.native.stop="goEvaluateList"></cell>
-                <div class="evaluate" v-if="detailData.evaluates.length" @click.stop="goEvaluateList">
+                <cell title="商品评价"  is-link v-if="!isIntegral && type != 5 && isPlatformGoods == 1" @click.native.stop="goEvaluateList" :value="!detailData.evaluates.length ? '暂无用户评价' : ''"></cell>
+                <div class="evaluate" v-if="detailData.evaluates.length && !isIntegral && type != 5 && isPlatformGoods == 1" @click.stop="goEvaluateList">
                     <div class="user">
                         <div class="avatar">
                             <img :src="detailData.evaluates[0].imageUrl" alt="">
@@ -51,7 +52,7 @@
                 </router-link>
             </div>
             <div class="add" @click.stop="cart_show = !cart_show;manner = 0" v-if="!isIntegral && type == 4">加入购物车</div>
-            <div class="buy" @click.stop="cart_show = !cart_show;manner = 1" v-if="!isIntegral" :disabled="type == 6 && remainingTime === '折扣活动已结束'">立即购买</div>
+            <div class="buy" @click.stop="buyClick" v-if="!isIntegral" :disabled="type == 6 && remainingTime === '折扣活动已结束'">立即购买</div>
             <div class="buy" style="flex:1" @click.stop="$router.push({name:'order',params:{id:goodsId},query:{num:goodsNum,type:'integral'}})" v-if="isIntegral">立即兑换</div>
         </div>
         <div class="pop">
@@ -64,7 +65,7 @@
                     </group>
                 </popup>
             </div>
-            <div v-transfer-dom class="size-pop">
+            <div v-transfer-dom class="size-pop" v-if="type == 5 || type == 2">
                 <popup v-model="size_show" >
                     <ul class="message">
                         <li class="">
@@ -72,8 +73,43 @@
                             <span>{{detailData.name}}</span>
                         </li>
                         <li class="">
+                            <span>产地</span>
                             <span>{{detailData.area}}</span>
-                            <span>1000g</span>
+                        </li>
+                        <li class="">
+                            <span>幼苗期</span>
+                            <span>{{detailData.firstTime}}</span>
+                        </li>
+                        <li class="">
+                            <span>成长期</span>
+                            <span>{{detailData.secondTime}}</span>
+                        </li>
+                          <li class="">
+                            <span>挂果期</span>
+                            <span>{{detailData.thirdTime}}</span>
+                        </li>
+                        <li class="">
+                            <span>旺产期</span>
+                            <span>{{detailData.fourthTime }}</span>
+                        </li>
+                        <li class="">
+                            <span>特点</span>
+                            <span>{{detailData.feature }}</span>
+                        </li>
+                    </ul>
+                    <x-button type="primary" @click.native.stop="size_show = !size_show">确定</x-button>
+                </popup>
+            </div>
+            <div v-transfer-dom class="size-pop" v-else>
+                <popup v-model="size_show" >
+                    <ul class="message">
+                        <li class="">
+                            <span>品名</span>
+                            <span>{{detailData.name}}</span>
+                        </li>
+                        <li class="">
+                            <span>产地</span>
+                            <span>{{detailData.area}}</span>
                         </li>
                         <li class="">
                             <span>储存方式</span>
@@ -95,7 +131,7 @@
                         </div>
                         <div class="right">
                             <p>{{detailData.name}}</p>
-                            <p>规格：1000g</p>
+                            <p>规格：{{detailData.weight}}kg</p>
                             <div>
                                 <group>
                                     <x-number :title="'￥'+detailData.price" v-model="goodsNum" :min="1" width="30px" @on-change="changeGoodsNum"  ></x-number>
@@ -130,7 +166,8 @@
                 manner:null,                 //0-加入购物车 1-立即购买
                 isIntegral:null,               //是否是积分商城
                 type:null,                     //2.果树 4果子 5树苗 6-折扣
-                remainingTime:''
+                remainingTime:'',
+                isPlatformGoods:1
             }
         },
         directives: {
@@ -225,6 +262,24 @@
                 if(this.detailData.evaluates.length){
                     this.$router.push('/store/evaluate/'+ this.goodsId)
                 }
+            },
+            //立即购买按钮
+            buyClick (){
+                let isPlatformGoods = tool.local.get('isPlatformGoods'); //判断是否是平台商品还是植友商品 1-商城  2-植友
+                if(this.type == 5 || this.type == 2 ||isPlatformGoods == 1){
+                    this.$router.push({
+                        name:'order',
+                        params:{
+                            id:this.goodsId,
+                            type:this.type
+                        },
+                        query:{
+                            num:this.goodsNum
+                        }
+                    })
+                }else{
+                    this.cart_show = !this.cart_show;this.manner = 1;
+                }
             }
             // submitPointFun (){
             //     api.submitPoint({}).then(data =>{
@@ -239,6 +294,7 @@
             if(isIntegral){
                 this.isIntegral = isIntegral;
             }
+            this.isPlatformGoods = tool.local.get('isPlatformGoods');
             this.goodsId = id;
             this.type = type;
             this.getDetailData()
@@ -248,6 +304,12 @@
 <style lang="less" >
     .detail{
         padding-bottom: 51px;
+        .swiper-demo-img{
+            text-align: center;
+            img{
+                height: 100%;
+            }
+        }
         .main{
             padding: 13px;
             .name{
@@ -370,7 +432,7 @@
         }
        
         .weui-cell::before{
-            left: 0;
+            left: 0; 
         }
         .vux-divider{
             padding-left: 50px;
@@ -388,20 +450,22 @@
                 font-size: 16px;
                 color: #f11010;
             }
-            .weui-btn_plain-primary{
-                color: #60a609;
-                border-color: #60a609;
-            }
+            // .weui-btn_plain-primary{
+            //     color: #60a609;
+            //     border-color: #60a609;
+            // }
         }
     }
     .size-pop{
         
         .message{
             background-color: #fff;
-            line-height: 50px;
+            // line-height: 50px;
             padding-left: 15px;
             border-radius: 8px 8px 0 0;
+            vertical-align: middle;
             >li{
+                padding: 14px 0;
                 display: flex;
                 span:nth-child(1){
                     flex: 1;

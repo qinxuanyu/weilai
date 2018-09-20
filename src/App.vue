@@ -7,7 +7,7 @@
           </div>
       </div>
       <transition name="vux-pop-in">
-          <router-view></router-view>
+          <router-view class="router-view"></router-view>
 
       </transition>
     <bottom-tab :text-color="'red'" v-show="showTabbar"></bottom-tab>
@@ -78,11 +78,23 @@ export default {
 @import "style/commin.less";
 body {
   // background-color: #fbf9fe;
+   background-color: #fff;
 }
 html {
   font-family: "微软雅黑";
   font-size: 14px;
   color: #2f2f2f;
+}
+.router-view{
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  // overflow-y: auto;
+  // -webkit-overflow-scrolling: touch;
 }
 .vux-pop-out-enter-active,
 .vux-pop-out-leave-active,

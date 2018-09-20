@@ -2,8 +2,8 @@
     <div class="store">
         <search  placeholder="输入你想搜索的商品" @search-bg-color="'#f3f3f3'" @on-focus="$router.push('/store/search')"></search>
         <div class="swiper">
-            <swiper :aspect-ratio="375/750" dots-position="center">
-                <swiper-item class="swiper-demo-img" v-for="(item, index) in banner_list" :key="index" >
+            <swiper :aspect-ratio="375/750" dots-position="center" :auto="true">
+                <swiper-item class="swiper-demo-img" v-for="(item, index) in banner_list" :key="index" @click.native.stop="swiperLink(item)">
                     <img :src="item.imageUrl">
                 </swiper-item>
             </swiper>
@@ -29,7 +29,7 @@
             </tabbar>
         </div>
         <div class="advertising">
-            <router-link to="" class="connect">
+            <router-link to="/me/service" class="connect">
                 <img src="src/assets/images/ho_advertising@2x.png"  alt="">
             </router-link>
             <div class="big-img" @click.stop="$router.push('/store/discount')">
@@ -61,6 +61,25 @@
                     _this.banner_list = data.images;
                     _this.discount_img = data.discount;
                 })
+            },
+            swiperLink (data){
+                let type = null;
+                switch (data.type){
+                    case 1:
+                        type = 5;
+                        break;
+                    case 2:
+                        type = 2;
+                        break;
+                    case 3:
+                        type = 4;
+                        break;
+                    case 4:
+                        type = 6;
+                        break;
+                        
+                }
+                // this.$router.push('/store/detail/'+data.id+'/'+type)
             }
         },
         created() {
@@ -71,6 +90,7 @@
 <style lang="less">
     .store{
         background-color: #fff;
+        padding-bottom: 50px;
         .swiper{
             text-align: center;
             img{
@@ -78,7 +98,7 @@
             }
         }
         .tab{
-            padding: 20px 0;
+            padding: 12px 0;
             .weui-tabbar{
                 position: initial;
                 background-color: #fff;

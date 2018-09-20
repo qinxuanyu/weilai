@@ -371,4 +371,12 @@ export default {
             data
         })
     },
+    //修改我的信息
+    refund (data){
+        return fetch({
+            url:'/user/wxBack',
+            method:'post',
+            data
+        })
+    },
 }

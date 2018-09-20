@@ -33,9 +33,9 @@
             <div class="flow">
                 <p class="text-right">{{gradeText}}</p>
                 <div class="percent">
-                    <div ></div>
+                    <div :style="{'width':homeData.progress || 0 +'%'}"></div>
                 </div>
-                <p class="text-center">距离收货</p>
+                <p class="text-center">距离收获</p>
             </div>
             <grid :show-lr-borders="false" :show-vertical-dividers="false">
                 <grid-item :label="i.title" v-for="(i,index) in shortcut" :key="index" :link="i.link">
@@ -91,7 +91,7 @@
                 },{
                     title:'种树',
                     icon:'src/assets/images/plant_trees@2x.png',
-                    link:'/store/list/2'
+                    link:'/store/list/5'
                 },{
                     title:'收获',
                     icon:'src/assets/images/harvest@2x.png',
@@ -161,6 +161,7 @@
                     }).then(data =>{
                         if(data.token){
                             _this.$store.commit('SET_TOKEN',data.token);
+                            tool.local.set('avatar',data.imageUrl)
                             let _location = window.location.origin;
                             // window.location.href = _location;
                             // _this.$router.push(_location);

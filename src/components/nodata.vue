@@ -2,13 +2,13 @@
     <div class="nodata">
         <div>
             <img src="src/assets/images/nodata.png" alt="">
-            <p>暂无数据</p>
+            <p>{{text || '亲，暂无数据哦'}}</p>
         </div>
     </div>
 </template>
 <script>
     export default{
-
+        props:['text']
     }
 </script>
 <style lang="less" scoped>
@@ -21,6 +21,9 @@
         text-align: center;
         img{
             width: 100px;
+        }
+        p{
+            width: 150px;
         }
     }
 </style>

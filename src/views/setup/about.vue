@@ -26,6 +26,8 @@
 <style lang="less" scoped>
     .about{
         padding: 0 16px;
+        box-sizing: border-box;
+
         img{
             display: block;
             width: 107px;
@@ -39,6 +41,7 @@
             text-align: center;
         }
         .main{
+            margin-top: 23px;
             text-indent: 30px;
         }
     }

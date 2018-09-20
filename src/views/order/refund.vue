@@ -3,12 +3,12 @@
         <div class="list">
             <div>
                 <div class="img">
-                    <img src="src/assets/images/ho_banner1@2x.png" alt="">
+                    <img :src="detailData.coverImage" alt="">
                 </div>
                 <div class="title">
-                    <p>下按时打卡了而空间就能给你看看到你发是 是份</p>
-                    <p class="size">规格：1000g</p>
-                    <p class="num"><span>￥110.0</span>x1</p>
+                    <p>{{detailData.introduce }} 是份</p>
+                    <p class="size">规格：{{detailData.weight}}g</p>
+                    <p class="num"><span>￥{{detailData.price}}</span>x{{detailData.num }}</p>
                 </div>
                 <div class="state">待发货</div>
             </div>
@@ -17,25 +17,65 @@
             <group>
                 <x-input  title="售后类型" value="仅退款" disabled></x-input>
                 <popup-picker title="退款原因" :data="list1" v-model="value1" placeholder="请选择退款原因"></popup-picker>
-                <x-textarea title="退款描述" :max="200"  placeholder="请填写退款描述（限200字）" ></x-textarea>
+                <x-textarea title="退款描述" :max="200"  placeholder="请填写退款描述（限200字）" v-model="detail"></x-textarea>
             </group>
-            <group title="上传凭证" class="upload">
+            <!-- <group title="上传凭证" class="upload">
                 <div class="icon">+<input type="file" multiple></div>
                 
-            </group>
-            <x-button>提交</x-button>
+            </group> -->
+            <x-button @click.native.stop="refund">提交</x-button>
         </div>
     </div>
 </template>
 <script>
     import{ Group, XInput, PopupPicker, XTextarea, XButton } from 'vux'
+    import api from '@/api'
     export default{
         data (){
             return{
-                 list1: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']],
+                 list1: [['多拍/错拍/不喜欢', '缺货', '其他原因']],
+                 id:null,
+                 reason:'',
+                 detail:'',
+                 detailData:{}
             }
         },
-        components:{Group, XInput, PopupPicker, XTextarea, XButton}
+        components:{Group, XInput, PopupPicker, XTextarea, XButton},
+        methods:{
+            refund (){
+                let _this = this;
+                if(!this.reason){
+                    return _this.showTips('请选择退款原因')
+                }else if(this.detail){
+                    return _this.showTips('请输入退款描述')
+                }
+                api.refund({
+                    out_trade_no:this.id,
+                    reason:this.reason,
+                    detail:this.detail
+                }).then(data =>{
+                    _this.showTips('退款提交成功')
+                    history.go(-1)
+                }).catch(e=>{
+                    _this.showTips('退款失败')
+                })
+            },
+            getDetailData (){
+                let _this = this;
+                api.getMyOrderDetail({
+                    id:_this.id
+                }).then(data =>{
+                    // console.log(data)
+                    if(data){
+                        _this.detailData = data;
+                    }
+                }).catch(e =>{})
+            },
+        },
+        created() {
+            let id = this.$route.params.id;
+            this.getDetailData()
+        },
     }
 </script>
 <style lang="less" scoped>

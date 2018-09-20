@@ -8,6 +8,7 @@
             <tab-item :selected="fromdata.type == 4" @on-item-click="onItemClick(4)">待评价</tab-item>
             <!-- <tab-item :selected="fromdata.type == 5" @on-item-click="onItemClick(5)">售后处理</tab-item> -->
         </tab>
+         <div id="alipayForm"></div>
         <scroller class="my-scroll" :on-infinite="infinite" ref="scroller">
             <div style="height: 1px;"></div>
             <ul class="list">
@@ -109,7 +110,6 @@
                     if(data && data.length){
                         _this.listData = _this.listData.concat(data);
                         let dataLength = data.length;
-                        console.log(data[dataLength - 1])
                         _this.fromdata.createTime = data[dataLength - 1].createTime;
                         
                     };
@@ -127,7 +127,11 @@
                         type:_this.payType
                     }).then(data =>{
                         if(data){
-                            _this.wxConfirmFun(data)
+                            if(_this.payType == 1){
+                                _this.wxConfirmFun(data)
+                            }else if(_this.payType == 2){
+                                _this.alipayPay(data)
+                            }
                         }else{
                             _this.showTips('参数错误')
                         }
@@ -170,7 +174,9 @@
                     _this.listData = [];
                     _this.fromdata.createTime = '';
                     _this.getOrderList()
-                }).catch(e =>{})
+                }).catch(e =>{
+                     _this.showTips(e.data.msg);
+                })
             },
             //取消订单
             deleteOrderFun (id){

@@ -263,7 +263,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/order/refund',
+      path: '/order/refund/:id',
       name: 'refund',
       component: () => import('@/views/order/refund.vue'),
       meta:{
@@ -331,7 +331,7 @@ let router =  new Router({
       name: 'completedOrder',
       component: () => import('@/views/order/completedOrder.vue'),
       meta:{
-        title:'已完成订单'
+        title:'售后订单'
       }
     },
   ]

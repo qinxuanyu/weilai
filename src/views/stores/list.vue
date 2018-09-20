@@ -4,13 +4,12 @@
             <tab-item selected @on-item-click="onItemClick(1)">商城直售</tab-item>
             <tab-item @on-item-click="onItemClick(2)">植友特卖</tab-item>
         </tab>
-        <sort-tab v-if="type != 1" @srot="getSrotValue" ref="sortTab"></sort-tab>
+        <sort-tab v-if="requestData.type != 1" @srot="getSrotValue" ref="sortTab"></sort-tab>
         <scroller 
                   :on-infinite="infinite" 
                   ref="myscroller" 
-                  :height="scroller_h"
                   >
-                 <div class="line"></div>
+                 <div class="line" ></div>
                  <goods-list :list-data="listData" :type="requestData.type"></goods-list>
         </scroller>
     </div>
@@ -21,8 +20,9 @@
     import GoodsList from '@/components/goods.vue'
     import {Tab, TabItem} from 'vux'
     import api from '@/api'
+    import tool from '@/utils/tool'
     export default{
-        components:{SortTab, GoodsList, Tab, TabItem},
+       
         data (){
             return{
                 scroller_h:'500',
@@ -37,21 +37,22 @@
                 isALlData:false
             }
         },
+        components:{SortTab, GoodsList, Tab, TabItem},
         methods:{
             //排序
             getSrotValue(val){
-                if(val.sales && val.sales === true){
-                    this.requestData.order = 2;
+                if(val.sales !== undefined){
+                    val.sales ? this.requestData.order = 2 : this.requestData.order = 4;
                     this.requestData.createTime = '';
                     this.listData = [];
                     this.getListData()
-                }else if(val.time && val.time === true){
-                    this.requestData.order = 1;
+                }else if(val.time !== undefined){
+                    val.time === true ? this.requestData.order = 1 : this.requestData.order = 6;
                     this.requestData.createTime = '';
                     this.listData = [];
                     this.getListData()
-                }else if(val.price && val.price === true){
-                    this.requestData.order = 3;
+                }else if(val.price !== undefined){
+                    val.price ? this.requestData.order = 3 :  this.requestData.order = 5;
                     this.requestData.createTime = '';
                     this.listData = [];
                     this.getListData()
@@ -66,6 +67,7 @@
                 // done()
             },
             onItemClick($from){
+                tool.local.set('isPlatformGoods',$from)   //判断是否是平台商品还是植友商品 1-商城  2-植友
                 let from = $from;
                 this.requestData.from = from;
                 this.requestData.createTime = '';
@@ -108,14 +110,17 @@
                     break;
                
             }
-           
+           tool.local.set('isPlatformGoods',1)   //判断是否是平台商品还是植友商品 1-商城  2-植友
         },
-        updated() {
+        mounted() {
+            
+        },
+        mounted() {
             var window_h = window.innerHeight;
             var sort_h = document.querySelector('.srot') ? document.querySelector('.srot').scrollHeight : 0;
             let tab_h = document.querySelector('.vux-tab') ? document.querySelector('.vux-tab').scrollHeight : 0;
             let result =  String(window_h - (sort_h + tab_h));
-            document.querySelector('._v-container').style.height = result +'px'
+            // document.querySelector('._v-container').style.height = result +'px'
         },
     }
 </script>

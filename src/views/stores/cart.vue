@@ -9,13 +9,12 @@
                     <div class="right">
                         <p>{{item.introduce}}</p>
                         <p>规格：{{item.weight}}g</p>
-                        <div>
-                            <template>
-                                 <group>
-                                    <x-number :title="'￥'+item.price" v-model="item.num" :min="1" width="30px" 
-                                    @input="changeGoodsNum"></x-number>
-                                </group>
-                            </template>
+                        <div class="number-wrap">
+                            <div>￥{{item.price}}</div>
+                            <group>
+                                <x-number title="" v-model="item.num" :min="1" width="30px" 
+                                @input="changeGoodsNum"></x-number>
+                            </group>
                         </div>
                     </div>
                     <div class="del">
@@ -25,7 +24,7 @@
                 </div>
              </div>
          </check-icon>
-         <no-data v-if="!goodsList.length"></no-data>
+         <no-data v-if="!goodsList.length" text="购物车竟然是空的，犒劳一下自己吧"></no-data>
          <div class="bottom-btn" v-else>
              <flexbox :gutter="0" wrap="wrap">
                 <!-- <flexbox-item class="left">
@@ -85,13 +84,23 @@
         methods:{
             delCartFun (id){
                 let _this = this;
-                api.delCart({
-                    goodsId:id,
-                }).then(data =>{
-                    _this.showTips('删除成功');
-                    _this.goodsList = [];
-                    _this.getCartListFun()
-                }).catch(e =>{})
+                this.$vux.confirm.show({
+                    title:'提示',
+                    content:'确定移除购物车？',
+                    onCancel () {
+                      
+                    },
+                    onConfirm () {
+                        api.delCart({
+                            goodsId:id,
+                        }).then(data =>{
+                            _this.showTips('删除成功');
+                            _this.goodsList = [];
+                            _this.getCartListFun()
+                        }).catch(e =>{})
+                    }
+                })
+               
             },
             getTicketListFun (){
                 let _this = this;
@@ -194,12 +203,25 @@
             .right{
                 flex: 1;
                 padding-left: 8px;
+                .number-wrap{
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                }
                 .weui-cell{
                     padding: 0;
                     font-size: 14px
                 }
                 .vux-number-input{
                     font-size: 14px;
+                }
+                >p:nth-child(1){
+                    min-height: 46px;
+                    overflow : hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
                 }
             }
              .vux-number-selector{
@@ -212,7 +234,7 @@
                 color: #60a609;
                 align-items: center;
                 img{
-                    width: 20px;
+                    width: 23px;
                     margin-bottom: 5px;
                 }
             }

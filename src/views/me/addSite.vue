@@ -70,11 +70,14 @@
          }
     }
 </script>
-<style lang="less" scoped>
+<style lang="less" >
     .add-site{
+        .weui-cell__hd{
+            width: 70px;
+        }
         button{
             font-size: 16px;
-            width: 80%;
+            width: 80% !important;
             margin-top: 50px;
         }
     }

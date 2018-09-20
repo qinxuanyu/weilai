@@ -32,6 +32,7 @@ export default {
                     _this.createTime = data[data.length - 1].createTime;
                 }
                 if(data.length < _this.size){
+                    console.log('暂无数据')
                     _this.$refs.myscroller.finishInfinite(2)
                 }else{
                     _this.$refs.myscroller.finishInfinite(0)

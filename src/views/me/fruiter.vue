@@ -34,6 +34,7 @@
                     <p class="title">选择卖出方向</p>
                     <div class="option-1" @click.stop="sellClick">其他用户，由你自由定价</div>
                     <div class="option-2" @click.stop="sellClick();show1 = false;show2 = true">商城、由平台工作人员报价</div>
+                    
                 </div>
             </popup>
         </div>
@@ -45,10 +46,11 @@
                         <p>品种：车厘子</p>
                         <p>编号：NO.214135</p>
                         <p>种植时长：30天</p>
-                        <div>联系方式：<input type="number" v-model="phone"></div>
+                        <div>联系方式：<input class="input" type="number" v-model="phone" placeholder="请输入联系方式"></div>
                         <div class="price">
                             <span>定价：</span>
-                            <inline-x-number width="50px" v-model="recyclePrice"></inline-x-number>
+                            <!-- <inline-x-number width="50px" v-model="recyclePrice"></inline-x-number> -->
+                            <input class="input" type="number" v-model="recyclePrice" placeholder="请输入定价">
                         </div>
                         
                     </div>
@@ -71,7 +73,7 @@
                 show1:false,
                 show2:false,
                 listData:[],
-                recyclePrice:0,
+                recyclePrice:null,
                 phone:null
             }
         },
@@ -227,6 +229,7 @@
                 color: #f72525;
             }
         }
+        
     }
     .one-pop{
         .popup0{
@@ -284,6 +287,12 @@
                 }
             }
             
+        }
+        .input{
+            font-size: 14px;
+            line-height: 18px;
+            padding: 2px;
+            border:0;
         }
     }
 </style>

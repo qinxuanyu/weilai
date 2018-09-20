@@ -43,6 +43,7 @@
         </div>
         <div class="bottom-btn" v-else-if="orderType == 2">
             <x-button mini plain @click.native.stop="$router.push('/me/service')">找客服</x-button>
+            <x-button mini @click.native.stop="$router.push('/order/refund/' + orderId)">退款</x-button>
         </div>
         <div class="bottom-btn" v-else-if="orderType == 3">
             <x-button mini plain>查看物流</x-button>
@@ -291,6 +292,7 @@
             border-top: 1px solid #bdbdbd;
             justify-content: flex-end;
             align-items: center;
+            background-color: #fff;
             button{
                 margin: 0;
                 margin-right: 10px;

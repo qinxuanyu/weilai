@@ -1,11 +1,11 @@
 <template>
     <div class="integral">
-          <scroller>
+          <!-- <scroller > -->
             <div class="top">
                 <div class="name">
                     <div class="avatar">
-                        <img src="src/assets/images/com_goodreputation@2x.png" alt="">
-                    </div>
+                        <img :src="avatar" alt="">
+                    </div> 
                     <router-link to="/me/integral-details">积分明细</router-link>
                 </div>
                 <div class="num">
@@ -26,19 +26,20 @@
                         </div>
                     </div>
                 </li>
-               
             </ul>
-        </scroller>
+        <!-- </scroller> -->
     </div>
 </template>
 <script>
     import { XButton } from 'vux'
     import api from '@/api'
+    import tool from '@/utils/tool'
     export default{
         data (){
             return{
                 listData:[],
-                point:0
+                point:0,
+                avatar:''
             }
         },
         components:{ XButton },
@@ -54,7 +55,8 @@
             }
         },
         created() {
-            this.getListData()
+            this.getListData();
+            this.avatar = tool.local.get('avatar')
         },
         mounted() {
            
@@ -66,8 +68,9 @@
     .integral{
         .top{
             height: 130px;
-            background-color: #2f2b28;
+            // background-color: #2f2b28;
             position: relative;
+            background: url(/src/assets/images/integral_bg.png) no-repeat 100%;
             .name{
                 display: flex;
                 padding: 14px;

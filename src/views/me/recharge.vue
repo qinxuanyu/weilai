@@ -16,7 +16,7 @@
         <div class="pay-btn">
             <x-button @click.native.stop="rechargeClick">立即支付</x-button>
         </div>
-        
+        <div id="alipayForm"></div>
     </div>
 </template>
 <script>
@@ -53,7 +53,11 @@
                     type:_this.payType 
                 }).then(data =>{
                     if(data){
-                        _this.wxConfirmFun(data)
+                        if(_this.payType == 1){
+                            _this.wxConfirmFun(data)
+                        }else if(_this.payType == 2){
+                            _this.alipayPay(data)
+                        }
                     }
                 })
             }

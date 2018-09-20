@@ -18,17 +18,20 @@
             <div class="right">
                 <p>{{goodsData.introduce }}</p>
                 <p>规格：1000g</p>
-                <div v-if="!isIntegral">
+                <div v-if="!isIntegral  && (type == 5 || type == 4)">
                     <group>
-                        <x-number :title="!isIntegral ? '￥' : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px" @on-change="change"  ></x-number>
+                        <x-number :title="!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px" @on-change="change"  ></x-number>
                     </group>
                 </div>
+                <p v-else>{{!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price}}</p>
             </div>
         </div>
         <group v-if="!isIntegral">
-            <cell title="优惠券" :value="'-' + ticketData.price" is-link @click.native.stop="ticket_show = !ticket_show"></cell>
+            <cell v-if="type == 5" :title="'维护费1年（至'+setServicingTime+'）'" value="￥200"></cell>
+            <cell title="优惠券" :value="ticketData.price ? '-' + ticketData.price : '暂无可用优惠券' " is-link @click.native.stop="ticket_show = !ticket_show"></cell>
+            
         </group>
-        <div v-if="!isIntegral">
+        <div v-if="!isIntegral ">
             <group >
                 <x-input title="留言" placeholder="请输入您想说的话" novalidate v-model="message"  :show-clear="false"  placeholder-align="left"></x-input>
             </group>
@@ -41,6 +44,7 @@
                 </radio>
             </group>
         </div>
+        <div id="alipayForm"></div>
         <div class="bottom-btn">
             <div class="total">总价：<span>￥{{totalPrices}}</span></div>
             <div class="num">共{{goodsNum}}件商品</div>
@@ -55,12 +59,14 @@
                 </group>
             </popup>
         </div>
+        
     </div>
 </template>
 <script>
     import { Cell, Group, XNumber, Radio, XInput, Popup, TransferDom, XButton } from 'vux'
     import api from '@/api'
     import order from '@/mixins/order'
+    import tool from '@/utils/tool'
     export default{
         data () {
             return{
@@ -82,8 +88,8 @@
                 ticket_show:false,
                 ticketList:[],          //我的优惠券列表
                 totalPrices_no:0,         //总价(未使用优惠券)
-                usable_ticketList:[],       //可以的优惠券id列表
-                usable_ticketData:[],       //可以的优惠券数据列表
+                usable_ticketList:[],       //可以使用的优惠券id列表
+                usable_ticketData:[],       //可以使用的优惠券数据列表
                 ticketData:{
                     price:0,
                     id:0,
@@ -168,7 +174,7 @@
                         _this.showTips('兑换成功');
                         _this.$router.push('/order/order-inform/2')
                     }).catch(e =>{
-                        console.log(e)
+                        // console.log(e)
                         _this.showTips(e.data.msg);
                     })
                 }
@@ -204,8 +210,11 @@
                     type:_this.payType
                 }).then(data =>{
                     if(data){
-                        alert('pay')
-                        _this.wxConfirmFun(data)
+                        if(_this.payType == 1){
+                            _this.wxConfirmFun(data)
+                        }else if(_this.payType == 2){
+                            _this.alipayPay(data)
+                        }
                     }else{
                         _this.showTips('参数错误')
                     }
@@ -217,17 +226,29 @@
                 this.totalPrices_no = this.goodsNum * this.goodsData.price;
                 let _this = this;
                 this.usable_ticketList = [];
-                
+                this.usable_ticketData = [];
                 this.ticketList.forEach(item => {        //判断优惠券是否可用
                     if(item.suitPrice <= _this.totalPrices_no){
                         this.usable_ticketList.push(item.id);
-                        this.usable_ticketData.push(item)
+                        this.usable_ticketData.push(item);
                     }
                 });
                 this.usable_ticketData.sort(function(a,b){
                     return a.price - b.price
                 })
                 let $length = this.usable_ticketData.length;
+                //树苗价格 --需加上维护费
+                this.ticketData = 0;
+                if(this.type == 5 && $length){
+                    if(this.touch === 0){
+                        this.ticketData = this.usable_ticketData[$length - 1];
+                    }
+                    let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
+                    return  (this.goodsNum * this.goodsData.price) - ticketNum + (200 * this.goodsNum) 
+                }else if(this.type == 5 && !$length){
+                    return  (this.goodsNum * this.goodsData.price) + (200 * this.goodsNum) 
+                }
+                //
                 if($length){
                     if(this.touch === 0){
                         this.ticketData = this.usable_ticketData[$length - 1];
@@ -235,6 +256,7 @@
                     let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
                     return  (this.goodsNum * this.goodsData.price) - ticketNum
                 }
+                
                 return (this.goodsNum * this.goodsData.price) 
                 
                 // if(this.goodsNum && this.goodsData.price){
@@ -242,7 +264,15 @@
                 //     this.goodsNum * this.goodsData.price
                 // }
             },
-            
+            setServicingTime (){
+                if(this.type == 5){
+                    let unm =tool.utils.getDateByDaysApart(new Date(),365)
+                    return tool.utils.formatDate(unm,'yyyy-MM-dd')
+                    // return 
+                }else{
+                    return 0
+                }
+            }
         },
       
         created() {

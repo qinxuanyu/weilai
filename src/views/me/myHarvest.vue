@@ -57,8 +57,8 @@
                         <p>品种：{{checkData.name}}</p>
                         <p>采摘时间：{{checkData.modifiedTime}}</p>
                         <p>种植时长：30天</p>
-                        <div>重量：<input type="number" v-model="sellWeight" placeholder="请输入重量"></div>
-                        <div>定价：<input type="number" v-model="sellPrice" placeholder="请输入定价"></div>
+                        <div>重量：<input class="input" type="number" v-model="sellWeight" placeholder="请输入重量"></div>
+                        <div>定价：<input class="input" type="number" v-model="sellPrice" placeholder="请输入定价"></div>
                         
                     </div>
                     <div class="bottom">
@@ -277,6 +277,13 @@
                     border-left: 1px solid #dbdbdb;
                 }
             }
+            
+        }
+        .input{
+            font-size: 14px;
+            line-height: 18px;
+            padding: 2px;
+            border:0;
             
         }
     }

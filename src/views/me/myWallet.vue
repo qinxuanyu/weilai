@@ -54,7 +54,7 @@
                             
                         },
                         onConfirm () {
-                            _this.$router.push('/me/withdraw/'+_this.remaining)
+                            _this.$router.push('/home/add-card')
                         }
                     })
                 }else{
