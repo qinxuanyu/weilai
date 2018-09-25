@@ -28,11 +28,14 @@ export default{
                     _this.showTips('支付成功')
                     // _this.$router.push('/order/order-inform/3')
                     history.go(-1)
+                }else{
+                    _this.$router.push('/order/order-inform/1')
                 }
+
             })
         }, 
         alipayPay (params){
-            console.log(params)
+            // console.log(params)
             document.querySelector('#alipayForm').innerHTML = params;
             var queryParam = '';
             Array.prototype.slice.call(document.querySelectorAll("input[type=hidden]")).forEach(function (ele) {
@@ -41,18 +44,6 @@ export default{
             var gotoUrl = document.querySelectorAll("form[name=punchout_form]")[0].getAttribute('action')
             var  url = gotoUrl  + queryParam;
             _AP.pay(url);
-           
-            // document.body.appendChild(params);
-            // document.getElementsByTagName('input').style.display = 'block';
-            // document.querySelectorAll('input')[0].style.display = 'block';
-            // document.forms[0].submit();
-            // setTimeout(()=>{
-            //     document.forms[0].submit();
-            // },100)
-            // console.log('https://openapi.alipay.com/gateway.do?'+params)
-            // // alert()
-            // _AP.pay('https://openapi.alipay.com/gateway.do?'+params);
-            // window.location.href = 'https://openapi.alipay.com/gateway.do?'+params
         }
     }
 }

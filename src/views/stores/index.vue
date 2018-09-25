@@ -28,6 +28,12 @@
                 </tabbar-item>
             </tabbar>
         </div>
+        <div class="horse">
+            <swiper auto  direction="vertical" height="30px" :interval='5000' class="text-scroll" :show-dots="false">
+                <swiper-item v-for="(item,index) in noticeList" :key="index"><p>{{item.notice}}</p></swiper-item>
+                
+            </swiper>
+        </div>
         <div class="advertising">
             <router-link to="/me/service" class="connect">
                 <img src="src/assets/images/ho_advertising@2x.png"  alt="">
@@ -48,7 +54,8 @@
                 banner_list:[
                    
                 ],
-                discount_img:''
+                discount_img:'',
+                noticeList:[]
             }
         },
         components:{
@@ -63,27 +70,18 @@
                 })
             },
             swiperLink (data){
-                let type = null;
-                switch (data.type){
-                    case 1:
-                        type = 5;
-                        break;
-                    case 2:
-                        type = 2;
-                        break;
-                    case 3:
-                        type = 4;
-                        break;
-                    case 4:
-                        type = 6;
-                        break;
-                        
-                }
-                // this.$router.push('/store/detail/'+data.id+'/'+type)
+                this.$router.push('/store/list/'+ data.type)
+            },
+            getNoticeFun (){
+                let _this = this;
+                api.getNotice().then(data =>{
+                    _this.noticeList = data;
+                }).catch(e =>{})
             }
         },
         created() {
-            this.getHomeData()
+            this.getHomeData();
+            this.getNoticeFun()
         },
     }
 </script>
@@ -127,6 +125,29 @@
                     width: 100%;
                 }
             }
+        }
+        .horse{
+            padding: 0 10px;
+            // margin-top: 10px;
+            border-top:1px solid #f6f6f6;
+            .vux-swiper-item{
+                position: relative;
+                p{
+                    // position: absolute;
+                    // display: block;
+                    // height: auto;;
+                    // left: 0;
+                    // top: 0;
+                    // right: 0;
+                    // bottom: 0;
+                    // margin: auto;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    line-height: 30px;
+                }
+            }
+            
         }
     }
 </style>

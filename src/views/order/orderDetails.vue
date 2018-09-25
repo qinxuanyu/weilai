@@ -28,14 +28,14 @@
         <group>
             <cell title="运费" :value="detailData.priceDesc" ></cell>
             <cell title="优惠券" :value="detailData.ticket" ></cell>
-            <cell title="实付款（含运费）" value="-￥10.0" ></cell>
+            <cell title="实付款（含运费）" :value="detailData.totalMoney" ></cell>
         </group>
        
         <div class="line"></div>
          <div class="time">
              <p>订单编号：{{detailData.ordersId}}</p>
              <p>创建时间：{{detailData.createTime}}</p>
-             <p>成立时间：2018823</p>
+             <p v-if="orderType == 4 || orderType == 5">成交时间：{{detailData.sureTime}}</p>
          </div>
         <div class="bottom-btn" v-if="orderType == 1">
             <x-button mini plain @click.native.stop="$router.push('/me/service')">找客服</x-button>
@@ -46,7 +46,7 @@
             <x-button mini @click.native.stop="$router.push('/order/refund/' + orderId)">退款</x-button>
         </div>
         <div class="bottom-btn" v-else-if="orderType == 3">
-            <x-button mini plain>查看物流</x-button>
+            <x-button mini plain :link="'https://m.kuaidi100.com/app/query/?nu='+detailData.expressCode">查看物流</x-button>
             <x-button mini @click.native.stop="payClick">确认收货</x-button>
         </div>
         <div class="bottom-btn" v-else-if="orderType == 4">
@@ -251,8 +251,10 @@
                 width: 100px;
                 height: 95px;
                 overflow: hidden;
+                text-align: center;
                 img{
-                    width: 100%
+                    // width: 100%
+                    height: 100%;
                 }
             }
             .right{

@@ -124,6 +124,10 @@ tool.utils = (() => {
             isIdentity: function (identity) {
                 return /^[0-9a-zA-Z]{8,40}$/.test(identity);
             },
+            //身份证号（18位）正则
+            isidCard: function (isidCard) {
+                return /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(isidCard);
+            },
             // 邮箱地址验证
             isEmail: function(email) {
                 return /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(email);

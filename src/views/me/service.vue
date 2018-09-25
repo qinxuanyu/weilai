@@ -12,7 +12,7 @@
                 </div>
                 <div>
                     <span>客服二维码（长按识别）</span>
-                    <img :src="item.imageUrl" alt="">
+                    <img :src="item.imageUrl" alt="" @click.stop="preview(item.imageUrl)">
                 </div>
             </li>
         </ul>
@@ -34,6 +34,13 @@
                          _this.listData = data;
                     }
                 }).catch(e =>{})
+            },
+            preview(url){
+
+                this.$wechat.previewImage({
+                    current: url, // 当前显示图片的http链接
+                    urls: [url] // 需要预览的图片http链接列表
+                });
             }
         },
         created() {
@@ -55,7 +62,7 @@
                     color: #60a609;
                 }
                 img{
-                    width: 100px;
+                    // width: 100px;
                     height: 100px;
                 }
             }

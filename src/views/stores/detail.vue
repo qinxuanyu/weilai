@@ -52,7 +52,7 @@
                 </router-link>
             </div>
             <div class="add" @click.stop="cart_show = !cart_show;manner = 0" v-if="!isIntegral && type == 4">加入购物车</div>
-            <div class="buy" @click.stop="buyClick" v-if="!isIntegral" :disabled="type == 6 && remainingTime === '折扣活动已结束'">立即购买</div>
+            <div class="buy" @click.stop="buyClick" v-if="!isIntegral" :class="{'forbid' : type == 6 && remainingTime === '折扣活动已结束'}">立即购买</div>
             <div class="buy" style="flex:1" @click.stop="$router.push({name:'order',params:{id:goodsId},query:{num:goodsNum,type:'integral'}})" v-if="isIntegral">立即兑换</div>
         </div>
         <div class="pop">
@@ -113,14 +113,14 @@
                         </li>
                         <li class="">
                             <span>储存方式</span>
-                            <span>冷藏</span>
+                            <span>{{detailData.store}}</span>
                         </li>
                         <li class="">
                             <span>保质期</span>
-                            <span>7天</span>
+                            <span>{{detailData.keepDays}}天</span>
                         </li>
                     </ul>
-                    <x-button type="primary" @click.native.stop="size_show = !size_show">确定</x-button>
+                    <x-button type="primary" @click.native.stop="size_show = !size_show" >确定</x-button>
                 </popup>
             </div>
             <div v-transfer-dom class="cart-pop">
@@ -131,7 +131,7 @@
                         </div>
                         <div class="right">
                             <p>{{detailData.name}}</p>
-                            <p>规格：{{detailData.weight}}kg</p>
+                            <p>规格：{{detailData.weight}}斤</p>
                             <div>
                                 <group>
                                     <x-number :title="'￥'+detailData.price" v-model="goodsNum" :min="1" width="30px" @on-change="changeGoodsNum"  ></x-number>
@@ -140,7 +140,7 @@
                         </div>
                        
                     </div>
-                    <x-button @click.native.stop="addCartFun">确定</x-button>
+                    <x-button @click.native.stop="addCartFun" >确定</x-button>
                 </popup>
                
             </div>
@@ -266,6 +266,9 @@
             //立即购买按钮
             buyClick (){
                 let isPlatformGoods = tool.local.get('isPlatformGoods'); //判断是否是平台商品还是植友商品 1-商城  2-植友
+                if(this.type == 6 && this.remainingTime === '折扣活动已结束'){
+                    return
+                }
                 if(this.type == 5 || this.type == 2 ||isPlatformGoods == 1){
                     this.$router.push({
                         name:'order',
@@ -303,9 +306,9 @@
 </script>
 <style lang="less" >
     .detail{
-        padding-bottom: 51px;
         .swiper-demo-img{
             text-align: center;
+            overflow: hidden;
             img{
                 height: 100%;
             }
@@ -423,6 +426,10 @@
                 line-height: 50px;
                 text-align: center;
             }
+            .buy.forbid{
+                color: rgba(255, 255, 255, 0.6);
+                background-color: #9ED99D;
+            }
         }
         .weui-cell{
             padding-left: 0;
@@ -440,7 +447,12 @@
             background-color: #f3f3f3;
             color: #60a609;
         }
-         
+        .node{
+            padding-bottom: 51px;
+            img{
+                width: 100%;
+            }
+        }
     }
    .ticket-pop{
         background-color: #fff !important;

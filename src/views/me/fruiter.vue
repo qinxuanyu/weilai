@@ -21,7 +21,7 @@
                     <td class="red">{{item.days}}</td>
                     <td>{{setFruiterType(item.status)}}</td>
                     <td>
-                        <x-button mini @click.native.stop="operation(item.status,item.id)" v-if="item.status!=3">{{setBtnText(item.status)}}</x-button>
+                        <x-button mini @click.native.stop="operation(item.status,item.id)" v-if="item.status!=3" :disabled="item.status == 1">{{setBtnText(item.status)}}</x-button>
                     </td>
                 </tr>
                
@@ -32,8 +32,8 @@
             <popup v-model="show1" @on-hide="log('hide')" @on-show="log('show')">
                 <div class="popup0">
                     <p class="title">选择卖出方向</p>
-                    <div class="option-1" @click.stop="sellClick">其他用户，由你自由定价</div>
-                    <div class="option-2" @click.stop="sellClick();show1 = false;show2 = true">商城、由平台工作人员报价</div>
+                    <div class="option-1" @click.stop="show2 = true;show1 = false">其他用户，由你自由定价</div>
+                    <div class="option-2" @click.stop="submit(1,2,selectId)">商城、由平台工作人员报价</div>
                     
                 </div>
             </popup>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="bottom">
                         <div @click.stop="show2 = false">取消</div>
-                        <div class="confirm" @click.stop="submit(1,1)">确定</div>
+                        <div class="confirm" @click.stop="submit(1,1,selectId)">确定</div>
                     </div>
                 </div>
             </popup>
@@ -74,7 +74,8 @@
                 show2:false,
                 listData:[],
                 recyclePrice:null,
-                phone:null
+                phone:null,
+                selectId:null
             }
         },
         directives: {
@@ -92,6 +93,7 @@
                 let button = null;         //操作按钮 1卖出 2处理-确认 3处理-留下 4取消出售 ,
                 let type = null;         //卖出方类别1给用户 2给商城
                 let _this = this;
+                this.selectId = id;
                 switch (status){
                     case 1:
 
@@ -124,21 +126,21 @@
                         break
                     case 6:
                         button = 1;
-                         _this.$vux.confirm.show({
-                            // 组件除show外的属性
-                            content:"选择卖出方向",
-                            confirmText:'商城，由平台工作人员报价',
-                            cancelText:'其他用户，由您自由定价',
-                            onCancel () {
-                               type = 1;
-                               _this.show2 = true;
-                            },
-                            onConfirm () {
-                               type = 2;
-                                _this.submit(button,type,id) 
-                            }
-                        })
-                        
+                        // _this.$vux.confirm.show({
+                        //     // 组件除show外的属性
+                        //     content:"选择卖出方向",
+                        //     confirmText:'商城，由平台工作人员报价',
+                        //     cancelText:'其他用户，由您自由定价',
+                        //     onCancel () {
+                        //        type = 1;
+                        //        _this.show2 = true;
+                        //     },
+                        //     onConfirm () {
+                        //        type = 2;
+                        //         _this.submit(button,type,id) 
+                        //     }
+                        // })
+                        _this.showPop()
                         // return '卖出'
                         break
                 }
@@ -229,7 +231,10 @@
                 color: #f72525;
             }
         }
-        
+        .weui-btn_disabled.weui-btn_default {
+            color: rgba(0, 0, 0, 0.3) !important;
+            background-color: #F7F7F7 !important;
+        }
     }
     .one-pop{
         .popup0{

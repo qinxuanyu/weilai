@@ -54,7 +54,7 @@
                 let _this = this;
                 api.setAddress({
                     id:data.id,
-                    isSelected:data.isSelected
+                    isSelected:!data.isSelected
                 }).then(data =>{
                     _this.showTips('设置成功');
                     _this.listData = [];
@@ -90,6 +90,9 @@
                         margin-left: 30px;
                     }
                 }
+            }
+            i.weui-icon {
+                display: none !important;
             }
         }
         button{

@@ -15,16 +15,17 @@
             </group>
         </scroller> -->
          
-            <div >
+            <div v-if="listData.length">
                 <group>
                     <cell v-for="(item,index) in listData" :key="index" :title="item.explains" :value="'-' + item.point" :inline-desc='item.createTime '></cell>
                 </group>
             </div>
-  
+            <no-data v-else></no-data>
     </div>
 </template>
 <script>
     import { Group, Cell, Tab, TabItem  } from 'vux';
+    import noData from '@/components/nodata.vue'
     import api from '@/api'
     export default{
         data (){
@@ -34,7 +35,7 @@
                 
             }
         },
-        components:{ Group, Cell, Tab, TabItem  },
+        components:{ Group, Cell, Tab, TabItem, noData },
         methods:{
             getListData (){
                 let _this = this;

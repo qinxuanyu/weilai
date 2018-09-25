@@ -30,7 +30,7 @@
                                 <x-button mini plain class="two" @click.native.stop="$router.push('/me/service')">找客服</x-button>
                             </div>
                             <div class="btn" v-if="item.type == 3">
-                                <x-button mini plain class="one">查看物流</x-button>
+                                <x-button mini plain class="one"  :link="'https://m.kuaidi100.com/app/query/?nu='+item.expressCode">查看物流</x-button>
                                 <x-button mini plain class="two" @click.native.stop="confirmClick(item.id)">确认收货</x-button>
                             </div>
                             <div class="btn" v-if="item.type == 4">
@@ -214,16 +214,19 @@
         .list{
             li{
                 padding: 10px;
+                border-bottom: 1px solid #f3f3f3;
                 .wrap{
                     display: flex;
                   
-                    border-bottom: 1px solid #f3f3f3;
+                   
                     .img{
                         width: 125px;
                         height: 108px;
                         overflow: hidden;
+                        text-align: center;
                         img{
-                            width: 100%;
+                            // width: 100%;
+                            height: 100%;
                         }
                     }
                     .title{
@@ -232,7 +235,7 @@
                         .btn{
                             display: flex;
                             font-size: 16px;
-                            margin-top: 20px;
+                            margin-top: 12px;
                             justify-content: flex-end;
                             span{
                                 color: #f11010;
@@ -254,6 +257,7 @@
                             }
                         }
                         >p{
+                            min-height: 44px;
                             display: -webkit-box;
                             -webkit-box-orient: vertical;
                             -webkit-line-clamp: 2;

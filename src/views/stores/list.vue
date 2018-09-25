@@ -1,15 +1,17 @@
 <template>
     <div class="store-list">
-        <tab v-if="requestData.type == 4" :line-width="2" custom-bar-width="50px" active-color="#60a609">
-            <tab-item selected @on-item-click="onItemClick(1)">商城直售</tab-item>
-            <tab-item @on-item-click="onItemClick(2)">植友特卖</tab-item>
-        </tab>
-        <sort-tab v-if="requestData.type != 1" @srot="getSrotValue" ref="sortTab"></sort-tab>
+        
         <scroller 
-                  :on-infinite="infinite" 
-                  ref="myscroller" 
-                  >
+                :on-infinite="infinite" 
+                ref="myscroller" 
+                >
+                <tab v-if="requestData.type == 4" :line-width="2" custom-bar-width="50px" active-color="#60a609">
+                    <tab-item selected @on-item-click="onItemClick(1)">商城直售</tab-item>
+                    <tab-item @on-item-click="onItemClick(2)">植友特卖</tab-item>
+                </tab>
+                <sort-tab v-if="requestData.type != 1" @srot="getSrotValue" ref="sortTab"></sort-tab>
                  <div class="line" ></div>
+                 
                  <goods-list :list-data="listData" :type="requestData.type"></goods-list>
         </scroller>
     </div>
@@ -45,6 +47,7 @@
                     val.sales ? this.requestData.order = 2 : this.requestData.order = 4;
                     this.requestData.createTime = '';
                     this.listData = [];
+                    this.$refs.myscroller.scrollTo(0,0,false)
                     this.getListData()
                 }else if(val.time !== undefined){
                     val.time === true ? this.requestData.order = 1 : this.requestData.order = 6;
@@ -62,8 +65,9 @@
 
             },
             infinite (done){
+                this.getListData(done);
                 // this.$refs.myscroller.resize();
-                 this.getListData();
+
                 // done()
             },
             onItemClick($from){
@@ -84,12 +88,15 @@
                     from:_this.requestData.from,
                 }).then(data =>{
                     _this.listData = _this.listData.concat(data);
-                    if(data.length){
-                        _this.requestData.createTime = data[data.length - 1].createTime;
-                    }
+                    // if(data.length){
+                        
+                    // }
                     if(data.length < _this.requestData.size){
-                       _this.$refs.myscroller.finishInfinite(2)
+                       _this.$refs.myscroller.finishInfinite(2);
+                      
+
                     }else{
+                        _this.requestData.createTime = data[data.length - 1].createTime;
                         _this.$refs.myscroller.finishInfinite(0)
                     }
                 }).catch(error =>{})
@@ -131,7 +138,7 @@
             background-color: #f3f3f3;
         }
         ._v-container{
-            position: initial;
+            // position: initial;
         }
     }
 </style>

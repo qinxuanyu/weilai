@@ -2,13 +2,12 @@
     <div class="edit-data">
         <div class="avatar">
             <div class="img-box">
-                <img src="" alt="">
+                <img :src="avatar" alt="">
             </div>
         </div>
         <group>
             <cell title="用户名" :value="detalis.name" @click.native.stop="changeName"></cell>
-           
-    
+            <cell title="身份信息" is-link link="/me/authentication"></cell>
             <popup-radio title="性别" :options="options1" @on-hide="submitData()" :placeholder="detalis.sex == 1 ? '男' :'女'">
                
             </popup-radio>
@@ -20,11 +19,13 @@
                 title="生日"
                 ></datetime>
             <cell title="地址管理" is-link link="/me/site"></cell>
+            
         </group>
     </div>
 </template>
 <script>
     import { Group, Cell, Datetime, PopupRadio  } from 'vux'
+    import tool from '@/utils/tool'
     import api from '@/api'
     export default{
         data (){
@@ -32,6 +33,7 @@
                 value1:'2015-11-12',
                 detalis:{},
                 options1: ['男', '女',],
+                avatar:''
             }
         },
         components:{ Group, Cell, Datetime, PopupRadio  },
@@ -77,7 +79,8 @@
             }
         },
         created() {
-            this.getMyData()
+            this.getMyData();
+            this.avatar = tool.local.get('avatar')
         },
     }
 </script>

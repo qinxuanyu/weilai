@@ -36,13 +36,13 @@
                     _this.$refs.myscroller.finishInfinite(2)
                 }).catch(e =>{})
             },
-            infinite (){
-                console.log(1)
-                this.getListData()
-            }
+            // infinite (){
+            //     console.log(1)
+            //     this.getListData()
+            // }
         },
         created() {
-            // this.getListData()
+            this.getListData()
         },
         mounted() {
            

@@ -334,11 +334,20 @@ let router =  new Router({
         title:'售后订单'
       }
     },
+    {
+      path: '/me/authentication',
+      name: 'authentication',
+      component: () => import('@/views/me/authentication.vue'),
+      meta:{
+        title:'身份信息'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
   if (/^\/http/.test(to.path) || /^\/https/.test(to.path)) {
     window.location.href  = to.path;
+    console.log(to.path)
     return;
   }
   store.commit('UPDATE_LOADING',true)

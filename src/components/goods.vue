@@ -8,7 +8,7 @@
                     </div>
                     <p class="f-12">{{item.introduce}}</p>
                     <div class="price">
-                        <span>￥{{item.price}}</span><span>已售{{item.saledNum}}件</span>
+                        <span>￥{{item.price}}</span><span v-if="type == 2">来源：{{item.source == 1 ? '商城' : '植友'}}</span> <span v-else>已售{{item.saledNum}}件</span>
                     </div>
                 </div>
             </flexbox-item>
@@ -44,6 +44,7 @@
     .goods{
         padding: 10px;
         .flex-demo{
+            margin-top: 10px;
             .img-wrap{
                 width: 100%;
                 height: 160px;
@@ -56,6 +57,7 @@
             }
             >p{
                 min-height: 38px;
+                margin: 5px 0;
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;  

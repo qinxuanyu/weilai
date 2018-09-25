@@ -135,17 +135,33 @@
                 }).catch(e =>{})
             },
             setGrade (grade){
-                let gradeArr = ['短工','长工','佃户','贫农','渔夫','猎人','中农','富农','掌柜','商人','衙役','小财主','大财主','小地主','大地主','知县','通判','知府','总督','巡抚','丞相','帝王']
-                // grade - 1
-                if(grade){
-                    let multiple = parseInt((grade - 1)/10);
-                    let str = grade.toString();
-                    str = str.substr(str.length-1,1)
-                    if(str === '0'){
-                        str = '10'
-                    }
-                    let $gradeText = gradeArr[multiple] + str +'级'
-                    this.gradeText = $gradeText;
+                // let gradeArr = ['短工','长工','佃户','贫农','渔夫','猎人','中农','富农','掌柜','商人','衙役','小财主','大财主','小地主','大地主','知县','通判','知府','总督','巡抚','丞相','帝王']
+                // // grade - 1
+                // if(grade){
+                //     let multiple = parseInt((grade - 1)/10);
+                //     let str = grade.toString();
+                //     str = str.substr(str.length-1,1)
+                //     if(str === '0'){
+                //         str = '10'
+                //     }
+                //     let $gradeText = gradeArr[multiple] + str +'级'
+                //     this.gradeText = $gradeText;
+                // }
+                if(grade <= 5){
+                    this.gradeText = '农夫';
+                    return
+                }else if(grade > 5 && grade <= 10){
+                    this.gradeText = '园丁';
+                    return
+                }else if(grade > 10 && grade <= 20){
+                    this.gradeText = '富人';
+                    return
+                }else if(grade > 20 && grade <= 50){
+                    this.gradeText = '土豪';
+                    return
+                }else if(grade > 50){
+                    this.gradeText = '庄主';
+                    return
                 }
                
             }

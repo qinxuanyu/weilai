@@ -379,4 +379,27 @@ export default {
             data
         })
     },
+     //公告 （跑马灯）
+    getNotice (){
+        return fetch({
+            url:'/goods/notice',
+            method:'get',
+        })
+    },
+     //实名认证
+     sureRealName (data){
+        return fetch({
+            url:'/user/auth/sureRealName',
+            method:'post',
+            data
+        })
+    },
+     //包装费列表
+     getPackageList (){
+        return fetch({
+            url:'/goods/packageList',
+            method:'get',
+            
+        })
+    },
 }

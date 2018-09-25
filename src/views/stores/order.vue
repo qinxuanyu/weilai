@@ -17,7 +17,7 @@
             </div>
             <div class="right">
                 <p>{{goodsData.introduce }}</p>
-                <p>规格：1000g</p>
+                <p>规格：{{goodsData.weight}}斤</p>
                 <div v-if="!isIntegral  && (type == 5 || type == 4)">
                     <group>
                         <x-number :title="!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px" @on-change="change"  ></x-number>
@@ -28,7 +28,17 @@
         </div>
         <group v-if="!isIntegral">
             <cell v-if="type == 5" :title="'维护费1年（至'+setServicingTime+'）'" value="￥200"></cell>
-            <cell title="优惠券" :value="ticketData.price ? '-' + ticketData.price : '暂无可用优惠券' " is-link @click.native.stop="ticket_show = !ticket_show"></cell>
+         
+            <popup-radio title="包装费" :options="packOption" v-model="selectPack.price" v-if="type == 4">
+                <template slot-scope="props" slot="each-item"><!-- use scope="props" when vue < 2.5.0 -->
+                    <p>
+                        {{packageLis[props.index].introduce }}
+                    <br>
+                    <span style="color:#666;">￥{{packageLis[props.index].price }}/斤</span>
+                    </p>
+                </template>
+            </popup-radio>
+            <cell title="优惠券" :value="ticketData.price ? '-￥' + ticketData.price : '暂无可用优惠券' " is-link @click.native.stop="ticket_show = !ticket_show"></cell>
             
         </group>
         <div v-if="!isIntegral ">
@@ -52,18 +62,32 @@
         </div>
         <div v-transfer-dom class="ticket-pop">
             <popup v-model="ticket_show" >
-                <group v-for="(item,index) in ticketList" :key="index">
+                <group v-for="(item,index) in ticketList" :key="index" v-if="ticketList.length">
                     <cell :title="item.price + '元'"  :inline-desc="'满'+item.suitPrice+'元减'+item.price+'元'">
                         <x-button  mini plain type="primary" @click.native.stop="employTicketFun(item)" :disabled="usable_ticketList.indexOf(item.id) === -1">使用</x-button>
                     </cell>
                 </group>
+                <group v-else>
+                    <cell title="您未领取优惠券哦"  >
+                       
+                    </cell>
+                </group>
             </popup>
         </div>
-        
+       
+         <div v-transfer-dom class="pack-pop">
+            <popup v-model="packShow" >
+                <group v-for="(item,index) in packageLis" :key="index">
+                    <cell :title="item.price + '元'"  :inline-desc="item.introduce">
+                        <x-button  mini plain type="primary" @click.native.stop="employTicketFun(item)">使用</x-button>
+                    </cell>
+                </group>
+            </popup>
+        </div>
     </div>
 </template>
 <script>
-    import { Cell, Group, XNumber, Radio, XInput, Popup, TransferDom, XButton } from 'vux'
+    import { Cell, Group, XNumber, Radio, XInput, Popup, TransferDom, XButton, PopupRadio  } from 'vux'
     import api from '@/api'
     import order from '@/mixins/order'
     import tool from '@/utils/tool'
@@ -97,7 +121,14 @@
                 },               //正在使用的优惠券
                 touch:0,
                 message:'',                      //留言
-                type:null                   //2.果树 4果子 5树苗 
+                type:null,                   //2.果树 4果子 5树苗 
+                packageLis:[],                 //包装费列表
+                packShow:false,
+                packOption:[],                     
+                selectPack:{
+                    price:0
+                }                  //选中的包装
+                
             }
         },
         mixins:[order],
@@ -105,7 +136,7 @@
             TransferDom
         },
         components:{
-            Cell, Group, XNumber , Radio, XInput, Popup, TransferDom, XButton
+            Cell, Group, XNumber , Radio, XInput, Popup, TransferDom, XButton, PopupRadio 
         },
         methods:{
             change (){
@@ -150,8 +181,15 @@
                         message:_this.message,
                         num:_this.goodsNum,
                         ticketId:_this.ticketData.id || 0,
-                        payType:_this.payType
+                        payType:_this.payType,
+                        packageId:this.selectPack.id,
+                        totalMoney:this.totalPrices,
                     }).then(data =>{
+                        if(_this.payType == 3){
+                            _this.showTips('购买成功');
+                            _this.$router.push('/me/fruiter')
+                            return
+                        }
                         if(data){
                             if(_this.type == 4){
                                 _this.payFun(data)
@@ -162,7 +200,11 @@
                         }else{
                             _this.showTips('订单id错误')
                         }
-                    }).catch(e =>{})
+                    }).catch(e =>{
+                        if(e.code == 1011){
+                            _this.showTips('钱包余额不足')
+                        }
+                    })
                 }else{
                     if(!this.goodsData.addressId){
                        return this.showTips('请先选择地址')
@@ -186,7 +228,7 @@
                 let _this = this;
                 api.wxPAy({
                     orderId:id,
-                    total_fee:1,
+                    total_fee:0.01,
                     type:_this.payType
                 }).then(data =>{
                     if(data){
@@ -206,7 +248,7 @@
                 let _this = this;
                 api.payTree({
                     orderId:id,
-                    total_fee:1,
+                    total_fee:0.01,
                     type:_this.payType
                 }).then(data =>{
                     if(data){
@@ -217,6 +259,23 @@
                         }
                     }else{
                         _this.showTips('参数错误')
+                    }
+                }).catch(e =>{})
+            },
+            //包装费列表
+            getPackageListFun (){
+                let _this = this;
+                api.getPackageList().then(data =>{
+                    _this.packageLis = data;
+                    data.forEach(item => {
+                        let obj = {};
+                        obj.key = item.price;
+                        obj.value = item.price * this.goodsData.weight * parseInt(this.goodsNum) +'元';
+                        _this.packOption.push(obj);
+                        
+                    });
+                    if(data.length){
+                        _this.selectPack = data[0]
                     }
                 }).catch(e =>{})
             }
@@ -233,6 +292,8 @@
                         this.usable_ticketData.push(item);
                     }
                 });
+                //更新包装费总金额
+               
                 this.usable_ticketData.sort(function(a,b){
                     return a.price - b.price
                 })
@@ -248,7 +309,17 @@
                 }else if(this.type == 5 && !$length){
                     return  (this.goodsNum * this.goodsData.price) + (200 * this.goodsNum) 
                 }
-                //
+                //果子购买 多加包装费
+                if(this.type == 4 && $length){
+                    if(this.touch === 0){
+                        this.ticketData = this.usable_ticketData[$length - 1];
+                    }
+                    let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
+                    return  (this.goodsNum * this.goodsData.price) - ticketNum + (this.selectPack.price * parseInt(this.goodsNum) * this.goodsData.weight)
+                }else if(this.type == 4 && !$length){
+                    return  (this.goodsNum * this.goodsData.price) +  (this.selectPack.price * parseInt(this.goodsNum) * this.goodsData.weight)
+                }
+                //else
                 if($length){
                     if(this.touch === 0){
                         this.ticketData = this.usable_ticketData[$length - 1];
@@ -272,9 +343,22 @@
                 }else{
                     return 0
                 }
+            },
+            
+        },
+        watch:{
+            goodsNum (){
+                let _this = this;
+                _this.packOption = []
+                this.packageLis.forEach(item => {
+                    let obj = {};
+                    obj.key = item.price;
+                    obj.value = item.price * this.goodsData.weight * parseInt(this.goodsNum) +'元';
+                    _this.packOption.push(obj);
+                    
+                });
             }
         },
-      
         created() {
             let id = this.$route.params.id;
             this.goodsId = id;
@@ -289,6 +373,14 @@
             }
             this.goodsNum = parseInt(num);
             this.getOrderData();
+            this.getPackageListFun();
+            if(type == 5 || type == 2){
+                this.payList.push({
+                    value:'钱包支付',
+                    icon:'src/assets/images/mer_wallet@2x.png',
+                    key: 3,
+                })
+            }
         },
     }
 </script>
@@ -337,8 +429,10 @@
                 width: 100px;
                 height: 95px;
                 overflow: hidden;
+                text-align: center;
                 img{
-                    width: 100%
+                    // width: 100%;
+                    height: 100%;
                 }
             }
             .right{
@@ -349,6 +443,10 @@
                 }
                 .vux-number-input{
                     font-size: 14px;
+                }
+                .weui-cells:before{
+                    height: 0;
+                    border-top: 0;
                 }
             }
             
@@ -389,7 +487,7 @@
             }
         }
         .weui-cells:before {
-            border-top: 0;
+            // border-top: 0;
         }
         .weui-cells:after{
             border-bottom: 0;

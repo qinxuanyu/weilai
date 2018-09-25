@@ -83,16 +83,16 @@ body {
 html {
   font-family: "微软雅黑";
   font-size: 14px;
-  color: #2f2f2f;
+  color: #212121;
 }
 .router-view{
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
+  // position: fixed;
+  // left: 0;
+  // top: 0;
+  // bottom: 0;
+  // width: 100%;
+  // height: 100%;
+  // overflow-x: hidden;
   // overflow-y: auto;
   // -webkit-overflow-scrolling: touch;
 }
