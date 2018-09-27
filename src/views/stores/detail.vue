@@ -10,7 +10,7 @@
             <div class="price-wrap">
                 <div class="price">
                     {{!isIntegral ? '￥' : '积分：'}}{{ detailData.price }} 
-                    <span v-if="detailData.discount !== 1 && type == 6">￥{{ detailData.price / detailData.discount}}</span>
+                    <span v-if="detailData.discount !== 1 && type == 6">￥{{ (detailData.price / detailData.discount).toFixed(2)}}</span>
                 </div>
                 <div class="title" v-if="type == 6">
                     <span>限时促销中</span>

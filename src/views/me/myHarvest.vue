@@ -13,7 +13,7 @@
             </thead>
             <tbody>
                 <tr v-for="(item,index) in listData" :key="index">
-                    <td> <check-icon :value.sync="item.isCheck"> </check-icon> {{item.name }}</td>
+                    <td>  {{item.name }}</td>
                     <td>{{item.goodsId }}</td>
                     <td class="red">{{item.type === 1 ? '未收获'  : '已收获' }}</td>
                     <td>{{item.weight}}</td>
@@ -45,7 +45,7 @@
                     <p class="title">选择卖出方向</p>
                     <div class="option-1" @click.stop="sellClick(1)">商城统一收购</div>
                     <div class="option-2" @click.stop="show1 = false;show2 = true">卖给其他植友</div>
-                    <div class="option-2" @click.stop="show1 = false;show2 = true">自留/送朋友</div>
+                    <div class="option-2" @click.stop="ownLink">自留/送朋友</div>
                 </div>
             </popup>
         </div>
@@ -94,6 +94,18 @@
         methods:{
             onItemClick (){
 
+            },
+            ownLink (){
+                this.$router.push({
+                    name:'order',
+                    params:{
+                        id:this.checkData.goodsId,
+                        type:7
+                    },
+                    query:{
+                        weight:this.checkData.weight
+                    }
+                })
             },
             showPop (id){
                 this.show1 = !this.show1;

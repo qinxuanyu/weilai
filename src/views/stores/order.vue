@@ -1,6 +1,6 @@
 <template>
     <div  class="order">
-        <div class="site" v-if="type == 4">
+        <div class="site" v-if="type == 4 || type == 7">
             <div class="icon" >
                 <img src="src/assets/images/mer_site@2x.png" alt="">
             </div>
@@ -13,23 +13,23 @@
         </div>
         <div class="goods">
             <div class="left">
-                <img :src="goodsData.coverImage" alt="">
+                <img :src="goodsData.coverImage || 'http://120.77.173.162/cdn/f5d15b75-78a6-4f31-86e4-ffd73405750c.jpg'" alt="">
             </div>
             <div class="right">
                 <p>{{goodsData.introduce }}</p>
                 <p>规格：{{goodsData.weight}}斤</p>
                 <div v-if="!isIntegral  && (type == 5 || type == 4)">
                     <group>
-                        <x-number :title="!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px" @on-change="change"  ></x-number>
+                        <x-number :title="!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px"   ></x-number>
                     </group>
                 </div>
-                <p v-else>{{!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price}}</p>
+                <p v-else-if="type != 7">{{!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price}}</p>
             </div>
         </div>
         <group v-if="!isIntegral">
             <cell v-if="type == 5" :title="'维护费1年（至'+setServicingTime+'）'" value="￥200"></cell>
          
-            <popup-radio title="包装费" :options="packOption" v-model="selectPack.price" v-if="type == 4">
+            <popup-radio title="包装费" :options="packOption" v-model="selectPack.price" v-if="type == 4 || type == 7">
                 <template slot-scope="props" slot="each-item"><!-- use scope="props" when vue < 2.5.0 -->
                     <p>
                         {{packageLis[props.index].introduce }}
@@ -38,8 +38,8 @@
                     </p>
                 </template>
             </popup-radio>
-            <cell title="优惠券" :value="ticketData.price ? '-￥' + ticketData.price : '暂无可用优惠券' " is-link @click.native.stop="ticket_show = !ticket_show"></cell>
-            
+            <cell title="优惠券" v-if="type != 7" :value="ticketData.price ? '-￥' + ticketData.price : '暂无可用优惠券' " is-link @click.native.stop="ticket_show = !ticket_show"></cell>
+            <cell v-if="type == 7" title="快递费用" :value="'￥'+delivery"></cell>
         </group>
         <div v-if="!isIntegral ">
             <group >
@@ -55,27 +55,26 @@
             </group>
         </div>
         <div id="alipayForm"></div>
+        <div class="bargain" v-if="type == 5 || type == 2">
+             <check-icon :value.sync="isSigningContract">同意签署 <span class="link" @click.stop="bargainLink">合同</span></check-icon>
+        </div>
         <div class="bottom-btn">
             <div class="total">总价：<span>￥{{totalPrices}}</span></div>
-            <div class="num">共{{goodsNum}}件商品</div>
+            <div class="num">共{{goodsNum || 1}}件商品</div>
             <div class="btn" @click.stop="submitClick">提交订单</div>
         </div>
         <div v-transfer-dom class="ticket-pop">
             <popup v-model="ticket_show" >
-                <group v-for="(item,index) in ticketList" :key="index" v-if="ticketList.length">
+                <group v-for="(item,index) in ticketList" :key="index" >
                     <cell :title="item.price + '元'"  :inline-desc="'满'+item.suitPrice+'元减'+item.price+'元'">
                         <x-button  mini plain type="primary" @click.native.stop="employTicketFun(item)" :disabled="usable_ticketList.indexOf(item.id) === -1">使用</x-button>
                     </cell>
                 </group>
-                <group v-else>
-                    <cell title="您未领取优惠券哦"  >
-                       
-                    </cell>
-                </group>
+                
             </popup>
         </div>
        
-         <div v-transfer-dom class="pack-pop">
+        <div v-transfer-dom class="pack-pop">
             <popup v-model="packShow" >
                 <group v-for="(item,index) in packageLis" :key="index">
                     <cell :title="item.price + '元'"  :inline-desc="item.introduce">
@@ -87,7 +86,7 @@
     </div>
 </template>
 <script>
-    import { Cell, Group, XNumber, Radio, XInput, Popup, TransferDom, XButton, PopupRadio  } from 'vux'
+    import { Cell, Group, XNumber, Radio, XInput, Popup, TransferDom, XButton, PopupRadio, CheckIcon  } from 'vux'
     import api from '@/api'
     import order from '@/mixins/order'
     import tool from '@/utils/tool'
@@ -126,9 +125,11 @@
                 packShow:false,
                 packOption:[],                     
                 selectPack:{
-                    price:0
-                }                  //选中的包装
-                
+                    price:10
+                },                  //选中的包装
+                isSigningContract:false,     //是否同意签署合同
+                weight:null,              //规格、重量用于自留购买
+                delivery:30              //快递费用
             }
         },
         mixins:[order],
@@ -136,19 +137,37 @@
             TransferDom
         },
         components:{
-            Cell, Group, XNumber , Radio, XInput, Popup, TransferDom, XButton, PopupRadio 
+            Cell, Group, XNumber , Radio, XInput, Popup, TransferDom, XButton, PopupRadio, CheckIcon 
         },
         methods:{
-            change (){
-
+            bargainLink (){
+                if(this.goodsData.isSureName){
+                    this.$router.push('/store/bargain/'+this.goodsId)
+                }else{
+                    this.showTips('请先完善身份信息')
+                    this.$router.push('/me/authentication')
+                }
             },
             getOrderData (){
                 let _this = this;
-                api.getOrderData({
-                    id:_this.goodsId
-                }).then(data =>{
-                    _this.goodsData = data;
-                }).catch(e =>{})
+                if(this.type != 7){
+                    api.getOrderData({
+                        id:_this.goodsId
+                    }).then(data =>{
+                        _this.goodsData = data;
+                         _this.getPackageListFun();
+                    }).catch(e =>{})
+                }else{
+                    api.getSureOrder({
+                        id:this.goodsId,
+                        weight:this.weight
+                    }).then(data =>{
+                        _this.goodsData = data;
+                        _this.getPackageListFun();
+
+                    })
+                }
+                
             }, 
             //获取我的优惠券
             getMyTicketListFun (){
@@ -167,13 +186,27 @@
                 this.touch ++;
                 this.ticketData = data;
                 this.ticket_show = false;
+                console.log( this.ticketData)
             },
             //提交订单
             submitClick (){
                 let _this = this;
+                
                 if(!this.isIntegral){
                     if(!this.goodsData.addressId && this.type == 4){
                        return this.showTips('请先选择地址')
+                    }
+                    if((this.type == 5 || this.type == 2) && !this.goodsData.isSureName){
+                        this.showTips('请先完善身份信息')
+                        this.$router.push('/me/authentication')
+                        return
+                    }else if((this.type == 5 || this.type == 2) && this.goodsData.isSureName && !this.isSigningContract){
+                        this.showTips('请先同意签署合同');
+                        return
+                    }
+                    if(this.type == 7){
+                        this.ownFruit();
+                        return
                     }
                     api.submitOrder({
                         addressId:_this.goodsData.addressId,
@@ -194,13 +227,14 @@
                             if(_this.type == 4){
                                 _this.payFun(data)
 
-                            }else{
+                            }else if(_this.type == 5 || _this.type == 2){
                                 _this.payTreeFun(data)
                             }
                         }else{
                             _this.showTips('订单id错误')
                         }
                     }).catch(e =>{
+                         _this.showTips(e.data.msg)
                         if(e.code == 1011){
                             _this.showTips('钱包余额不足')
                         }
@@ -222,6 +256,20 @@
                 }
                 
 
+            },
+            //自留水果下单
+            ownFruit (){
+                let _this = this;
+                api.ziSubmitOrder({
+                    addressId:this.goodsData.addressId,
+                    goodsId:this.goodsData.goodsId,
+                    message:this.message,
+                    num:this.weight,
+                    packageId:this.selectPack.id,
+                    totalMoney:this.totalPrices,
+                }).then(data =>{
+                    _this.payFun(data)
+                }).catch(e =>{})
             },
             //支付水果
             payFun (id){
@@ -267,15 +315,27 @@
                 let _this = this;
                 api.getPackageList().then(data =>{
                     _this.packageLis = data;
-                    data.forEach(item => {
-                        let obj = {};
-                        obj.key = item.price;
-                        obj.value = item.price * this.goodsData.weight * parseInt(this.goodsNum) +'元';
-                        _this.packOption.push(obj);
-                        
-                    });
+                    if(_this.type != 7){
+                         data.forEach(item => {
+                            let obj = {};
+                            obj.key = item.price;
+                            obj.value = item.price * this.goodsData.weight * parseInt(this.goodsNum) +'元';
+                            _this.packOption.push(obj);
+                            console.log(item.price,this.goodsData.weight,this.goodsNum)
+                        });
+                    }else{
+                         data.forEach(item => {
+                            let obj = {};
+                            obj.key = item.price;
+                            obj.value = item.price * this.weight +'元';
+                            _this.packOption.push(obj);
+                            
+                        });
+                    }
+                   
                     if(data.length){
                         _this.selectPack = data[0]
+                        // console.log(_this.selectPack)
                     }
                 }).catch(e =>{})
             }
@@ -286,49 +346,56 @@
                 let _this = this;
                 this.usable_ticketList = [];
                 this.usable_ticketData = [];
-                this.ticketList.forEach(item => {        //判断优惠券是否可用
+               if(this.type != 7){   
+                    this.ticketList.forEach(item => {        //判断优惠券是否可用
                     if(item.suitPrice <= _this.totalPrices_no){
-                        this.usable_ticketList.push(item.id);
-                        this.usable_ticketData.push(item);
-                    }
-                });
-                //更新包装费总金额
-               
-                this.usable_ticketData.sort(function(a,b){
-                    return a.price - b.price
-                })
-                let $length = this.usable_ticketData.length;
-                //树苗价格 --需加上维护费
-                this.ticketData = 0;
-                if(this.type == 5 && $length){
-                    if(this.touch === 0){
-                        this.ticketData = this.usable_ticketData[$length - 1];
-                    }
-                    let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
-                    return  (this.goodsNum * this.goodsData.price) - ticketNum + (200 * this.goodsNum) 
-                }else if(this.type == 5 && !$length){
-                    return  (this.goodsNum * this.goodsData.price) + (200 * this.goodsNum) 
-                }
-                //果子购买 多加包装费
-                if(this.type == 4 && $length){
-                    if(this.touch === 0){
-                        this.ticketData = this.usable_ticketData[$length - 1];
-                    }
-                    let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
-                    return  (this.goodsNum * this.goodsData.price) - ticketNum + (this.selectPack.price * parseInt(this.goodsNum) * this.goodsData.weight)
-                }else if(this.type == 4 && !$length){
-                    return  (this.goodsNum * this.goodsData.price) +  (this.selectPack.price * parseInt(this.goodsNum) * this.goodsData.weight)
-                }
-                //else
-                if($length){
-                    if(this.touch === 0){
-                        this.ticketData = this.usable_ticketData[$length - 1];
-                    }
-                    let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
-                    return  (this.goodsNum * this.goodsData.price) - ticketNum
-                }
+                            this.usable_ticketList.push(item.id);
+                            this.usable_ticketData.push(item);
+                        }
+                    });
+                 
                 
-                return (this.goodsNum * this.goodsData.price) 
+                    this.usable_ticketData.sort(function(a,b){
+                        return a.price - b.price
+                    })
+                    let $length = this.usable_ticketData.length;
+                    //树苗价格 --需加上维护费
+                    // this.ticketData.price = 0;
+                    if(this.type == 5 && $length){
+                        if(this.touch === 0){
+                           
+                            this.ticketData = this.usable_ticketData[$length - 1];
+                            
+                        }
+                        let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
+                        return  (this.goodsNum * this.goodsData.price) - ticketNum + (200 * this.goodsNum) 
+                    }else if(this.type == 5 && !$length){
+                        return  (this.goodsNum * this.goodsData.price) + (200 * this.goodsNum) 
+                    }
+                    //果子购买 多加包装费
+                    if(this.type == 4 && $length){
+                        if(this.touch === 0){
+                            this.ticketData = this.usable_ticketData[$length - 1];
+                        }
+                        let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
+                        return  (this.goodsNum * this.goodsData.price) - ticketNum + (this.selectPack.price * parseInt(this.goodsNum) * this.goodsData.weight)
+                    }else if(this.type == 4 && !$length){
+                        return  (this.goodsNum * this.goodsData.price) +  (this.selectPack.price * parseInt(this.goodsNum) * this.goodsData.weight)
+                    }
+                    //else
+                    if($length){
+                        if(this.touch === 0){
+                            this.ticketData = this.usable_ticketData[$length - 1];
+                        }
+                        let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
+                        
+                        return  (this.goodsNum * this.goodsData.price) - ticketNum
+                    }
+                    
+                    return (this.goodsNum * this.goodsData.price) 
+               }else{
+                   return this.delivery + (this.selectPack.price * parseInt(this.weight))
+               }
                 
                 // if(this.goodsNum && this.goodsData.price){
                 //     return
@@ -349,7 +416,7 @@
         watch:{
             goodsNum (){
                 let _this = this;
-                _this.packOption = []
+                this.packOption = []
                 this.packageLis.forEach(item => {
                     let obj = {};
                     obj.key = item.price;
@@ -366,6 +433,11 @@
             let type = this.$route.params.type;
             let isIntegral = this.$route.query.type;
             this.type = type;
+            this.weight = this.$route.query.weight;
+            if(!num && type != 7){
+                this.showTips('数量参数错误');
+                history.go(-1)
+            }
             if(isIntegral){
                 this.isIntegral = isIntegral;
             }else{
@@ -373,7 +445,7 @@
             }
             this.goodsNum = parseInt(num);
             this.getOrderData();
-            this.getPackageListFun();
+            
             if(type == 5 || type == 2){
                 this.payList.push({
                     value:'钱包支付',
@@ -454,6 +526,15 @@
         .weui-cells{
             font-size: 14px;
             margin-top: 0;
+        }
+        .bargain{
+            position: fixed;
+            bottom: 50px;
+            left: 0;
+            line-height: 45px;
+            .link{
+                color: #60a609;
+            }
         }
         .bottom-btn{
             position: fixed;

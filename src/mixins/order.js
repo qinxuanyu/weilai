@@ -35,7 +35,7 @@ export default{
             })
         }, 
         alipayPay (params){
-            // console.log(params)
+            
             document.querySelector('#alipayForm').innerHTML = params;
             var queryParam = '';
             Array.prototype.slice.call(document.querySelectorAll("input[type=hidden]")).forEach(function (ele) {

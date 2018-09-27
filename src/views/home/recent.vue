@@ -1,5 +1,9 @@
 <template>
-    <div class="recent" v-html="nodeText"></div>
+    <div class="recent" >
+        <div class="node" v-html="nodeText">
+
+        </div>
+    </div>
 </template>
 <script>
     import tool from '@/utils/tool'
@@ -17,8 +21,14 @@
         },
     }
 </script>
-<style lang="less" scoped>
+<style lang="less">
     .recent{
         padding: 10px;
+        .node{
+            img{
+                width: 100% !important;
+            }
+        }
+       
     }
 </style>

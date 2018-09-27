@@ -78,7 +78,7 @@
                 this.listData = [];
                 this.getListData()
             },
-            getListData (){
+            getListData (done){
                 let _this = this;
                 api.goodsList({
                     createTime:_this.requestData.createTime,
@@ -88,17 +88,18 @@
                     from:_this.requestData.from,
                 }).then(data =>{
                     _this.listData = _this.listData.concat(data);
-                    // if(data.length){
-                        
-                    // }
+                    if(data.length){
+                        _this.requestData.createTime = data[data.length - 1].createTime;
+                    }
                     if(data.length < _this.requestData.size){
                        _this.$refs.myscroller.finishInfinite(2);
-                      
-
                     }else{
-                        _this.requestData.createTime = data[data.length - 1].createTime;
                         _this.$refs.myscroller.finishInfinite(0)
                     }
+                    //  if(typeof(done)=="function"){
+                    //      console.log('done')
+                    //     done();
+                    // }
                 }).catch(error =>{})
             }
         },

@@ -30,7 +30,9 @@
         </div>
         <div class="horse">
             <swiper auto  direction="vertical" height="30px" :interval='5000' class="text-scroll" :show-dots="false">
-                <swiper-item v-for="(item,index) in noticeList" :key="index"><p>{{item.notice}}</p></swiper-item>
+                <swiper-item v-for="(item,index) in noticeList" :key="index">
+                    <p class="text"><img width="30px" src="src/assets/images/zlogo.png" alt=""><span>{{item.notice}}</span></p>
+                </swiper-item>
                 
             </swiper>
         </div>
@@ -141,10 +143,15 @@
                     // right: 0;
                     // bottom: 0;
                     // margin: auto;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    line-height: 30px;
+                    
+                    display: flex;
+                    align-items: center;
+                    span{
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        line-height: 30px;
+                    }
                 }
             }
             

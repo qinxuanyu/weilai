@@ -1,9 +1,6 @@
 <template>
     <div class="fruiter">
-        <!-- <tab :line-width="2" custom-bar-width="50px">
-            <tab-item selected @on-item-click="onItemClick" >列表</tab-item>
-            <tab-item @on-item-click="$router.push('/me/farm')">大图</tab-item>
-        </tab> -->
+        
         <x-table v-if="listData.length" class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
             <thead>
                 <tr style="background-color: #F7F7F7">
@@ -21,7 +18,7 @@
                     <td class="red">{{item.days}}</td>
                     <td>{{setFruiterType(item.status)}}</td>
                     <td>
-                        <x-button mini @click.native.stop="operation(item.status,item.id)" v-if="item.status!=3" :disabled="item.status == 1">{{setBtnText(item.status)}}</x-button>
+                        <x-button mini @click.native.stop="$router.push('/store/bargain/'+item.id)" >查看</x-button>
                     </td>
                 </tr>
                

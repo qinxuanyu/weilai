@@ -402,4 +402,28 @@ export default {
             
         })
     },
+    //电子合同
+    getContract (data){
+        return fetch({
+            url:'/index/auth/contract',
+            method:'get',
+            data
+        })
+    },
+    //自留详情
+    getSureOrder (data){
+        return fetch({
+            url:'/goods/auth/ziSureOrder',
+            method:'get',
+            data
+        })
+    },
+    //自留-下单
+    ziSubmitOrder (data){
+        return fetch({
+            url:'/goods/auth/ziSubmitOrder',
+            method:'post',
+            data
+        })
+    },
 }

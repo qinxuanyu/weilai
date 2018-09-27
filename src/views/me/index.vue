@@ -86,6 +86,10 @@
                     title:'邀请朋友',
                     imgUrl:'src/assets/images/me_invitation@2x.png',
                     link:''
+                },{
+                    title:'我的领种合同',
+                    imgUrl:'src/assets/images/me_bargain_icon.png',
+                    link:'/me/my-bargain'
                 }],
                 myInfo:{}
             }

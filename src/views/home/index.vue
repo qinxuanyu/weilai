@@ -2,12 +2,14 @@
     <div class="home">
         <div class="top">
              <flexbox :gutter="0" align="flex-start">
-                <flexbox-item :span="2"><div class="flex-demo"><router-link to="/home/recent">近况</router-link></div></flexbox-item>
+                <flexbox-item :span="2"><div class="flex-demo"></div></flexbox-item>
                 <flexbox-item>
-                    <div class="flex-demo" >
-                        <p>{{homeData.treeDtoList.introduce}}</p>
-                        <p v-if="homeData.treeDtoList.id">编号{{homeData.treeDtoList.id}}</p>
-                        <p v-if="homeData.treeDtoList.protectTime">维护到期：{{homeData.treeDtoList.protectTime}}</p>
+                    <p>等级：{{gradeText}}</p>
+                    <div class="flex-demo" style="min-height:103px;">
+
+                        <!-- <p v-if="selectTreeData.introduce && btnShow">{{selectTreeData.introduce}}</p> -->
+                        <p v-if="selectTreeData.id && btnShow">编号{{selectTreeData.id}}</p>
+                        <p v-if="selectTreeData.protectTime && btnShow">维护到期：{{selectTreeData.protectTime}}</p>
                     </div>
                 </flexbox-item >
                 <flexbox-item :span="2"><div class="flex-demo"><router-link to="/home/strategy">攻略</router-link></div></flexbox-item>
@@ -15,28 +17,35 @@
         </div>
         <div class="btn-view">
             <div class="flex-demo">
-                <div class="btn">
-                    <img src="/src/assets/images/ho_watering@3x.png" alt="" @click.stop="$animation('watering')">
-                    <img src="/src/assets/images/ho_fertilization@3x.png" alt="" @click.stop="$animation('fertilizer')">
-                    <img src="/src/assets/images/ho_pollination@3x.png" alt="" @click.stop="$animation('pollination')">
-                </div>
+                <transition name="vux-pop-in">
+                    <div class="btn" v-show="btnShow">
+                        <img src="/src/assets/images/ho_watering@2x.png" alt="" @click.stop="$animation('watering')">
+                        <img src="/src/assets/images/ho_fertilization@2x.png" alt="" @click.stop="$animation('fertilizer')">
+                        <img src="/src/assets/images/ho_pollination@2x.png" alt="" @click.stop="$router.push('/home/recent')">  
+                        <!-- 近况 -->
+                    </div>
+                </transition>
+                    
             </div>
             <div class="flex-demo">
-                <div class="btn text-right">
-                    <img src="/src/assets/images/ho_insecticide@3x.png" alt="" @click.stop="$animation('vermifuge')">
-                    <img src="/src/assets/images/ho_scissor@3x.png" alt="" @click.stop="$animation('scissor')">
-                    <img src="/src/assets/images/ho_cultivation@3x.png" alt="" @click="$animation('shovel')">
-                </div>
+                <transition name="vux-pop-out">
+                    <div class="btn text-right" v-show="btnShow">
+                        <img src="/src/assets/images/ho_insecticide@2x.png" alt="" @click.stop="$animation('vermifuge');">
+                        <img src="/src/assets/images/ho_scissor@2x.png" alt="" @click.stop="$animation('scissor')">
+                        <img src="/src/assets/images/ho_cultivation@2x.png" alt="" @click="$animation('shovel')">
+                    </div>
+                </transition>
+                
             </div>
         </div>
-        <div class="shortcut">
-            <div class="flow">
+        <div class="shortcut" @click.stop="change">
+            <!-- <div class="flow">
                 <p class="text-right">{{gradeText}}</p>
                 <div class="percent">
                     <div :style="{'width':homeData.progress || 0 +'%'}"></div>
                 </div>
                 <p class="text-center">距离收获</p>
-            </div>
+            </div> -->
             <grid :show-lr-borders="false" :show-vertical-dividers="false">
                 <grid-item :label="i.title" v-for="(i,index) in shortcut" :key="index" :link="i.link">
                     <img slot="icon" :src="i.icon">
@@ -44,9 +53,9 @@
             </grid>
         </div>
         <div class="tree">
-            <img src="src/assets/images/home_tree.png" alt="">
+            <!-- <img src="src/assets/images/home_tree.png" alt=""> -->
             <ul class="operation">
-                <li class="watering" >
+                <!-- <li class="watering" >
                     <img v-show="animation.watering" src="/src/assets/images/home_watering.gif" id="watering" alt="">
                 </li>
                 <li class="vermifuge">
@@ -63,8 +72,32 @@
                 </li>
                 <li class="shovel">
                     <img v-show="animation.shovel" src="/src/assets/images/home_shovel.gif" alt="" id="shovel">
+                </li> -->
+                <li v-for="(item,index) in treeDtoList" :key="index" @click.stop="terrClick(index,item)" :class="{'active' : index === activaTree}">
+                    <img src="src/assets/images/fruiter@2x.png" alt="" v-if="item.isTree">
+                    <img src="src/assets/images/home_tree_min.png" alt="" v-else>
                 </li>
+                
             </ul>
+            
+        </div>
+        <div class="gif-wrap">
+            <div class="cultivation-div" id="shovel" style="display:none">
+                <img src="src/assets/images/home_shovel.gif" alt="">
+            </div>
+            <div class="worm-div"  id="vermifuge" style="display:none">
+                <img src="src/assets/images/home_vermifuge.gif" alt="">
+                <img class="worm" src="src/assets/images/worm.gif" alt="">
+            </div>
+            <div class="cultivation-div" id="fertilizer" style="display:none">
+                <img src="src/assets/images/home_fertilizer.gif" alt="">
+            </div>
+            <div class="cultivation-div" id="watering" style="display:none">
+                <img src="src/assets/images/home_watering.gif" alt="">
+            </div>
+            <div class="cultivation-div" id="scissor" style="display:none">
+                <img src="src/assets/images/home_scissor.gif" alt="">
+            </div>
         </div>
     </div>
 </template> 
@@ -105,10 +138,15 @@
                     icon:'src/assets/images/integral@2x.png',
                     link:'/me/integral'
                 }],
-                homeData:{
-                    treeDtoList:{}
+                treeDtoList:{
+                    
                 },
-                gradeText:'短工1级'
+                selectTreeData:{},
+                gradeText:'农夫',
+                btnShow:false,
+                treeLength:20,
+                activaTree:null
+
             }
         },
         components:{
@@ -117,21 +155,43 @@
         methods:{
             $animation (id){
                 let $dom = document.getElementById(id);
-                $dom.classList.add(id +'-animation');
+                // $dom.classList.add(id +'-animation');
+                var sibling = $dom.parentNode.childNodes;
+                sibling.forEach(element => {
+                    if( element.nodeType === 1){
+                        element.style.display = 'none'
+                    }
+                });
                 $dom.style.display = 'block';
+
                 setTimeout(() => {
                     $dom.style.display = 'none';
-                    $dom.classList.remove(id + '-animation')
+                    // $dom.classList.remove(id + '-animation')
                 }, 3000);
+            },
+            change (){
+                this.btnShow = !this.btnShow;
+                // this.gradeText = '111'
             },
             getHomeDataFun (){
                 let _this = this;
                 api.getHomeData().then(data =>{
-                    _this.homeData = data;
-                    _this.setGrade(data.grade);
-                    if(data.detail){
-                        tool.local.set('recent',data.detail)
+                    _this.treeDtoList = data.treeDtoList;
+                    if(!data.treeDtoList.length){
+                         _this.$vux.confirm.show({
+                            // 组件除show外的属性
+                            content:"您还没购买果树，是否前去购买",
+                            cancelText:"逛一逛",
+                            onCancel () {
+                               _this.$router.push('/store/index')
+                            },
+                            onConfirm () {
+                               _this.$router.push('/store/list/5')
+                            }
+                        })
                     }
+                    _this.setGrade(data.grade);
+                   
                 }).catch(e =>{})
             },
             setGrade (grade){
@@ -164,6 +224,18 @@
                     return
                 }
                
+            },
+            terrClick (index,data){
+                if(this.activaTree !== index){
+                    this.activaTree = index;
+                    this.btnShow = true;
+                }else{
+                    this.activaTree = null;
+                    this.btnShow = false;
+                }
+                this.selectTreeData = data;
+                tool.local.set('recent',data.detail)
+                
             }
         },created() {
             
@@ -201,20 +273,50 @@
            
             
         },
+        mounted() {
+            let window_h = window.innerHeight;
+            document.querySelector('.home').style.height = (window_h - 50) +'px';
+            fnResize()
+            window.onresize = function () {
+                fnResize()
+
+            }
+            function fnResize() {
+                var deviceWidth = document.documentElement.clientWidth || window.innerWidth
+            if (deviceWidth >= 750) {
+                deviceWidth = 750
+            }
+            if (deviceWidth <= 320) {
+                deviceWidth = 320
+            }
+                document.querySelector('.home').style.fontSize = (deviceWidth / 7.5) + 'px'
+            }
+        },
     }
 </script>
 <style lang="less" scoped>
     .home{
-        background: url(/src/assets/images/home_bgImg.png);
+        background: url(/src/assets/images/home_bgimg2.png);
         background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
-        height: 100vh;
+        background-position: bottom left;
+        background-size: 100%;
+        // height: 100vh;
         margin: 0px;
         padding: 0px;
+        background-color: #8cd12e;
+        // padding-bottom: 50px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: auto;
+
         .top{
-           
+            font-size: 14px;
             padding-top: 15px;
+             color: #fff;
             .vux-flexbox{
                 text-align: center;
             }
@@ -236,83 +338,179 @@
             }
         }
         .tree{
-            width: 50%;
+            width: 3.1em;
+            height: 1.6em;
             position: fixed;
-            bottom: 20%;
+            bottom: 4.6em;
             text-align: center;
             margin: auto;
-            left: 0;
-            right: 0;
-            >img{
-                 width: 100%;
-            }
+            // left: 0.2em;
+            right: 1.6em;
+            // background-color: red;
+            transform:skew(-57deg,29deg);
+            // opacity: .3;
+           
+            // >img{
+            //      width: 100%;
+            // }
             .operation{
-                width: 100%;
-                height: 100%;
-                position: absolute;
-                left: 0;
-                top: 0;
-                li{
-                    width: 40%;
+                display: flex;
+                flex-wrap: wrap;
+                >li{
+                    width: 20%;
+                    height: 0.4em;
+                    // background: #8cd12e;
+                    position: relative;
                     img{
-                        width: 100%;
+                        position: absolute;
+                        left: -3px;
+                        top: -3px;
+                        width: 50%;
+                        transform:skew(57deg,-29deg);
                     }
                 }
-                .watering{
-                    position: absolute;
-                    width: 50%;
-                    top: -30%;
-                    left: 0%;
-                    // display: none;
-                }
-                .watering-animation{
-                    // animation: watering 3s ease 1;
-                }
-                .vermifuge{
-                    position: absolute;
-                    top: -50px;
-                    right: 0;
-                    // display: none;
-                }
-                .vermifuge-animation{
-                    // animation: vermifuge 3s ease 1;
-                }
-                .fertilizer{
-                    position: absolute;
-                    bottom: 0px;
-                    left: 10%;
-                }
-                .fertilizer-animation{
-                    // animation: fertilizer 3s ease 1;
-                }
-                .scissor{
-                    position: absolute;
-                    top: 10%;
-                    left: 50%;
-                    margin-left: -60px;
-                    // transform: rotate(90deg)
-                }
-                .scissor-animation{
-                    // animation: scissor 3s ease 1;
-                }
-                .pollination{
-                    position: absolute;
-                    width: 20%;
-                    top: -15%;
-                    left: 30%;
-                }
-                 .pollination-animation{
-                    // animation: pollination 3s ease 1;
-                }
-                .shovel{
-                    position: absolute;
-                    width: 30%;
-                    left: 60%;
-                    bottom: 0%;
+                >li.active{
+                    border-color: #66afe9;
+                    // outline: 0;
+                    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+                    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+                    img{
+                        width: 70%;
+                        top: -9px;
+                        left: -10px;
+                    }
                 }
                 
-                 .shovel-animation{
-                    // animation: shovel 3s ease 1;
+            }
+           
+            // .operation{
+            //     width: 100%;
+            //     height: 100%;
+            //     position: absolute;
+            //     left: 0;
+            //     top: 0;
+            //     li{
+            //         width: 40%;
+            //         img{
+            //             width: 100%;
+            //         }
+            //     }
+            //     .watering{
+            //         position: absolute;
+            //         width: 50%;
+            //         top: -30%;
+            //         left: 0%;
+            //         // display: none;
+            //     }
+            //     .watering-animation{
+            //         // animation: watering 3s ease 1;
+            //     }
+            //     .vermifuge{
+            //         position: absolute;
+            //         top: -50px;
+            //         right: 0;
+            //         // display: none;
+            //     }
+            //     .vermifuge-animation{
+            //         // animation: vermifuge 3s ease 1;
+            //     }
+            //     .fertilizer{
+            //         position: absolute;
+            //         bottom: 0px;
+            //         left: 10%;
+            //     }
+            //     .fertilizer-animation{
+            //         // animation: fertilizer 3s ease 1;
+            //     }
+            //     .scissor{
+            //         position: absolute;
+            //         top: 10%;
+            //         left: 50%;
+            //         margin-left: -60px;
+            //         // transform: rotate(90deg)
+            //     }
+            //     .scissor-animation{
+            //         // animation: scissor 3s ease 1;
+            //     }
+            //     .pollination{
+            //         position: absolute;
+            //         width: 20%;
+            //         top: -15%;
+            //         left: 30%;
+            //     }
+            //      .pollination-animation{
+            //         // animation: pollination 3s ease 1;
+            //     }
+            //     .shovel{
+            //         position: absolute;
+            //         width: 30%;
+            //         left: 60%;
+            //         bottom: 0%;
+            //     }
+                
+            //      .shovel-animation{
+            //         // animation: shovel 3s ease 1;
+            //     }
+            // }
+        }
+        .gif-wrap{
+            position: fixed;
+            left: 3em;
+            bottom: 5em;
+            img{
+                width: 150px;
+            }
+            >div{
+                // position: absolute;
+                // left: 0;
+                // top: 0;
+                position: relative;
+                
+            }
+            .worm-div{
+                position: relative;
+                height: 180px;
+                img{
+                    width: 130px;
+                }
+                .worm{
+                    position: absolute;
+                    top: 200px;
+                    width: 100px;
+                    margin-top: -100px;
+                }
+            }
+            #scissor{
+                position: relative;
+                height: 180px;
+               img{
+                   position: absolute;
+                    width: 110px;
+                    top: 1.5em;
+               }
+            }
+            #fertilizer{
+               
+                img{
+                   
+                    width: 120px;
+                    margin-left: -20px;
+                }
+            }
+            #watering{
+                 position: relative;
+                 height: 180px;
+                img{
+                    position: absolute;
+                    // margin-right: 20px;
+                    left: -1em;
+                    top: 0.5em
+
+                }
+            }
+            #shovel{
+                img{
+                    width: 120px;
                 }
             }
         }
@@ -355,6 +553,7 @@
                 border: 0;
             }
         }
+        
     }
     // .watering-enter ,.watering-leave{
     //     opacity: 0;
@@ -366,6 +565,29 @@
     //     opacity: 0;
     //     transform: translateX(10px)
     // }
+        .vux-pop-out-enter-active,
+        .vux-pop-out-leave-active,
+        .vux-pop-in-enter-active,
+        .vux-pop-in-leave-active {
+            will-change: transform;
+            transition: transform 500ms;
+        }
+
+        .vux-pop-out-enter {
+            transform: translateX(100%);
+        }
+
+        .vux-pop-out-leave-active {
+            transform: translateX(100%);
+        }
+
+        .vux-pop-in-enter {
+            transform: translateX(-100%);
+        }
+
+        .vux-pop-in-leave-active {
+            transform: translateX(-100%);
+        }
     @keyframes watering {
         form{
             opacity: 0;

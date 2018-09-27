@@ -95,9 +95,9 @@ let router =  new Router({
       }
     },
     {
-      path: '/me/my-sale',
-      name: 'mySale',
-      component: () => import('@/views/me/mySale.vue'),
+      path: '/me/my-bargain',
+      name: 'bargain',
+      component: () => import('@/views/me/myBargain.vue'),
       meta:{
         title:'我的售卖'
       }
@@ -340,6 +340,14 @@ let router =  new Router({
       component: () => import('@/views/me/authentication.vue'),
       meta:{
         title:'身份信息'
+      }
+    },
+    {
+      path: '/store/bargain/:id',
+      name: 'bargain',
+      component: () => import('@/views/stores/bargain.vue'),
+      meta:{
+        title:'预览合同'
       }
     },
   ]

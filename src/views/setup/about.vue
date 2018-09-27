@@ -27,7 +27,15 @@
     .about{
         padding: 0 16px;
         box-sizing: border-box;
-
+        background: url(/src/assets/images/farm_bg3.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        color: #fff;
+        // height: 100vh;
+        margin: 0px;
+        padding: 0px;
+        padding-bottom: 50px; 
         img{
             display: block;
             width: 107px;
@@ -43,6 +51,7 @@
         .main{
             margin-top: 23px;
             text-indent: 30px;
+            padding: 0 16px;
         }
     }
 </style>
