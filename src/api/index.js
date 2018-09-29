@@ -402,10 +402,18 @@ export default {
             
         })
     },
-    //电子合同
+    //我的-电子合同
     getContract (data){
         return fetch({
             url:'/index/auth/contract',
+            method:'get',
+            data
+        })
+    },
+     //预览-电子合同
+     getSeeContract (data){
+        return fetch({
+            url:'/index/auth/seeContract',
             method:'get',
             data
         })

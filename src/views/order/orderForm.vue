@@ -167,16 +167,30 @@
             },
             confirmClick (id){
                 let _this = this;
-                api.confirmOrder({
-                    goodsId:id
-                }).then(data =>{
-                    _this.showTips('确认成功');
-                    _this.listData = [];
-                    _this.fromdata.createTime = '';
-                    _this.getOrderList()
-                }).catch(e =>{
-                     _this.showTips(e.data.msg);
+               
+                this.$vux.confirm.show({
+                    // 组件除show外的属性
+                    content:"是否已收到货？",
+                    cancelText:"未收到",
+                    // confirmText:"已收到",
+                    onCancel () {
+                        
+                    },
+                    onConfirm () {
+                        api.confirmOrder({
+                            goodsId:id
+                        }).then(data =>{
+                            _this.showTips('确认成功');
+                            _this.listData = [];
+                            _this.fromdata.createTime = '';
+                            _this.getOrderList()
+                        }).catch(e =>{
+                            _this.showTips(e.data.msg);
+                        })
+                    }
                 })
+                
+                
             },
             //取消订单
             deleteOrderFun (id){
@@ -256,7 +270,7 @@
                                 border-color: #cecece;
                             }
                         }
-                        >p{
+                        >p:nth-child(1){
                             min-height: 44px;
                             display: -webkit-box;
                             -webkit-box-orient: vertical;

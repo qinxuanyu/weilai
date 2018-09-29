@@ -6,7 +6,7 @@
         </div>
         <group>
             <cell title="收款方" value="种植商城"></cell>
-            <x-input title="充值金额" type="tel" placeholder="请输入充值金额" v-model="num"></x-input>
+            <x-input title="充值金额" @on-change="inputChange" type="tel" placeholder="请输入充值金额" v-model="num"></x-input>
         </group>
         <group title="请选择支付方式">
             <radio :options="payList"  v-model="payType">
@@ -60,6 +60,10 @@
                         }
                     }
                 })
+            },
+            inputChange (value){
+                console.log(value)
+                this.num = value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')
             }
         }
     }

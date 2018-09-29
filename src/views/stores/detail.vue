@@ -24,7 +24,7 @@
                 <flexbox-item><div class="flex-demo" style="text-align:right">{{ detailData.area }}</div></flexbox-item>
             </flexbox>
             <group>
-                <cell title="领券"  is-link @click.native.stop="ticket_show = !ticket_show" v-if="!isIntegral"></cell>
+                <cell  title="领券"  is-link @click.native.stop="ticket_show = !ticket_show" v-if="!isIntegral && type != 2"></cell>
                 <cell title="规格参数"  is-link @click.native.stop="size_show = !size_show"></cell>
                 <cell title="商品评价"  is-link v-if="!isIntegral && type != 5 && isPlatformGoods == 1" @click.native.stop="goEvaluateList" :value="!detailData.evaluates.length ? '暂无用户评价' : ''"></cell>
                 <div class="evaluate" v-if="detailData.evaluates.length && !isIntegral && type != 5 && isPlatformGoods == 1" @click.stop="goEvaluateList">
@@ -183,6 +183,7 @@
                     id:_this.goodsId
                 }).then(data => {
                     _this.detailData = data;
+                     _this.detailData.price = parseFloat(_this.detailData.price).toFixed(2)
                     if(data.endTime && _this.type == 6){
                         _this.computedDate(data.endTime)
                     }

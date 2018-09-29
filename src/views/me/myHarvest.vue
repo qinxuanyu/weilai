@@ -130,6 +130,7 @@
                     _this.showTips('操作成功');
                     _this.listData = [];
                     _this.getMyFruit()
+                    _this.show2 = false
 
                 }).catch(e =>{})
             },

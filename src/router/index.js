@@ -55,7 +55,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/detail/:id/:type',     //type 2.果树 4果子 5树苗 6折扣
+      path: '/store/detail/:id/:type',     //type 2.果树 4果子 5树苗 6折扣 7收获水果自留
       name: 'detail',
       component: () => import('@/views/stores/detail.vue'),
       meta:{
@@ -343,11 +343,19 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/bargain/:id',
+      path: '/store/bargain/:id/:type',
       name: 'bargain',
       component: () => import('@/views/stores/bargain.vue'),
       meta:{
         title:'预览合同'
+      }
+    },
+    {
+      path: '/store/alipay-success',
+      name: 'alipaySuccess',
+      component: () => import('@/views/stores/alipaySuccess.vue'),
+      meta:{
+        title:'支付成功'
       }
     },
   ]

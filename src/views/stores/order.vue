@@ -17,7 +17,7 @@
             </div>
             <div class="right">
                 <p>{{goodsData.introduce }}</p>
-                <p>规格：{{goodsData.weight}}斤</p>
+                <p v-if="goodsData.weight">规格：{{goodsData.weight}}斤</p>
                 <div v-if="!isIntegral  && (type == 5 || type == 4)">
                     <group>
                         <x-number :title="!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px"   ></x-number>
@@ -38,8 +38,9 @@
                     </p>
                 </template>
             </popup-radio>
-            <cell title="优惠券" v-if="type != 7" :value="ticketData.price ? '-￥' + ticketData.price : '暂无可用优惠券' " is-link @click.native.stop="ticket_show = !ticket_show"></cell>
-            <cell v-if="type == 7" title="快递费用" :value="'￥'+delivery"></cell>
+             <cell v-if="type == 7" title="快递费用" :value="'￥'+delivery"></cell>
+            <cell title="优惠券" v-else-if="type != 7 && type != 2" :value="ticketData.price ? '-￥' + ticketData.price : '暂无可用优惠券' " is-link @click.native.stop="ticket_show = !ticket_show"></cell>
+           
         </group>
         <div v-if="!isIntegral ">
             <group >
@@ -59,7 +60,7 @@
              <check-icon :value.sync="isSigningContract">同意签署 <span class="link" @click.stop="bargainLink">合同</span></check-icon>
         </div>
         <div class="bottom-btn">
-            <div class="total">总价：<span>￥{{totalPrices}}</span></div>
+            <div class="total">总价：<span>￥{{totalPrices.toFixed(2)}}</span></div>
             <div class="num">共{{goodsNum || 1}}件商品</div>
             <div class="btn" @click.stop="submitClick">提交订单</div>
         </div>
@@ -142,7 +143,7 @@
         methods:{
             bargainLink (){
                 if(this.goodsData.isSureName){
-                    this.$router.push('/store/bargain/'+this.goodsId)
+                    this.$router.push('/store/bargain/'+this.goodsId+'/1')
                 }else{
                     this.showTips('请先完善身份信息')
                     this.$router.push('/me/authentication')
@@ -154,17 +155,26 @@
                     api.getOrderData({
                         id:_this.goodsId
                     }).then(data =>{
+
                         _this.goodsData = data;
-                         _this.getPackageListFun();
-                    }).catch(e =>{})
+                        _this.goodsData.price = parseFloat(_this.goodsData.price).toFixed(2)
+                        _this.getPackageListFun();
+                    }).catch(e =>{
+                        _this.showTips(e.data.msg);
+                        history.go(-2)
+                    })
                 }else{
                     api.getSureOrder({
                         id:this.goodsId,
                         weight:this.weight
                     }).then(data =>{
                         _this.goodsData = data;
+                        _this.goodsData.price = parseFloat(_this.goodsData.price).toFixed(2)
                         _this.getPackageListFun();
 
+                    }).catch(e =>{
+                        _this.showTips(e.data.msg);
+                        history.go(-2)
                     })
                 }
                 
@@ -382,6 +392,9 @@
                     }else if(this.type == 4 && !$length){
                         return  (this.goodsNum * this.goodsData.price) +  (this.selectPack.price * parseInt(this.goodsNum) * this.goodsData.weight)
                     }
+                    if(this.type == 2){
+                         return (this.goodsNum * this.goodsData.price) 
+                    }
                     //else
                     if($length){
                         if(this.touch === 0){
@@ -542,15 +555,16 @@
             height: 50px;
             line-height: 50px;
             left: 0;
-            bottom: 0;
+            bottom: 0; 
             display: flex;
             border-top: 1px solid #bdbdbd;
             >div{
-                flex: 1;
+                
             }
             .total{
                 color: #999999;
                 padding-left: 15px;
+                flex: auto;
                 span{
                     color: #f11010;
                     font-size:16px;
@@ -558,9 +572,12 @@
             }
             .num{
                 padding-right: 12px;
-                text-align: right;        
+                text-align: right;   
+                // flex: 1;     
+                width: 66px;
             }
             .btn{
+                width: 105px;
                 font-size: 16px;
                 text-align: center;
                 background: #60a609;

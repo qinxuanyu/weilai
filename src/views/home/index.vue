@@ -1,14 +1,14 @@
 <template>
-    <div class="home">
+    <div class="home" :class="'grade'+ grade">
         <div class="top">
              <flexbox :gutter="0" align="flex-start">
                 <flexbox-item :span="2"><div class="flex-demo"></div></flexbox-item>
                 <flexbox-item>
                     <p>等级：{{gradeText}}</p>
-                    <div class="flex-demo" style="min-height:103px;">
+                    <div class="flex-demo" style="min-height:70px;">
 
                         <!-- <p v-if="selectTreeData.introduce && btnShow">{{selectTreeData.introduce}}</p> -->
-                        <p v-if="selectTreeData.id && btnShow">编号{{selectTreeData.id}}</p>
+                        <p v-if="selectTreeData.code && btnShow">编号:{{selectTreeData.code}}</p>
                         <p v-if="selectTreeData.protectTime && btnShow">维护到期：{{selectTreeData.protectTime}}</p>
                     </div>
                 </flexbox-item >
@@ -142,6 +142,7 @@
                     
                 },
                 selectTreeData:{},
+                grade:1,
                 gradeText:'农夫',
                 btnShow:false,
                 treeLength:20,
@@ -177,19 +178,19 @@
                 let _this = this;
                 api.getHomeData().then(data =>{
                     _this.treeDtoList = data.treeDtoList;
-                    if(!data.treeDtoList.length){
-                         _this.$vux.confirm.show({
-                            // 组件除show外的属性
-                            content:"您还没购买果树，是否前去购买",
-                            cancelText:"逛一逛",
-                            onCancel () {
-                               _this.$router.push('/store/index')
-                            },
-                            onConfirm () {
-                               _this.$router.push('/store/list/5')
-                            }
-                        })
-                    }
+                    // if(!data.treeDtoList.length){
+                    //      _this.$vux.confirm.show({
+                    //         // 组件除show外的属性
+                    //         content:"您还没购买果树，是否前去购买",
+                    //         cancelText:"逛一逛",
+                    //         onCancel () {
+                    //            _this.$router.push('/store/index')
+                    //         },
+                    //         onConfirm () {
+                    //            _this.$router.push('/store/list/5')
+                    //         }
+                    //     })
+                    // }
                     _this.setGrade(data.grade);
                    
                 }).catch(e =>{})
@@ -209,18 +210,23 @@
                 // }
                 if(grade <= 5){
                     this.gradeText = '农夫';
+                    this.grade = 1;
                     return
                 }else if(grade > 5 && grade <= 10){
                     this.gradeText = '园丁';
+                    this.grade = 2;
                     return
                 }else if(grade > 10 && grade <= 20){
                     this.gradeText = '富人';
+                    this.grade = 3;
                     return
                 }else if(grade > 20 && grade <= 50){
                     this.gradeText = '土豪';
+                    this.grade = 4;
                     return
                 }else if(grade > 50){
                     this.gradeText = '庄主';
+                    this.grade = 5;
                     return
                 }
                
@@ -295,15 +301,50 @@
     }
 </script>
 <style lang="less" scoped>
-    .home{
-        background: url(/src/assets/images/home_bgimg2.png);
+    .grade1{
+        background: url(/src/assets/images/home_grade1.jpg);
         background-repeat: no-repeat;
         background-position: bottom left;
         background-size: 100%;
+        background-color: #8cd12e;
+    }
+    .grade2{
+        background: url(/src/assets/images/home_grade2.jpg);
+        background-repeat: no-repeat;
+        background-position: bottom left;
+        background-size: 100%;
+        background-color: #007eae;
+    }
+    .grade3{
+        background: url(/src/assets/images/home_grade3.jpg);
+        background-repeat: no-repeat;
+        background-position: bottom left;
+        background-size: 100%;
+        background-color: #009cbf;
+    }
+    .grade4{
+        background: url(/src/assets/images/home_grade4.jpg);
+        background-repeat: no-repeat;
+        background-position: bottom left;
+        background-size: 100%;
+        background-color: #007dad;
+    }
+    .grade5{
+        background: url(/src/assets/images/home_grade5.jpg);
+        background-repeat: no-repeat;
+        background-position: bottom left;
+        background-size: 100%;
+        background-color: #5a6cac;
+    }
+    .home{
+        // background: url(/src/assets/images/home_bgimg2.png);
+        // background-repeat: no-repeat;
+        // background-position: bottom left;
+        // background-size: 100%;
         // height: 100vh;
         margin: 0px;
         padding: 0px;
-        background-color: #8cd12e;
+        
         // padding-bottom: 50px;
         position: fixed;
         left: 0;

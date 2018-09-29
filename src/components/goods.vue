@@ -8,7 +8,7 @@
                     </div>
                     <p class="f-12">{{item.introduce}}</p>
                     <div class="price">
-                        <span>￥{{item.price}}</span><span v-if="type == 2">来源：{{item.source == 1 ? '商城' : '植友'}}</span> <span v-else>已售{{item.saledNum}}件</span>
+                        <span>￥{{parseFloat(item.price).toFixed(2)}}</span><span v-if="type == 2">来源：{{item.source == 1 ? '商城' : '植友'}}</span> <span v-else>已售{{item.saledNum}}件</span>
                     </div>
                 </div>
             </flexbox-item>

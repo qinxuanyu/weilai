@@ -4,7 +4,7 @@
             <tab-item selected @on-item-click="onItemClick" >列表</tab-item>
             <tab-item @on-item-click="$router.push('/me/farm')">大图</tab-item>
         </tab> -->
-        <x-table v-if="listData.length" class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
+        <x-table v-if="listData.length" padding="10px" class="table" :cell-bordered="false" :content-bordered="false" style="background-color:#fff;">
             <thead>
                 <tr style="background-color: #F7F7F7">
                     <th>品种</th>
@@ -15,13 +15,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index) in listData" :key="index">
+                <tr v-for="(item,index) in listData" :key="index" v-if="item.status != 7">
                     <td>{{item.name }}</td>
-                    <td>{{item.goodsId }}</td>
+                    <td>{{item.code }}</td>
                     <td class="red">{{item.days}}</td>
-                    <td>{{setFruiterType(item.status)}}</td>
+                    <td>{{setFruiterType(item.status)}} <span v-if="item.recyclePrice">(￥{{item.recyclePrice}})</span></td>
                     <td>
-                        <x-button mini @click.native.stop="operation(item.status,item.id)" v-if="item.status!=3" :disabled="item.status == 1">{{setBtnText(item.status)}}</x-button>
+                        <x-button mini @click.native.stop="operation(item.status,item.id,item.recyclePrice)" v-if="item.status!=3" :disabled="item.status == 1">{{setBtnText(item.status)}}</x-button>
                     </td>
                 </tr>
                
@@ -29,7 +29,7 @@
         </x-table>
         <no-data v-else></no-data>
         <div v-transfer-dom class="one-pop">
-            <popup v-model="show1" @on-hide="log('hide')" @on-show="log('show')">
+            <popup v-model="show1">
                 <div class="popup0">
                     <p class="title">选择卖出方向</p>
                     <div class="option-1" @click.stop="show2 = true;show1 = false">其他用户，由你自由定价</div>
@@ -39,7 +39,7 @@
             </popup>
         </div>
         <div v-transfer-dom class="two-pop">
-            <popup v-model="show2" @on-hide="log('hide')" @on-show="log('show')">
+            <popup v-model="show2" >
                 <div class="popup0">
                     <div class="info">
                         <p class="title">确认信息</p>
@@ -89,7 +89,7 @@
             showPop (){
                 this.show1 = !this.show1;
             },
-            operation (status,id){
+            operation (status,id,recyclePrice){
                 let button = null;         //操作按钮 1卖出 2处理-确认 3处理-留下 4取消出售 ,
                 let type = null;         //卖出方类别1给用户 2给商城
                 let _this = this;
@@ -102,7 +102,7 @@
                     case 2:
                         _this.$vux.confirm.show({
                             // 组件除show外的属性
-                            content:"您的果树估价为540元，确定出售吗",
+                            content:"您的果树估价为"+recyclePrice+"元，确定出售吗",
                             confirmText:'确定',
                             cancelText:'留下',
                             onCancel () {
@@ -112,7 +112,7 @@
                             },
                             onConfirm () {
                                 button = 2;
-                                 _this.submit(button,type,id) 
+                                _this.submit(button,type,id) 
                             }
                         })
                         break
@@ -163,6 +163,8 @@
                     recyclePrice:_this.recyclePrice  
                 }).then(data =>{
                     _this.listData = [];
+                    _this.show2 = false;
+                    _this.show1 = false;
                     _this.getMyTreeFun()
                 }).catch(e =>{})
             },
@@ -234,6 +236,14 @@
         .weui-btn_disabled.weui-btn_default {
             color: rgba(0, 0, 0, 0.3) !important;
             background-color: #F7F7F7 !important;
+        }
+        .vux-table{
+            line-height: 18px;
+            white-space:normal;
+            word-break:break-all;   
+            tr,td,th{
+                padding: 12px 0;
+            }
         }
     }
     .one-pop{

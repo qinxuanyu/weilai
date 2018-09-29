@@ -68,6 +68,7 @@
             .item{
                 padding-right: 6px;
                 border-bottom: 1px solid #dbdbdb;
+                padding-top: 6px;
                 display: flex;
                 .left{
                     width: 124px;
@@ -109,6 +110,7 @@
                            height: 30px;
                            background-color: #60a609;
                            color: #fff;
+                           margin: 0;
                        }
                    }
 

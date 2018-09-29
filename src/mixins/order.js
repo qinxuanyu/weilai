@@ -29,7 +29,12 @@ export default{
                     // _this.$router.push('/order/order-inform/3')
                     history.go(-1)
                 }else{
-                    _this.$router.push('/order/order-inform/1')
+                    _this.showTips('取消支付')
+                    if(this.type == 5 || this.type == 2){
+                        history.go(-2)
+                    }else{
+                        _this.$router.push('/order/order-inform/1')
+                    }
                 }
 
             })

@@ -5,7 +5,7 @@
                 :on-infinite="infinite" 
                 ref="myscroller" 
                 >
-                <tab v-if="requestData.type == 4" :line-width="2" custom-bar-width="50px" active-color="#60a609">
+                <tab v-if="requestData.type == 4 || requestData.type == 2" :line-width="2" custom-bar-width="50px" active-color="#60a609">
                     <tab-item selected @on-item-click="onItemClick(1)">商城直售</tab-item>
                     <tab-item @on-item-click="onItemClick(2)">植友特卖</tab-item>
                 </tab>
@@ -36,18 +36,20 @@
                     from:1      //	来源，1、商城2、植友
                 },
                 listData:[],
-                isALlData:false
+                isALlData:false,
+                isClickSrot:false,   
             }
         },
         components:{SortTab, GoodsList, Tab, TabItem},
         methods:{
             //排序
             getSrotValue(val){
+                this.sClickSrot = true;
                 if(val.sales !== undefined){
-                    val.sales ? this.requestData.order = 2 : this.requestData.order = 4;
+                    val.sales ? this.requestData.order = 2 : this.requestData.order = 3;
                     this.requestData.createTime = '';
                     this.listData = [];
-                    this.$refs.myscroller.scrollTo(0,0,false)
+                    // this.$refs.myscroller.triggerPullToRefresh()
                     this.getListData()
                 }else if(val.time !== undefined){
                     val.time === true ? this.requestData.order = 1 : this.requestData.order = 6;
@@ -55,7 +57,7 @@
                     this.listData = [];
                     this.getListData()
                 }else if(val.price !== undefined){
-                    val.price ? this.requestData.order = 3 :  this.requestData.order = 5;
+                    val.price ? this.requestData.order = 4 :  this.requestData.order = 5;
                     this.requestData.createTime = '';
                     this.listData = [];
                     this.getListData()
@@ -65,7 +67,12 @@
 
             },
             infinite (done){
-                this.getListData(done);
+                let _this = this;
+                setTimeout(() => {
+                    _this.getListData(done);
+                }, 1000);      
+                
+                
                 // this.$refs.myscroller.resize();
 
                 // done()
@@ -77,6 +84,7 @@
                 this.requestData.createTime = '';
                 this.listData = [];
                 this.getListData()
+                
             },
             getListData (done){
                 let _this = this;
@@ -87,6 +95,7 @@
                     order:_this.requestData.order,
                     from:_this.requestData.from,
                 }).then(data =>{
+                    // console.log('加载')
                     _this.listData = _this.listData.concat(data);
                     if(data.length){
                         _this.requestData.createTime = data[data.length - 1].createTime;

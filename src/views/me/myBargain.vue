@@ -12,13 +12,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(item,index) in listData" :key="index">
+                <tr v-for="(item,index) in listData" :key="index" v-if="item.status != 7">
                     <td>{{item.name }}</td>
                     <td>{{item.goodsId }}</td>
                     <td class="red">{{item.days}}</td>
                     <td>{{setFruiterType(item.status)}}</td>
                     <td>
-                        <x-button mini @click.native.stop="$router.push('/store/bargain/'+item.id)" >查看</x-button>
+                        <x-button mini @click.native.stop="$router.push('/store/bargain/'+item.id+'/2')" >查看</x-button>
                     </td>
                 </tr>
                
