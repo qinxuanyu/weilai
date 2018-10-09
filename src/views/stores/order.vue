@@ -18,7 +18,7 @@
             <div class="right">
                 <p>{{goodsData.introduce }}</p>
                 <p v-if="goodsData.weight">规格：{{goodsData.weight}}斤</p>
-                <div v-if="!isIntegral  && (type == 5 || type == 4)">
+                <div v-if="!isIntegral  && (type == 5 || type == 4) && isPlatformGoods == 1">
                     <group>
                         <x-number :title="!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px"   ></x-number>
                     </group>
@@ -130,7 +130,8 @@
                 },                  //选中的包装
                 isSigningContract:false,     //是否同意签署合同
                 weight:null,              //规格、重量用于自留购买
-                delivery:30              //快递费用
+                delivery:30,              //快递费用
+                isPlatformGoods:null     //商品来源，1-商城 2-植友
             }
         },
         mixins:[order],
@@ -196,7 +197,7 @@
                 this.touch ++;
                 this.ticketData = data;
                 this.ticket_show = false;
-                console.log( this.ticketData)
+                // console.log( this.ticketData)
             },
             //提交订单
             submitClick (){
@@ -286,7 +287,7 @@
                 let _this = this;
                 api.wxPAy({
                     orderId:id,
-                    total_fee:0.01,
+                    total_fee:this.totalPrices,
                     type:_this.payType
                 }).then(data =>{
                     if(data){
@@ -306,7 +307,7 @@
                 let _this = this;
                 api.payTree({
                     orderId:id,
-                    total_fee:0.01,
+                    total_fee:this.totalPrices,
                     type:_this.payType
                 }).then(data =>{
                     if(data){
@@ -447,6 +448,7 @@
             let isIntegral = this.$route.query.type;
             this.type = type;
             this.weight = this.$route.query.weight;
+            this.isPlatformGoods = tool.local.get('isPlatformGoods')
             if(!num && type != 7){
                 this.showTips('数量参数错误');
                 history.go(-1)

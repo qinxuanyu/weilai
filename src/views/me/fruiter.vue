@@ -19,7 +19,7 @@
                     <td>{{item.name }}</td>
                     <td>{{item.code }}</td>
                     <td class="red">{{item.days}}</td>
-                    <td>{{setFruiterType(item.status)}} <span v-if="item.recyclePrice">(￥{{item.recyclePrice}})</span></td>
+                    <td>{{setFruiterType(item.status)}} <span v-if="item.recyclePrice && item.status == 4">(￥{{item.recyclePrice}})</span></td>
                     <td>
                         <x-button mini @click.native.stop="operation(item.status,item.id,item.recyclePrice)" v-if="item.status!=3" :disabled="item.status == 1">{{setBtnText(item.status)}}</x-button>
                     </td>

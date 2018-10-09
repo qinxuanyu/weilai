@@ -1,8 +1,12 @@
 <template>
     <div class="evaluate">
-        <scroller>
+        <scroller :on-infinite="infinite" 
+                  ref="myscroller" >
+                  <div></div>
             <div class="top">
-                <img :src="avatar" alt="">
+                <div class="img-wrap">
+                    <img :src="goodsImgurl" alt="">
+                </div>
                 <div class="text">
                     <p><span>{{goodsRate}}%</span> 好评</p>
                     <p class="num">{{goodsNum}}人好评</p>
@@ -20,7 +24,7 @@
                     <div class="content">{{item.content}}</div>
                     <div class="time">
                         <span>{{item.createTime}}</span>
-                        <span>规格：标准（100g）</span>
+                        <!-- <span>规格：标准（100g）</span> -->
                     </div>
                 </li>
             </ul>
@@ -39,7 +43,7 @@
                 listData:[],
                 goodsRate:0,
                 goodsNum:0,
-                avatar:''
+                goodsImgurl:''
             }
         },
         methods:{
@@ -52,17 +56,26 @@
                 }).then(data =>{
                     if(data.evaluates.length){
                         _this.listData = _this.listData.concat(data.evaluates);
+                         _this.createTime = data.evaluates[data.evaluates.length - 1].createTime;
                     }
-                    _this.goodsRate = Number(data.goodsRate) * 100;
+                    if(data.evaluates.length < _this.size){
+                        this.$refs.myscroller.finishInfinite(2);
+                    }else{
+                        this.$refs.myscroller.finishInfinite(0);
+                    }   
+                    _this.goodsRate = parseFloat(data.goodsRate).toFixed(2) * 100;
                     _this.goodsNum = data.goodsNum;
                 }).catch(e =>{})
+            },
+            infinite(){
+                this.getListData()
             }
         },
         created() {
             let goodsId = this.$route.params.goodsId;
             this.goodsId = goodsId;
-            this.avatar = tool.local.get('avatar')
-            this.getListData()
+            this.goodsImgurl = tool.local.get('goodsImgurl')
+            
         },
     }
 </script>
@@ -72,11 +85,20 @@
             display: flex;
             justify-content: center;
             padding: 17px 0;
-            img{
+            align-items: center;
+            .img-wrap{
                 width: 42px;
                 height: 42px;
+                text-align: center;
+                border-radius: 50%;
+                overflow: hidden;
+                img{
+                    height: 100%;
+                }
             }
+           
             .text{
+                padding-left: 14px;
                 span{
                     font-size: 18px;
                 }

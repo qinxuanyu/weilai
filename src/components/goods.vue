@@ -1,14 +1,16 @@
 <template>
     <div class="goods">
         <flexbox :gutter="0" wrap="wrap" align="flex-start">
-            <flexbox-item @click.native.stop="$router.push('/store/detail/' + item.id+'/'+type)" v-for="(item,index) in listData" :key="index" :span="6">
+            <flexbox-item @click.native.stop="link(item)" v-for="(item,index) in listData" :key="index" :span="6">
                 <div class="flex-demo">
                     <div class="img-wrap" :style="{'height' : imgWrapWidth + 'px'}">
                         <img :src="item.coverImage" alt="">
                     </div>
                     <p class="f-12">{{item.introduce}}</p>
                     <div class="price">
-                        <span>￥{{parseFloat(item.price).toFixed(2)}}</span><span v-if="type == 2">来源：{{item.source == 1 ? '商城' : '植友'}}</span> <span v-else>已售{{item.saledNum}}件</span>
+                        <span>￥{{parseFloat(item.price).toFixed(2)}}</span>
+                        <span v-if="type == 2">来源：{{item.source == 1 ? '商城' : '植友'}}</span> 
+                        <span v-else-if="item.saledNum">已售{{item.saledNum}}件</span>
                     </div>
                 </div>
             </flexbox-item>
@@ -18,17 +20,31 @@
 </template>
 <script>
     import { Flexbox, FlexboxItem } from 'vux'
+    import tool from '@/utils/tool'
     export default{
         name:'goods',
         data (){
             return {
-                 imgWrapWidth:160
+                 imgWrapWidth:160,
+                 
             }
         },
         props:['listData','type'],
         components:{Flexbox, FlexboxItem},
         methods:{
+           retrunType (listType){
+               return this.type || listType
+           },
+           link (item){
+               this.$router.push('/store/detail/' + item.id+'/'+ this.retrunType(item.type));
+               tool.local.set('goodsImgurl',item.coverImage)
+           }
+        },
+        computed:{
            
+        },
+        created() {
+            
         },
         updated() {
             if(document.querySelector('.img-wrap')){

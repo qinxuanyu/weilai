@@ -2,7 +2,7 @@
     <div>
         <scroller ref="myscroller" :on-infinite="infinite" >
             <div></div>
-            <goods-list :list-data="listData" :type="''"></goods-list>
+            <goods-list :list-data="listData" ></goods-list>
         </scroller>
     </div>
 </template>

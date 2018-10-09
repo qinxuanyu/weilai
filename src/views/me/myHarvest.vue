@@ -7,14 +7,14 @@
                     <th>品种</th>
                     <th>编号</th>
                     <th>状态</th>
-                    <th>收获量</th>
+                    <th>收获量(斤)</th>
                     <th>操作</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(item,index) in listData" :key="index">
                     <td>  {{item.name }}</td>
-                    <td>{{item.goodsId }}</td>
+                    <td>{{item.code || item.goodsId }}</td>
                     <td class="red">{{item.type === 1 ? '未收获'  : '已收获' }}</td>
                     <td>{{item.weight}}</td>
                     <td>
@@ -43,8 +43,8 @@
             <popup v-model="show1" >
                 <div class="popup0">
                     <p class="title">选择卖出方向</p>
-                    <div class="option-1" @click.stop="sellClick(1)">商城统一收购</div>
-                    <div class="option-2" @click.stop="show1 = false;show2 = true">卖给其他植友</div>
+                    <div class="option-1" @click.stop="show1 = false;show2 = true;sellType = 1">商城统一收购</div>
+                    <div class="option-2" @click.stop="show1 = false;show2 = true;sellType = 2">卖给其他植友</div>
                     <div class="option-2" @click.stop="ownLink">自留/送朋友</div>
                 </div>
             </popup>
@@ -56,14 +56,14 @@
                         <p class="title">卖给植友</p>
                         <p>品种：{{checkData.name}}</p>
                         <p>采摘时间：{{checkData.modifiedTime}}</p>
-                        <p>种植时长：30天</p>
+                        <p v-if="sellType == 1">收购价：￥{{checkData.recyclePrice}}/斤</p>
                         <div>重量：<input class="input" type="number" v-model="sellWeight" placeholder="请输入重量"></div>
-                        <div>定价：<input class="input" type="number" v-model="sellPrice" placeholder="请输入定价"></div>
+                        <div v-if="sellType == 2">定价：<input class="input" type="number" v-model="sellPrice" placeholder="请输入定价"></div>
                         
                     </div>
                     <div class="bottom">
                         <div @click.stop="show2 = false">取消</div>
-                        <div class="confirm" @click.stop="sellClick(2);">确定</div>
+                        <div class="confirm" @click.stop="sellClick();">确定</div>
                     </div>
                 </div>
             </popup>
@@ -81,10 +81,11 @@
                 show2:false,
                 listData:[],
                 fruitId:null, 
-                sellPrice:0,        ///卖给植友-价格
-                sellWeight:0,         //卖给植友 -重量
+                sellPrice:null,        ///卖给植友-价格
+                sellWeight:null,         //卖给植友 -重量
                 allCheck:false,
-                checkData:{} 
+                checkData:{},
+                sellType:1,             //1-卖给商城 2-卖给用户
             }
         },
         directives: {
@@ -116,22 +117,22 @@
                     return
                 }
                 let _this = this;
-                if(!this.sellWeight && type === 2){
+                if(!this.sellWeight){
                     return this.showTips('请输入重量')
-                }else if(!this.sellPrice && type === 2){
+                }else if(!this.sellPrice && this.sellType === 2){
                     return this.showTips('请输入定价')
                 }
                 api.setDoFruit({
-                    button:type,
+                    button:_this.sellType,
                     id:_this.fruitId,
-                    price:_this.sellPrice,
+                    price:_this.sellPrice || this.checkData.recyclePrice,
                     weight:_this.sellWeight
                 }).then(data =>{
                     _this.showTips('操作成功');
                     _this.listData = [];
                     _this.getMyFruit()
                     _this.show2 = false
-
+                    _this.show1 = false;
                 }).catch(e =>{})
             },
             getMyFruit (){

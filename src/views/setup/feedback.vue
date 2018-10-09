@@ -53,5 +53,8 @@
             width: 80%;
             margin-top: 30px;
         }
+        .weui-cells__title{
+            color: #2f2f2f;
+        }
     }
 </style>

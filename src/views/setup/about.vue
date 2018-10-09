@@ -25,7 +25,8 @@
 </script>
 <style lang="less" scoped>
     .about{
-        padding: 0 16px;
+       
+        min-height: 100vh;
         box-sizing: border-box;
         background: url(/src/assets/images/farm_bg3.jpg);
         background-repeat: no-repeat;
@@ -51,7 +52,7 @@
         .main{
             margin-top: 23px;
             text-indent: 30px;
-            padding: 0 16px;
+            padding: 0 35px;
         }
     }
 </style>

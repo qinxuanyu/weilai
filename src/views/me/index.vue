@@ -47,7 +47,7 @@
         </div>
          <group class="cell">
             <cell :title="item.title" is-link v-for="(item,index) in linkItem" :key="index" :link="item.link" @click.native.stop="invite(item.link)">
-                <img slot="icon" width="20" height="23px" style="display:block;margin-right:20px;" :src="item.imgUrl" >
+                <img slot="icon" width="20" height="20px" style="display:block;margin-right:20px;" :src="item.imgUrl" >
             </cell>
         </group>
     </div>

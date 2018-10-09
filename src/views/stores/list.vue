@@ -29,7 +29,7 @@
             return{
                 scroller_h:'500',
                 requestData:{
-                    createTime:'',
+                    page:-1,
                     size:10,
                     type:1,     
                     order:1,    //排序（1、时间倒序2、销量从高到低3、价格从低到高，默认时间倒序）
@@ -47,18 +47,18 @@
                 this.sClickSrot = true;
                 if(val.sales !== undefined){
                     val.sales ? this.requestData.order = 2 : this.requestData.order = 3;
-                    this.requestData.createTime = '';
+                    this.requestData.page = 0;
                     this.listData = [];
                     // this.$refs.myscroller.triggerPullToRefresh()
                     this.getListData()
                 }else if(val.time !== undefined){
                     val.time === true ? this.requestData.order = 1 : this.requestData.order = 6;
-                    this.requestData.createTime = '';
+                    this.requestData.page = 0;
                     this.listData = [];
                     this.getListData()
                 }else if(val.price !== undefined){
                     val.price ? this.requestData.order = 4 :  this.requestData.order = 5;
-                    this.requestData.createTime = '';
+                    this.requestData.page = 0;
                     this.listData = [];
                     this.getListData()
                 }
@@ -68,6 +68,7 @@
             },
             infinite (done){
                 let _this = this;
+                this.requestData.page ++;
                 setTimeout(() => {
                     _this.getListData(done);
                 }, 1000);      
@@ -81,7 +82,7 @@
                 tool.local.set('isPlatformGoods',$from)   //判断是否是平台商品还是植友商品 1-商城  2-植友
                 let from = $from;
                 this.requestData.from = from;
-                this.requestData.createTime = '';
+                this.requestData.page = 0;
                 this.listData = [];
                 this.getListData()
                 
@@ -89,7 +90,7 @@
             getListData (done){
                 let _this = this;
                 api.goodsList({
-                    createTime:_this.requestData.createTime,
+                    page:_this.requestData.page,
                     size:_this.requestData.size,
                     type:_this.requestData.type,
                     order:_this.requestData.order,
@@ -97,9 +98,9 @@
                 }).then(data =>{
                     // console.log('加载')
                     _this.listData = _this.listData.concat(data);
-                    if(data.length){
-                        _this.requestData.createTime = data[data.length - 1].createTime;
-                    }
+                    // if(data.length){
+                    //     _this.requestData.page = data[data.length - 1].page;
+                    // }
                     if(data.length < _this.requestData.size){
                        _this.$refs.myscroller.finishInfinite(2);
                     }else{

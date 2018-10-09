@@ -1,16 +1,18 @@
 <template>
     <div class="bargain">
         <div class="title">
-            <p class="number"><span>问鼎种植</span><span>合同编号:{{data.aname}}</span></p>
+            <p class="number"><span>问鼎种植</span><span>合同编号:{{data.id}}</span></p>
             <h4 class="text-center">问鼎农业用户领种果树合同</h4>
             <p>甲方：{{data.bname}}（以下简称甲方） </p>
-            <p>身份证号码：</p>
+            <p>身份证号码：{{data.card || 'null'}}</p>
             <p>乙方：{{data.aname}}（以下简称乙方）</p>
             <p>单位法人：{{data.lawyer}}</p>
             <p>身份证号码：{{data.idcard}}</p>
             <p>签订地点：贵州省铜仁市万山区</p>
+            <br>
             <p>{{data.say}}</p>
-            <p>一、甲方所购果树规格为：树苗，单价：{{data.price}}，数量：{{data.num || 1}}，果树编号 ：{{data.code}}。</p>
+            <br>
+            <p>一、甲方所购果树规格为：树苗，单价：{{parseInt(data.price).toFixed(2)}}，数量：{{data.num || 1}}，果树编号 ：{{data.code}}。</p>
         </div>
         <div class="node" v-html="data.content"></div>
         <p>合同有效期：{{data.endTime}}</p>

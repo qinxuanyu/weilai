@@ -177,7 +177,13 @@
             getHomeDataFun (){
                 let _this = this;
                 api.getHomeData().then(data =>{
-                    _this.treeDtoList = data.treeDtoList;
+                    // console.log(data.length)
+                    if(data.treeDtoList.length > 20){
+                        _this.treeDtoList = data.treeDtoList.slice(0,20)
+                    }else{
+                        _this.treeDtoList = data.treeDtoList;
+
+                    }
                     // if(!data.treeDtoList.length){
                     //      _this.$vux.confirm.show({
                     //         // 组件除show外的属性

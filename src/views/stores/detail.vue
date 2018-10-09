@@ -20,13 +20,13 @@
             <flexbox :gutter="0" class="site">
                 <flexbox-item v-if="type == 5"><div class="flex-demo">维护费:￥200/1年</div></flexbox-item>
                 <flexbox-item v-if="type == 4"><div class="flex-demo">快递:￥0</div></flexbox-item>
-                <flexbox-item><div class="flex-demo" style="text-align:center">已售{{detailData.mouthSale}}笔</div></flexbox-item>
+                <flexbox-item><div class="flex-demo" style="text-align:center" v-if="detailData.mouthSale">已售{{detailData.mouthSale}}笔</div></flexbox-item>
                 <flexbox-item><div class="flex-demo" style="text-align:right">{{ detailData.area }}</div></flexbox-item>
             </flexbox>
             <group>
-                <cell  title="领券"  is-link @click.native.stop="ticket_show = !ticket_show" v-if="!isIntegral && type != 2"></cell>
+                <cell  title="领券"  is-link @click.native.stop="ticket_show = !ticket_show" v-if="!isIntegral && type != 2 && type != 5 && isPlatformGoods == 1"></cell>
                 <cell title="规格参数"  is-link @click.native.stop="size_show = !size_show"></cell>
-                <cell title="商品评价"  is-link v-if="!isIntegral && type != 5 && isPlatformGoods == 1" @click.native.stop="goEvaluateList" :value="!detailData.evaluates.length ? '暂无用户评价' : ''"></cell>
+                <cell title="商品评价"  is-link v-if="!isIntegral && type != 5 && type != 2 && isPlatformGoods == 1" @click.native.stop="goEvaluateList" :value="!detailData.evaluates.length ? '暂无用户评价' : ''"></cell>
                 <div class="evaluate" v-if="detailData.evaluates.length && !isIntegral && type != 5 && isPlatformGoods == 1" @click.stop="goEvaluateList">
                     <div class="user">
                         <div class="avatar">
@@ -270,7 +270,19 @@
                 if(this.type == 6 && this.remainingTime === '折扣活动已结束'){
                     return
                 }
-                if(this.type == 5 || this.type == 2 ||isPlatformGoods == 1){
+                if(isPlatformGoods == 2){
+                    return  this.$router.push({
+                        name:'order',
+                        params:{
+                            id:this.goodsId,
+                            type:this.type
+                        },
+                        query:{
+                            num:this.goodsNum
+                        }
+                    })
+                }
+                if(this.type == 5 || this.type == 2 || isPlatformGoods == 1){
                     this.$router.push({
                         name:'order',
                         params:{
@@ -316,6 +328,7 @@
         }
         .main{
             padding: 13px;
+            padding-bottom: 0;
             .name{
                 font-size: 16px;
             }
