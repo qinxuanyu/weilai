@@ -8,7 +8,7 @@
                     </div>
                     <div class="right">
                         <p>{{item.introduce}}</p>
-                        <p>规格：{{item.weight}}g</p>
+                        <p>规格：{{item.weight}}斤</p>
                         <div class="number-wrap">
                             <div>￥{{item.price}}</div>
                             <group>

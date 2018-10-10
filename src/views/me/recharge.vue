@@ -6,7 +6,7 @@
         </div>
         <group>
             <cell title="收款方" value="种植商城"></cell>
-            <x-input title="充值金额" @on-change="inputChange" type="tel" placeholder="请输入充值金额" v-model="num"></x-input>
+            <x-input title="充值金额" @on-change="inputChange" type="text" placeholder="请输入充值金额" v-model="num"></x-input>
         </group>
         <group title="请选择支付方式">
             <radio :options="payList"  v-model="payType">
@@ -46,6 +46,9 @@
                 let _this = this;
                 if(!_this.num){
                     return this.showTips('请输入充值金额')
+                }else if(!/^([1-9][\d]{0,7}|0)(\.[\d]{1,2})?$/.test(this.num)){
+                    //  this.num = null;
+                     return this.showTips('只能输入数字或带两位小数点')
                 }
                 api.recharge({
                     orderId:0,
@@ -61,10 +64,10 @@
                     }
                 })
             },
-            inputChange (value){
-                console.log(value)
-                this.num = value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')
-            }
+            // inputChange (value){
+            //     console.log(value)
+            //     this.num = value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')
+            // }
         }
     }
 </script>

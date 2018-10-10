@@ -21,7 +21,7 @@
                         <div class="title">
                             
                             <p>{{item.introduce }}</p>
-                            <p class="size">规格：{{item.weight}}</p>
+                            <p class="size">规格：{{item.weight}}斤</p>
                             <div class="btn" v-if="item.type == 1">
                                 <x-button mini plain class="one" @click.native.stop="deleteOrderFun(item.id)">取消订单</x-button>
                                 <x-button mini plain class="two" @click.native.stop="payType_show = true;orderData = item;">付款</x-button>
@@ -33,7 +33,7 @@
                                 <x-button mini plain class="one"  :link="'https://m.kuaidi100.com/app/query/?nu='+item.expressCode">查看物流</x-button>
                                 <x-button mini plain class="two" @click.native.stop="confirmClick(item.id)">确认收货</x-button>
                             </div>
-                            <div class="btn" v-if="item.type == 4">
+                            <div class="btn" v-if="item.type == 4 && item.source == 1">
                                 <x-button mini plain class="two" @click.native.stop="$router.push('/order/evaluate/'+item.id + '/'+item.goodsId)">评价</x-button>
                             </div>
                         </div>

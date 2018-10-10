@@ -94,6 +94,7 @@
                 height: 70px;
                 border-radius: 50%;
                 margin: 17px auto;
+                overflow: hidden;
                 img{
                     width: 100%;
                 }

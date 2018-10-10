@@ -3,7 +3,7 @@
         <group>
             <x-input title="真实姓名" placeholder="请输入真实姓名" v-model="realName"></x-input>
             <x-input class="id-card" title="身份证号"  placeholder="请输入18位身份证号" v-model="idCard"></x-input>
-            <p class="explain">说明：为保证客户利益，应填写真实信息，我们只用于合同。不外泄及另做他用。</p>
+            <p class="explain">免责申明：为保证客户利益，应填写真实信息，我们只用于合同。不外泄及另做他用。</p>
             <x-button @click.native.stop="sureRealName">保存</x-button>
         </group>
     </div>

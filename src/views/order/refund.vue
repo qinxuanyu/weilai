@@ -7,7 +7,7 @@
                 </div>
                 <div class="title">
                     <p>{{detailData.introduce }} 是份</p>
-                    <p class="size">规格：{{detailData.weight}}g</p>
+                    <p class="size">规格：{{detailData.weight}}斤</p>
                     <p class="num"><span>￥{{detailData.price}}</span>x{{detailData.num }}</p>
                 </div>
                 <div class="state">待发货</div>

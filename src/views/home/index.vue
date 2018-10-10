@@ -4,12 +4,12 @@
              <flexbox :gutter="0" align="flex-start">
                 <flexbox-item :span="2"><div class="flex-demo"></div></flexbox-item>
                 <flexbox-item>
-                    <p>等级：{{gradeText}}</p>
+                    <p>等级：{{gradeText}}（总棵数：{{total}}）</p>
                     <div class="flex-demo" style="min-height:70px;">
 
                         <!-- <p v-if="selectTreeData.introduce && btnShow">{{selectTreeData.introduce}}</p> -->
                         <p v-if="selectTreeData.code && btnShow">编号:{{selectTreeData.code}}</p>
-                        <p v-if="selectTreeData.protectTime && btnShow">维护到期：{{selectTreeData.protectTime}}</p>
+                        <p v-if="selectTreeData.protectTime && btnShow">维护到期：{{selectTreeData.protectTime.slice(0,10)}}</p>
                     </div>
                 </flexbox-item >
                 <flexbox-item :span="2"><div class="flex-demo"><router-link to="/home/strategy">攻略</router-link></div></flexbox-item>
@@ -146,7 +146,8 @@
                 gradeText:'农夫',
                 btnShow:false,
                 treeLength:20,
-                activaTree:null
+                activaTree:null,
+                total:0        //树的总数
 
             }
         },
@@ -197,6 +198,7 @@
                     //         }
                     //     })
                     // }
+                    _this.total = data.grade;
                     _this.setGrade(data.grade);
                    
                 }).catch(e =>{})

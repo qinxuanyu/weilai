@@ -18,7 +18,7 @@
             </div>
             <div class="right">
                 <p>{{detailData.introduce}}</p>
-                <p>规格：{{detailData.weight}}g</p>
+                <p>规格：{{detailData.weight}}斤</p>
                 <div class="num">
                    <p><span>￥{{detailData.price}}</span>x{{detailData.num}}</p>
                    <x-button mini plain @click.native.stop="deleteOrderFun(detailData.ordersId)">取消订单</x-button>

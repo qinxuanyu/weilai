@@ -12,10 +12,10 @@
                     {{!isIntegral ? '￥' : '积分：'}}{{ detailData.price }} 
                     <span v-if="detailData.discount !== 1 && type == 6">￥{{ (detailData.price / detailData.discount).toFixed(2)}}</span>
                 </div>
-                <div class="title" v-if="type == 6">
+                <div class="title text-center" v-if="type == 6" style="width:100px;">
                     <span>限时促销中</span>
                 </div>
-                <div class="timer" v-if="type == 6">{{remainingTime}}</div>
+                <div class="timer text-right" v-if="type == 6">{{remainingTime}}</div>
             </div> 
             <flexbox :gutter="0" class="site">
                 <flexbox-item v-if="type == 5"><div class="flex-demo">维护费:￥200/1年</div></flexbox-item>

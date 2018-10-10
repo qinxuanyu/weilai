@@ -1,8 +1,9 @@
 <template>
     <div class="strategy">
         <div class="text">
-            车厘子树苗价格100元，维护费
-            200元一年，正常情况下第三年
+            <span v-for="(item,index) in listData" :key="index">{{item.introduce}}￥{{item.price}}</span>
+            ，维护费每课每年
+            200元，正常情况下第三年
             开始挂果，一般初次结果量很少。
             以后每年产量逐渐增加，到第四
             年以后进入旺产期。旺产期大树
@@ -13,7 +14,33 @@
     </div>
 </template>
 <script>
-    
+    import api from '@/api'
+    export default{
+        data (){
+            return {
+                listData:[]
+            }
+        },
+        methods:{
+            getListData (){
+                let _this = this;
+                api.goodsList({
+                    page:0,
+                    size:10,
+                    type:5,
+                    order:1,
+                    from:1,
+                }).then(data =>{
+                    // console.log('加载')
+                    _this.listData = data;
+                  
+                }).catch(error =>{})
+            }
+        },
+        created() {
+            this.getListData()
+        },
+    }
 </script>
 <style lang="less" scoped>
     .strategy{

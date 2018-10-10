@@ -13,7 +13,7 @@
                         <div class="title">
                             
                             <p>{{item.introduce }}</p>
-                            <p class="size">规格：{{item.weight}}</p>
+                            <p class="size">规格：{{item.weight}}斤</p>
                             <div class="btn" v-if="item.type == 1">
                                 <x-button mini plain class="one" @click.native.stop="deleteOrderFun(item.id)">取消订单</x-button>
                                 <x-button mini plain class="two" @click.native.stop="payType_show = true;orderData = item;">付款</x-button>

@@ -14,7 +14,7 @@
             <tbody>
                 <tr v-for="(item,index) in listData" :key="index" v-if="item.status != 7">
                     <td>{{item.name }}</td>
-                    <td>{{item.goodsId }}</td>
+                    <td>{{item.code }}</td>
                     <td class="red">{{item.days}}</td>
                     <td>{{setFruiterType(item.status)}}</td>
                     <td>
