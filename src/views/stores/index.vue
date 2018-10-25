@@ -43,6 +43,9 @@
             <div class="big-img" @click.stop="$router.push('/store/discount')">
                 <img :src="discount_img" alt="">
             </div>
+            <div class="big-img" @click.stop="$router.push('/store/list/5')">
+                <img src="src/assets/images/store_img_link.png" alt="">
+            </div>
         </div>
     </div>
 </template>

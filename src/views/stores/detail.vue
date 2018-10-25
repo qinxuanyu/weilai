@@ -18,7 +18,7 @@
                 <div class="timer text-right" v-if="type == 6">{{remainingTime}}</div>
             </div> 
             <flexbox :gutter="0" class="site">
-                <flexbox-item v-if="type == 5"><div class="flex-demo">维护费:￥200/1年</div></flexbox-item>
+                <flexbox-item v-if="type == 5"><div class="flex-demo">维护费：{{detailData.priceDesc}}</div></flexbox-item>
                 <flexbox-item v-if="type == 4"><div class="flex-demo">快递:￥0</div></flexbox-item>
                 <flexbox-item><div class="flex-demo" style="text-align:center" v-if="detailData.mouthSale">已售{{detailData.mouthSale}}笔</div></flexbox-item>
                 <flexbox-item><div class="flex-demo" style="text-align:right">{{ detailData.area }}</div></flexbox-item>

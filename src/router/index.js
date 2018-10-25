@@ -99,7 +99,7 @@ let router =  new Router({
       name: 'bargain',
       component: () => import('@/views/me/myBargain.vue'),
       meta:{
-        title:'我的售卖'
+        title:'我的合同'
       }
     },
     {
@@ -343,7 +343,7 @@ let router =  new Router({
       }
     },
     {
-      path: '/store/bargain/:id/:type',
+      path: '/store/bargain/:id/:type',    
       name: 'bargain',
       component: () => import('@/views/stores/bargain.vue'),
       meta:{
@@ -358,12 +358,20 @@ let router =  new Router({
         title:'支付成功'
       }
     },
+    {
+      path: '/store/maintain',
+      name: 'maintain',
+      component: () => import('@/views/me/maintain.vue'),
+      meta:{
+        title:'维护列表'
+      }
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
   if (/^\/http/.test(to.path) || /^\/https/.test(to.path)) {
     window.location.href  = to.path;
-    console.log(to.path)
+    // console.log(to.path)
     return;
   }
   store.commit('UPDATE_LOADING',true)

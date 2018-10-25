@@ -3,11 +3,11 @@
         <div class="title">
             <p class="number"><span>问鼎种植</span><span>合同编号:{{data.id || id}}</span></p>
             <h4 class="text-center">问鼎农业用户领种果树合同</h4>
-            <p>甲方：{{data.bname}}（以下简称甲方） </p>
-            <p>身份证号码：{{data.card || 'null'}}</p>
-            <p>乙方：{{data.aname}}（以下简称乙方）</p>
-            <p>单位法人：{{data.lawyer}}</p>
-            <p>身份证号码：{{data.idcard}}</p>
+            <p>甲方：{{'贵州问鼎高科技生态农业发展有限公司' || data.aname }}（以下简称甲方）</p>
+            <p>乙方：{{data.bname}}（以下简称乙方）</p>
+            <p>身份证号码： {{data.card || 'null'}}</p>
+            <!-- <p>单位法人：{{data.lawyer}}</p> -->
+            <!-- <p>身份证号码：{{data.idcard}}</p> -->
             <p>签订地点：贵州省铜仁市万山区</p>
             <br>
             <p>{{data.say}}</p>
@@ -17,11 +17,11 @@
         <div class="node" v-html="data.content"></div>
         <p>合同有效期：{{data.endTime}}</p>
         <p>以下无内容！</p>
-        <p class="text-right">甲方：{{data.bname}}</p>
-        <p class="text-right">乙方：{{data.aname}}</p>
-        <p class="text-right">乙方负责人{{data.lawyer}}</p>
+        <p class="text-right">甲方：{{data.aname}}</p>
+        <p class="text-right">甲方负责人{{data.lawyer}}</p>
+        <p class="text-right">乙方：{{data.bname}}</p>
         <p class="text-right">签约日期：{{data.time || '未签订'}}</p>
-        <img class="signet" src="/src/assets/images/signet.png" width="70px" alt="">
+        <img class="signet" src="/src/assets/images/signet.png" width="80px" alt="">
     </div>
 </template>
 <script>

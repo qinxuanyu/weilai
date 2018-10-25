@@ -133,11 +133,18 @@
                     title:'钱包',
                     icon:'src/assets/images/wallet@2x.png',
                     link:'/me/my-wallet'
-                },{
+                },
+                {
                     title:'积分',
                     icon:'src/assets/images/integral@2x.png',
                     link:'/me/integral'
-                }],
+                },
+                // {
+                //     title:'维护',
+                //     icon:'src/assets/images/integral@2x.png',
+                //     link:'/me/integral'
+                // },
+                ],
                 treeDtoList:{
                     
                 },
@@ -279,7 +286,7 @@
                 if(!this.$store.getters.token && !tool.local.get('isAuth')){
                     tool.local.set('isAuth','on');
                     setTimeout(()=>{
-                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http%3a%2f%2fplant.mikao1688.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http%3a%2f%2fplant.wdgaoke.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
                     },100)
                 }
             }

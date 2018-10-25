@@ -94,7 +94,7 @@ service.interceptors.response.use(
         if(error.response.status == 401 || error.response.status == 403){
             
             store.dispatch("LOGOUT");
-            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http%3a%2f%2fplant.mikao1688.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx813ac11958aee71a&redirect_uri=http%3a%2f%2fplant.wdgaoke.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
         }
         
        

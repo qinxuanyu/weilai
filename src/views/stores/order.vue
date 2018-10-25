@@ -27,7 +27,7 @@
             </div>
         </div>
         <group v-if="!isIntegral">
-            <cell v-if="type == 5" :title="'维护费1年（至'+setServicingTime+'）'" value="￥200"></cell>
+            <!-- <cell v-if="type == 5" :title="'维护费1年（至'+setServicingTime+'）'" value="￥200"></cell> -->
          
             <popup-radio title="包装费" :options="packOption" v-model="selectPack.price" v-if="type == 4 || type == 7">
                 <template slot-scope="props" slot="each-item"><!-- use scope="props" when vue < 2.5.0 -->
@@ -372,17 +372,17 @@
                     let $length = this.usable_ticketData.length;
                     //树苗价格 --需加上维护费
                     // this.ticketData.price = 0;
-                    if(this.type == 5 && $length){
-                        if(this.touch === 0){
+                    // if(this.type == 5 && $length){
+                    //     if(this.touch === 0){
                            
-                            this.ticketData = this.usable_ticketData[$length - 1];
+                    //         this.ticketData = this.usable_ticketData[$length - 1];
                             
-                        }
-                        let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
-                        return  (this.goodsNum * this.goodsData.price) - ticketNum + (200 * this.goodsNum) 
-                    }else if(this.type == 5 && !$length){
-                        return  (this.goodsNum * this.goodsData.price) + (200 * this.goodsNum) 
-                    }
+                    //     }
+                    //     let ticketNum = !this.isIntegral ? this.ticketData.price : 0;
+                    //     return  (this.goodsNum * this.goodsData.price) - ticketNum + (200 * this.goodsNum) 
+                    // }else if(this.type == 5 && !$length){
+                    //     return  (this.goodsNum * this.goodsData.price) + (200 * this.goodsNum) 
+                    // }
                     //果子购买 多加包装费
                     if(this.type == 4 && $length){
                         if(this.touch === 0){
@@ -416,15 +416,16 @@
                 //     this.goodsNum * this.goodsData.price
                 // }
             },
-            setServicingTime (){
-                if(this.type == 5){
-                    let unm =tool.utils.getDateByDaysApart(new Date(),365)
-                    return tool.utils.formatDate(unm,'yyyy-MM-dd')
-                    // return 
-                }else{
-                    return 0
-                }
-            },
+            //维护时间
+            // setServicingTime (){
+            //     if(this.type == 5){
+            //         let unm =tool.utils.getDateByDaysApart(new Date(),365)
+            //         return tool.utils.formatDate(unm,'yyyy-MM-dd')
+            //         // return 
+            //     }else{
+            //         return 0
+            //     }
+            // },
             
         },
         watch:{
@@ -473,6 +474,7 @@
 </script>
 <style lang="less" >
     .order{
+        padding-bottom: 50px;
         .site{
             display: flex;
             align-items: center; 
@@ -560,6 +562,7 @@
             bottom: 0; 
             display: flex;
             border-top: 1px solid #bdbdbd;
+            background-color: #fff;
             >div{
                 
             }
