@@ -18,11 +18,11 @@
             <div class="right">
                 <p>{{goodsData.introduce }}</p>
                 <p v-if="goodsData.weight">规格：{{goodsData.weight}}斤</p>
-                <div v-if="!isIntegral  && (type == 5 || type == 4) && isPlatformGoods == 1">
+                <!-- <div v-if="!isIntegral  && (type == 5 || type == 4) && isPlatformGoods == 1">
                     <group>
                         <x-number :title="!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price" v-model="goodsNum" :min="1" width="30px"   ></x-number>
                     </group>
-                </div>
+                </div> -->
                 <p v-else-if="type != 7">{{!isIntegral ? '￥' + goodsData.price : '积分：' + goodsData.price}}</p>
             </div>
         </div>

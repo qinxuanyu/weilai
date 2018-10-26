@@ -17,8 +17,8 @@
         <div class="node" v-html="data.content"></div>
         <p>合同有效期：{{data.endTime}}</p>
         <p>以下无内容！</p>
-        <p class="text-right">甲方：{{data.aname}}</p>
-        <p class="text-right">甲方负责人{{data.lawyer}}</p>
+        <p class="text-right">甲方：贵州问鼎高科技生态农业发展有限公司</p>
+        <!-- <p class="text-right">甲方负责人：{{data.lawyer}}</p> -->
         <p class="text-right">乙方：{{data.bname}}</p>
         <p class="text-right">签约日期：{{data.time || '未签订'}}</p>
         <img class="signet" src="/src/assets/images/signet.png" width="80px" alt="">
