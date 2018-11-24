@@ -9,7 +9,7 @@
             <tabbar-item :selected="$route.path === '/qr-code'" link="/qr-code">
                 <img slot="icon" src="src/assets/images/tab/generalize@2x.png" />
                 <img slot="icon-active" src="src/assets/images/tab/generalize_s@2x.png" />
-                <span slot="label">我的推广</span>
+                <span slot="label">海报名片</span>
             </tabbar-item>
             <tabbar-item  link="/goods">
                 <img slot="icon" src="src/assets/images/tab/member@2x.png" />

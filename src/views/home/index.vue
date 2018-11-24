@@ -1,7 +1,7 @@
 <template>
     <div class="index">
          <div class="message">
-            <p class="msg-text">通知，各位亲爱的共享影视家人们，为平台长久发展做出的考虑，提现50起修改为50的倍数提现。</p>
+            <p class="msg-text">欢迎来到推推商城</p>
         </div>
       
         <div class="big-img-box" @click.stop="clearToken">
@@ -88,7 +88,7 @@
                 api.getMyCode().then(data =>{
                     _this.$router.push('/code')
                 }).catch(e =>{
-                    _this.showTips('您还没购买会员，未获得激活码')
+                    _this.showTips('您尚未获得激活码')
                 })
             },
             clearToken(){

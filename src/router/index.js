@@ -114,6 +114,7 @@ router.beforeEach((to, from, next) => {
   next();
 });
 router.afterEach((to) => {
+  window.scrollTo(0,0);
   store.commit('UPDATE_TITLE',to.meta.title)
   store.commit('UPDATE_LOADING',false)
 })
