@@ -6,7 +6,7 @@ import VueRouter from 'vue-router'
 import App from './App'
 import store from './store';
 import router from './router'
-import  { LoadingPlugin,ConfirmPlugin,WechatPlugin  } from 'vux'
+import  { LoadingPlugin,ConfirmPlugin,WechatPlugin, AlertPlugin   } from 'vux'
 import VueScroller from 'vue-scroller'
 
 Vue.use(WechatPlugin)
@@ -14,6 +14,12 @@ Vue.use(LoadingPlugin)
 Vue.use(VueRouter)
 Vue.use(VueScroller)
 Vue.use(ConfirmPlugin)
+Vue.use(AlertPlugin)
+Vue.filter('numFilter', function (value) {
+   // 返回处理后的值
+  let val = parseInt(value).toFixed(2)
+  return val
+})
 
 FastClick.attach(document.body)
 Vue.prototype.showTips = function (text) {

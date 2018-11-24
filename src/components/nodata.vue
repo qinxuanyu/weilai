@@ -2,7 +2,7 @@
     <div class="nodata">
         <div>
             <img src="src/assets/images/nodata.png" alt="">
-            <p>{{text || '亲，暂无数据哦'}}</p>
+            <p>{{text || '暂无数据'}}</p>
         </div>
     </div>
 </template>

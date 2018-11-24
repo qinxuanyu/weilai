@@ -1,22 +1,35 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{'padddin-bottom-50' : !showTabbar}">
     <!-- 横屏提示 -->
-      <div v-transfer-dom>
-          <div class="lateral-tip" v-show="showLateralTip">
-              <p>为了更好的体验<br>请将您的手机或者平板竖起来</p>
-          </div>
-      </div>
-      <transition name="vux-pop-in">
-          <router-view class="router-view"></router-view>
+		<div v-transfer-dom> 
+			<div class="lateral-tip" v-show="showLateralTip">
+				<p>为了更好的体验<br>请将您的手机或者平板竖起来</p>
+			</div>
+		</div>
+      	<x-header v-show="showHeader" :right-options="{showMore: true}" @on-click-more="showMenusFun">{{title}}</x-header>
+		  <div class="more" v-show="showMenus && showHeader">
+			<div class="triangle"></div>
+			<ul>
+				<li @click="$router.push('/');showMenus = false;">首页</li>
+				<li @click="$router.push('/goods');showMenus = false;">PLUS会员</li>
+				<li @click="$router.push('/my');showMenus = false;">我的</li>
+			</ul>
+		</div>
+		<transition name="vux-pop-in">
+			<router-view class="router-view" @click.stop="menusFidden"></router-view>
 
-      </transition>
-    <bottom-tab :text-color="'red'" v-show="showTabbar"></bottom-tab>
+		</transition>
+    	<bottom-tab :text-color="'red'" v-show="!showTabbar"></bottom-tab>
+		
+    <!-- <div v-transfer-dom>
+      <actionsheet :menus="menus" v-model="showMenus" show-cancel></actionsheet>
+    </div> -->
   </div>
 </template>
 
 <script>
 import BottomTab from "@/components/BottomTab.vue";
-import {TransferDom} from 'vux';
+import {TransferDom, XHeader, Popover, Actionsheet } from 'vux';
 import { mapState } from "vuex";
 import tool from "@/utils/tool";
 import api from "@/api";
@@ -24,20 +37,31 @@ export default {
   name: "app",
   data() {
     return {
-      showLateralTip: false
+      showLateralTip: false,
+      showMenus: false,
+      menus: {
+        menu1: 'Take Photo',
+        menu2: 'Choose from photos'
+      },
     };
   },
   components: {
-    BottomTab
+    BottomTab,
+    XHeader,
+    Popover,
+    Actionsheet 
   },
   directives: {
       TransferDom
   },
   computed: {
-    ...mapState(["tabbarItems"]),
+    ...mapState(["tabbarItems",'title','headerItems']),
     showTabbar() {
-      return this.tabbarItems.indexOf(this.$route.path) !== -1;
-    }
+      return this.tabbarItems.indexOf(this.$route.path) === -1;
+	},
+	showHeader (){
+		return this.headerItems.indexOf(this.$route.path) !== -1;
+	}
   },
   methods: {
     orientationChange() {
@@ -46,7 +70,13 @@ export default {
       } else {
         this.showLateralTip = false;
       }
-    }
+	},
+	menusFidden(){
+		this.showMenus = false;
+	},
+	showMenusFun (){
+		this.showMenus = !this.showMenus;
+	}
   },
   created() {
     let token = tool.local.get("token");
@@ -85,6 +115,33 @@ html {
   font-size: 14px;
   color: #212121;
 }
+.padddin-bottom-50{
+   padding-bottom: 50px;
+}
+.more{
+	position: fixed;
+	right: 20px;
+	top: 70px;
+	z-index: 100;
+	.triangle{
+		width: 20px;
+		height: 20px;
+		position: absolute;
+		top: -10px;
+		right: 10px;
+		background-color: #e95701;
+		transform: rotate(45deg)
+	}
+	ul{
+		background-color: #e95701;
+		color: #fff;
+		li{
+			width: 100px;
+			line-height: 40px;
+			padding-left: 20px;
+		}
+	}
+}
 .router-view{
   // position: fixed;
   // left: 0;
@@ -118,5 +175,8 @@ html {
 
 .vux-pop-in-leave-active {
   transform: translateX(-100%);
+}
+.weui-dialog__btn_primary{
+  color: #e95701;
 }
 </style>

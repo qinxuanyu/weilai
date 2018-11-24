@@ -9,7 +9,8 @@ const  state = {
   userInfo:{},
   title:'',
   isLoading:false,
-  tabbarItems:['/','/store/index','/store/cart','/me']
+  tabbarItems:['/','/qr-code','/store/cart','/my'],
+  headerItems:['/my-friend','/explain','/goods','/order','/my-wallet/2','/my-wallet/1','/details/1','/details/2','/details/3']
 };
 const store = new Vuex.Store({
   state,
@@ -21,7 +22,7 @@ const store = new Vuex.Store({
     UPDATE_TITLE (state,title){
         if(title){
             state.title = title;
-            document.title = title
+            document.title = '推推商城'
         }
     },
     UPDATE_LOADING (state,loading){

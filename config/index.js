@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/plant_api': {
-          target: 'http://120.77.173.162/plant_api',
+      '/video_api': {
+          target: 'http://47.107.230.242/video_api',
           changeOrigin: true,
           pathRewrite: {
-              '^/plant_api': ''
+              '^/video_api': ''
           }
       },
     },
@@ -63,7 +63,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

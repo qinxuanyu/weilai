@@ -1,5 +1,5 @@
 'use strict'
 module.exports = {
   NODE_ENV: '"production"',
-  BASE_API:'"/plant_api"'
+  BASE_API:'"/video_api"'
 }
