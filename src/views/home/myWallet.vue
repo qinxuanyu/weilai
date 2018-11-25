@@ -41,7 +41,7 @@
                         <input type="text" v-model.number="money" placeholder="请输入您要提现的金额">
                     </div>
                     <p class="explain" v-if="type == 1">最小提现金额为60.00元</p>
-                    <p class="explain" v-else-if="type == 2">最小提现金额为50.00元</p>
+                    <!-- <p class="explain" v-else-if="type == 2">最小提现金额为50.00元</p> -->
                     <div class="btn-box">
                         <button @click.stop="showToast = false">取消</button>
                         <button @click.stop="submitWithdraw">确认</button>
@@ -94,7 +94,7 @@
             },
             withdrawClick (){
                 if(this.type == 1){
-                    if(this.myInfo.waitMoney && this.myInfo.waitMoney == 0){
+                    if( this.myInfo.waitMoney && this.myInfo.waitMoney == 0){
                         this.showToast = true
                     }else{
                         this.showTips('您的可提现金额不足60.00元')
@@ -103,7 +103,7 @@
                     if(this.myInfo.freeMoney && this.myInfo.freeMoney >= 50){
                         this.showToast = true
                     }else{
-                        this.showTips('您的可提现金额不足50.00元')
+                        this.showTips('最低50.00元起提')
                     }
                 }
                 

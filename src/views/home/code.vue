@@ -5,7 +5,7 @@
             <input type="text" id="foo" v-model="code">
         </div>
         <x-button data-clipboard-target="#foo" class="btn" :disabled="btnDis">点击复制激活码</x-button>
-        <x-button type="primary">APP下载</x-button>
+        <x-button type="primary" link="/app">APP下载</x-button>
     </div>
 </template>
 <script>

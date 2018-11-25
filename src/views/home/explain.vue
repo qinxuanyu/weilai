@@ -15,7 +15,7 @@
             <p>成为理事条件，直接销售 <span>（300）</span>张，销售渠道 <span>（3000）</span>张</p> -->
         </div>
         <div class="bottom">
-            <p class="num">当前：直推0张，渠道0张</p>
+            <p class="num">当前：直推{{z_num}}张，渠道{{h_num}}张</p>
             <p class="title">您还未达标，快去推广吧！</p>
             <x-button link="/qr-code">我要推广</x-button>
         </div>
@@ -23,6 +23,7 @@
 </template>
 <script>
     import { Tab, TabItem, XButton } from 'vux'
+    import api from '@/api'
     export default {
         data (){
             return{
@@ -42,7 +43,9 @@
                     grade:'理事',
                     zSales:300,
                     qSales:3000
-                }]
+                }],
+                z_num:0,
+                h_num:0
             }
         },
         components: {
@@ -50,7 +53,23 @@
             TabItem,
             XButton
         },
-
+        methods:{
+            getMyTeam (){
+                let _this = this;
+                api.myTeam().then(data =>{
+                    if(data){
+                        _this.z_num =  data.zhiNum.split('/')[1];
+                       
+                       
+                        _this.h_num = data.zhiNum.split('/')[1];
+                       
+                    }
+                }).catch(e =>{})
+            },
+        },
+        created (){
+            this.getMyTeam()
+        }
     }
 </script>
 <style lang="less" scoped>
