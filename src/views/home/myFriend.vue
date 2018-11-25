@@ -59,7 +59,7 @@
                         _this.z_num = data.zhiNum.split('/')[0] + '人/' + data.zhiNum.split('/')[1];
                        
                         _this.z_list = data.zhiDtos;
-                        _this.h_num = data.tuanNum.split('/')[0] + '人/' + data.zhiNum.split('/')[1];
+                        _this.h_num = data.tuanNum.split('/')[0] + '人/' + data.tuanNum.split('/')[1];
                         _this.h_list = data.tuanDtos;
                     }
                 }).catch(e =>{})

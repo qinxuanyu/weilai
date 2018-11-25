@@ -91,9 +91,10 @@
             this.getMyInfo()
         },
         mounted() {
-            this.setCanvas();
+            let _this = this;
             this.$nextTick(()=>{
-                console.log(2)
+                this.setCanvas();
+                
                  setTimeout(function(){
                     var canvas = document.getElementById('myCanvas');
                     var strDataURI = canvas.toDataURL("image/jpeg");

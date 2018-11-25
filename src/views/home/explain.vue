@@ -16,7 +16,7 @@
         </div>
         <div class="bottom">
             <p class="num">当前：直推{{z_num}}张，渠道{{h_num}}张</p>
-            <p class="title">您还未达标，快去推广吧！</p>
+            <p class="title">{{textTitle}}</p>
             <x-button link="/qr-code">我要推广</x-button>
         </div>
     </div>
@@ -45,7 +45,8 @@
                     qSales:3000
                 }],
                 z_num:0,
-                h_num:0
+                h_num:0,
+                textTitle:'您还未达标，快去推广吧！'
             }
         },
         components: {
@@ -66,9 +67,35 @@
                     }
                 }).catch(e =>{})
             },
+            getMyInfo (){
+                let _this = this;
+                api.getMyInfo().then(data =>{
+                    _this.textTitle = _this.setLevel(data.level);
+                }).catch(e =>{})
+            },
+            setLevel (status){
+                switch (status){
+                    case 0:
+                        return '您还未达标，快去推广吧！';
+                        break;
+                     case 1:
+                        return '恭喜你成为会员！';
+                        break
+                     case 2:
+                        return '恭喜你成为店长！';
+                        break
+                     case 3:
+                        return '恭喜你成为店长经理！';
+                        break
+                     case 4:
+                        return '恭喜你成为店长总监！';
+                        break
+                }
+            }
         },
         created (){
-            this.getMyTeam()
+            this.getMyTeam();
+            this.getMyInfo()
         }
     }
 </script>
