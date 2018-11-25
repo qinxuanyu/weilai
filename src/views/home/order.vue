@@ -14,7 +14,7 @@
             <span class="title">商品总额</span>
             <span class="num">￥69.00</span>
         </div>
-        <p class="explain">应付金额 <span>￥69.00</span>请选择一下支付方式支付</p>
+        <p class="explain">应付金额 <span>￥69.00</span>请选择以下支付方式支付</p>
         <div class="pay-type">
             <img class="icon-1" src="/src/assets/images/my/par_wechat@2x.png" alt="">
             <span>微信支付</span>
@@ -169,6 +169,7 @@
             display: flex;
             justify-content: space-between;
             padding-right: 14px;
+            align-items: center;
             .icon-1{
                 width: 28px;
                 height: 28px;
@@ -184,10 +185,13 @@
             
         }
         .submit-btn{
-            width: 93%;
+            width: 100%;
             display: block;
             height: 40px;
-            margin: 200px auto 0 auto;
+            /* margin: 200px auto 0 auto; */
+            position: fixed;
+            left: 0;
+            bottom: 0;
             background-color: #e95701;
             color: #fff;
             border: 0;

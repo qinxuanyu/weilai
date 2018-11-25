@@ -73,15 +73,15 @@
                 var _box = document.querySelector('.message');
                 var _text = document.querySelector('.msg-text');
                 var left = 0;
-                if(_text.clientWidth > _box.clientWidth){
+                // if(_text.clientWidth > _box.clientWidth){
                     setInterval(function(){
                         left += 2;
                         _text.style.left = - left +'px'
-                        if(left > (_text.clientWidth - _box.clientWidth)){
+                        if(left > ( _text.clientWidth)){
                             left = -10;
                         }
                     },100)
-                }
+                // }
             },
             getMyCode (){
                 let _this = this;
@@ -135,14 +135,18 @@
            
         },
         mounted() {
-            this.setMsgAnimation()
+            let _this = this;
+            this.$nextTick(()=>{
+                _this.setMsgAnimation()
+                
+            })
         },
     }
 </script>
 <style lang="less" scoped>
     .index{
         .message{
-            width: 80%;
+            width: 50%;
             margin: 5px auto;
             padding: 8px 5px;
             overflow: hidden;
@@ -151,8 +155,11 @@
             // border: 1px solid #f3f3f3;
             
             p{
+                display: block;
+                min-width: 105%;
+                text-align: center;
                 position: absolute;
-                width: auto;
+                /* width: auto; */
                 font-size: 16px;
                 white-space: nowrap;
             }

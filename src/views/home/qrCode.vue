@@ -72,12 +72,12 @@
                         _this.isShowQRcode = false;
                         _this.$vux.alert.show({
                             title: '提示',
-                            content: '您暂时无法生成名片，只有购买后的会员才会显示二维码图',
+                            content: '您暂时无法生成名片',
                             onShow () {
                                
                             },
                             onHide () {
-                            //    _this.$router.push('/goods')
+                               _this.$router.push('/my')
                             }
                         })
 
