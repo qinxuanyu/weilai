@@ -10,7 +10,7 @@ const  state = {
   title:'',
   isLoading:false,
   tabbarItems:['/','/qr-code','/store/cart','/my'],
-  headerItems:['/my-friend','/explain','/goods','/order','/my-wallet/2','/my-wallet/1','/details/1','/details/2','/details/3','/qr-code']
+  headerItems:['/my-friend','/explain','/goods','/order','/my-wallet/2','/my-wallet/1','/details/1','/details/2','/details/3','/qr-code','/code']
 };
 const store = new Vuex.Store({
   state,

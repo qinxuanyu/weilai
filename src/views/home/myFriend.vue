@@ -24,7 +24,7 @@
                 v-for="(item,index) in h_list"
                 :key="index"
                 :url="item.imageUrl"
-                :name="item.name"
+                :name="item.name + '('+ setLevel(item.level )+')'"
                 :id="item.uid "
                 :time="item.createTime "
             >
@@ -73,13 +73,13 @@
                         return '会员';
                         break
                      case 2:
-                        return '店长';
+                        return '会员';
                         break
                      case 3:
-                        return '经理';
+                        return '会员';
                         break
                      case 4:
-                        return '总监';
+                        return '会员';
                         break
                 }
             }

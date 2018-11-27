@@ -38,7 +38,7 @@
                     <div class="input-box">
                         <input type="text" v-model="payCode" placeholder="请输入您的支付宝账号">
                         <input type="text" v-model="payName" placeholder="请输入您支付宝实名认证的姓名">
-                        <input type="text" v-model.number="money" placeholder="请输入您要提现的金额">
+                        <input type="number" v-model.number="money" placeholder="请输入您要提现的金额">
                     </div>
                     <p class="explain" v-if="type == 1">最小提现金额为60.00元</p>
                     <!-- <p class="explain" v-else-if="type == 2">最小提现金额为50.00元</p> -->
@@ -94,14 +94,25 @@
             },
             withdrawClick (){
                 if(this.type == 1){
-                    if( this.myInfo.waitMoney && this.myInfo.waitMoney == 0){
+                    if(this.myInfo.waitMoney && (60 - this.myInfo.waitMoney ) == 0){
+                        this.showTips('余额不足');
+                        return
+                    }
+                    if(  (60 - this.myInfo.waitMoney ) == 60){
+
                         this.showToast = true
+                        return
                     }else{
                         this.showTips('您的可提现金额不足60.00元')
                     }
                 }else if(this.type == 2){
+                    if(this.myInfo.freeMoney && this.myInfo.freeMoney == 0){
+                        this.showTips('余额不足')
+                        return
+                    }
                     if(this.myInfo.freeMoney && this.myInfo.freeMoney >= 50){
-                        this.showToast = true
+                        this.showToast = true;
+                        return
                     }else{
                         this.showTips('最低50.00元起提')
                     }
@@ -117,7 +128,14 @@
                 }else if(!this.money){
                     return this.showTips('请输入提现金额')
                 }
-               
+                if(String(this.money).indexOf('.') !== -1){
+                    return this.showTips('请输入整数')
+                }
+                if(this.type == 1){
+                    if(this.money != 60){
+                        return this.showTips('最少提现金额为60元')
+                    }
+                }
                 api.withdraw({
                     money:this.money,
                     payCode:this.payCode,
@@ -144,6 +162,9 @@
             }
         },
         computed:{
+            
+        },
+        watch:{
             
         },
         created() {
@@ -243,6 +264,7 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 27px;
+            margin-top: 30px;
             button:nth-child(1){
                 width: 106px;
                 height: 32px;

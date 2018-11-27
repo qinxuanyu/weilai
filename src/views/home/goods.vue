@@ -25,7 +25,7 @@
                 <img src="/src/assets/images/my/par_service@2x.png" alt="">
                 <p>客服</p>
             </div>
-            <button @click.stop="show3 = true">立即购买</button>
+            <button @click.stop="linkOrder">立即购买</button>
         </div>
         <popup v-model="show3">
             <div class="popup2">
@@ -43,12 +43,13 @@
                     <span>购买数量</span>
                     <span>1</span>
                 </div>
-                <button @click.stop="linkOrder">立即购买</button>
+                <button @click.stop="$router.push('/order')">立即购买</button>
             </div>
         </popup>
     </div>
 </template>
 <script>
+    const getPayOpenIdUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9dc597272dd31908&redirect_uri=http%3a%2f%2fslx.familyiu.com%2f%23%2fgoods&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
     import { LoadMore, TransferDom, Popup } from 'vux'
     import tool from '@/utils/tool'
     import api from '@/api'
@@ -67,11 +68,11 @@
         },
         methods:{
             linkOrder(){
-                let payOpenId = tool.local.get('payOpenId');
+                let payOpenId = tool.session.get('payOpenId');
                 if(payOpenId){
-                    this.$router.push('/order')
+                    this.show3 = true;
                 }else{
-                    window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa1196363d9c1168&redirect_uri=http%3a%2f%2fyoh.tongyanbaby.cn%2f%23%2fgoods&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
+                    window.location.href = getPayOpenIdUrl;
                 }
                 
             },
@@ -88,20 +89,23 @@
         },
         created() {
             let code = tool.utils.getUrlParam('code');
-            let payOpenId = tool.local.get('payOpenId');
-            // tool.local.clear('payOpenId')
+            let payOpenId = tool.session.get('payOpenId');
+            // tool.session.clear('payOpenId')
             this.getGoodsDetailFun()
             if(code && !payOpenId){
                 api.moLogin({
                     code:code,
                 }).then(data =>{
                     if(data){
-                        tool.local.set('payOpenId',data)
+                        tool.session.set('payOpenId',data);
+                        
+                    }else{
+                        window.location.href= getPayOpenIdUrl;
                     }
                 }).catch(e =>{})
             }
             if(!code &&  !payOpenId){
-                window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfa1196363d9c1168&redirect_uri=http%3a%2f%2fyoh.tongyanbaby.cn%2f%23%2fgoods&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
+                window.location.href = getPayOpenIdUrl;
             }
             
          

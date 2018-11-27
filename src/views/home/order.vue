@@ -37,7 +37,7 @@
                 let _this = this;
                 api.submitOrder({
                     goodsId:1,
-                    totalMoney:0.01,
+                    totalMoney:69.00,
 
                 }).then(data =>{
                     if(data){
@@ -49,12 +49,12 @@
                 }).catch(e =>{})
             },
             pay(orderId){
-                let openId = tool.local.get('payOpenId');
+                let openId = tool.session.get('payOpenId');
                 let _this = this;
                 api.pay({
                    openid: openId,
                    orderId:orderId,
-                   total_fee:0.01,
+                   total_fee:69.00,
                    type:1
                 }).then(data =>{
                     _this.wxConfirmFun(data)

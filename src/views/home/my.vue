@@ -62,7 +62,7 @@
                 },{
                     title:'使用帮助',
                     icon:'/src/assets/images/my/me_question@2x.png',
-                    link:'',
+                    link:'/flow',
                     inline:'常见问题，不懂戳这'
                 },{
                     title:'在线客服',
@@ -92,7 +92,7 @@
                         _this.cellArr = [{
                             title:'使用帮助',
                             icon:'/src/assets/images/my/me_question@2x.png',
-                            link:'',
+                            link:'/flow',
                             inline:'常见问题，不懂戳这'
                         },{
                             title:'在线客服',
@@ -112,13 +112,13 @@
                         return '会员';
                         break
                      case 2:
-                        return '店长';
+                        return '会员';
                         break
                      case 3:
-                        return '经理';
+                        return '会员';
                         break
                      case 4:
-                        return '总监';
+                        return '会员';
                         break
                 }
             }

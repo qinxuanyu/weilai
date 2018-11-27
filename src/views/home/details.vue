@@ -61,21 +61,22 @@
                 }
             },
             setContent(type,name,money){
+                let _this = this;
                 switch (type){
                     case 0:
-                        return '每日赠送' + money +'元'
+                        return '每日赠送' + money.toString() +'元'
                         break
                      case 1:        //直推
-                        return '会员【' + name + '】返佣' + money + '元'
+                        return '会员【' + name + '】返佣' + money.toString() + '元'
                         break
                      case 2:   //级差
-                        return '会员【' + name + '】返佣' + money + '元'
+                        return '会员【' + name + '】返佣' + money.toString() + '元'
                         break
                      case 3:    //见点
-                        return '【'+ name+'】提现，获得'+money +'元'
+                        return '总监提现，获得'+money.toString() +'元'
                         break
                     case 4:
-                        return '提现' + money +'元'
+                        return  '提现' + money.toString() +'元'
                         break
                 }
             }

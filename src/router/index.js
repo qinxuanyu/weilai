@@ -19,7 +19,7 @@ let router =  new Router({
       name: 'qrCode',
       component: () => import('@/views/home/qrCode.vue'),
       meta:{
-        title:'分享二维码'
+        title:'长按保存'
       }
     },
     {
@@ -100,6 +100,14 @@ let router =  new Router({
       component: () => import('@/views/home/service.vue'),
       meta:{
         title:'在线客服'
+      }
+    },
+    {
+      path: '/flow', //1账户明细 2提现记录 3佣金记录
+      name: 'flow',
+      component: () => import('@/views/home/flow.vue'),
+      meta:{
+        title:'使用帮助'
       }
     },
   ]

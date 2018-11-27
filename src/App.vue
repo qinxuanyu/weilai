@@ -13,10 +13,11 @@
 				<li @click="$router.push('/');showMenus = false;">首页</li>
 				<li @click="$router.push('/goods');showMenus = false;">PLUS会员</li>
 				<li @click="$router.push('/my');showMenus = false;">我的</li>
+        <li @click="clearToken">清除缓存</li>
 			</ul>
 		</div>
 		<transition name="vux-pop-in">
-			<router-view class="router-view" @click.stop="menusFidden"></router-view>
+			<router-view class="router-view" @click.native.stop="menusFidden"></router-view>
 
 		</transition>
     	<bottom-tab :text-color="'red'" v-show="!showTabbar"></bottom-tab>
@@ -70,13 +71,18 @@ export default {
       } else {
         this.showLateralTip = false;
       }
-	},
-	menusFidden(){
-		this.showMenus = false;
-	},
-	showMenusFun (){
-		this.showMenus = !this.showMenus;
-	}
+    },
+    menusFidden(){
+      this.showMenus = false;
+    },
+    showMenusFun (){
+      this.showMenus = !this.showMenus;
+    },
+    clearToken (){
+      tool.local.clear('token');
+      tool.local.clear('payOpenId');
+      this.showMenus = false;
+    }
   },
   created() {
     let token = tool.local.get("token");

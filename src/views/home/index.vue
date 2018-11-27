@@ -16,7 +16,7 @@
                 <img slot="icon" src="src/assets/images/index/activation@2x.png">
                 <span slot="label">我的激活码</span>
             </tabbar-item>
-            <tabbar-item  link="/app">
+            <tabbar-item  link="/app" >
                 <img slot="icon" src="src/assets/images/index/app_download@2x.png">
                 <span slot="label">APP下载</span>
             </tabbar-item>
@@ -92,7 +92,7 @@
                 })
             },
             clearToken(){
-                tool.local.clear('token')
+                this.$router.push('/goods')
             }
         },
         created() {
@@ -128,7 +128,7 @@
                  if(!this.$store.getters.token){
                         // tool.local.set('isAuth','on');
                     setTimeout(()=>{
-                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd808625986ae581&redirect_uri=http%3a%2f%2fyoh.tongyanbaby.cn%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd808625986ae581&redirect_uri=http%3a%2f%2fslx.familyiu.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
                     },100)
                 }
             }

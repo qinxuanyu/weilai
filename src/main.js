@@ -8,6 +8,7 @@ import store from './store';
 import router from './router'
 import  { LoadingPlugin,ConfirmPlugin,WechatPlugin, AlertPlugin   } from 'vux'
 import VueScroller from 'vue-scroller'
+import VueClipboard from 'vue-clipboard2'
 
 Vue.use(WechatPlugin)
 Vue.use(LoadingPlugin)
@@ -15,9 +16,10 @@ Vue.use(VueRouter)
 Vue.use(VueScroller)
 Vue.use(ConfirmPlugin)
 Vue.use(AlertPlugin)
+Vue.use(VueClipboard)
 Vue.filter('numFilter', function (value) {
    // 返回处理后的值
-  let val = parseInt(value).toFixed(2)
+  let val = parseFloat(value).toFixed(2)
   return val
 })
 

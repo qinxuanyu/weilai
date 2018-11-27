@@ -42,7 +42,7 @@
                 },{
                     grade:'理事',
                     zSales:300,
-                    qSales:3000
+                    qSales:30000
                 }],
                 z_num:0,
                 h_num:0,
@@ -62,7 +62,7 @@
                         _this.z_num =  data.zhiNum.split('/')[1];
                        
                        
-                        _this.h_num = data.zhiNum.split('/')[1];
+                        _this.h_num = data.tuanNum.split('/')[1];
                        
                     }
                 }).catch(e =>{})
@@ -76,19 +76,19 @@
             setLevel (status){
                 switch (status){
                     case 0:
-                        return '您还未达标，快去推广吧！';
+                        return '您还未达标，快加油吧！';
                         break;
                      case 1:
-                        return '恭喜你成为会员！';
+                        return '您还未达标，快加油吧！';
                         break
                      case 2:
                         return '恭喜你成为店长！';
                         break
                      case 3:
-                        return '恭喜你成为店长经理！';
+                        return '恭喜你成为经理！';
                         break
                      case 4:
-                        return '恭喜你成为店长总监！';
+                        return '恭喜你成为总监！';
                         break
                 }
             }

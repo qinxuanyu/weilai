@@ -4,7 +4,8 @@
             <p>请您复制下列激活码</p>
             <input type="text" id="foo" v-model="code">
         </div>
-        <x-button data-clipboard-target="#foo" class="btn" :disabled="btnDis">点击复制激活码</x-button>
+        <x-button     v-clipboard:copy="code"
+            v-clipboard:success="onCopy">点击复制激活码</x-button>
         <x-button type="primary" link="/app">APP下载</x-button>
     </div>
 </template>
@@ -32,7 +33,10 @@
                     _this.code =  '未获得激活码';
                     _this.btnDis = true;
                 })
-            }
+            },
+            onCopy(e){
+                this.showTips('复制成功')
+            },
         },
         created() {
             this.getCode()
@@ -69,6 +73,7 @@
                 font-size: 16px;
                 color: #e95701;
                 text-align: center;
+                
             }
         }
         button{
