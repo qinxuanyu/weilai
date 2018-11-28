@@ -31,8 +31,8 @@
             <x-dialog v-model="showToast" class="dialog-demo" :hide-on-blur="true">
                 <div class="pop-box">
                     <div class="title">
-                        <p>请输入您的提现金额，提现手续费3%</p>
-
+                        <!-- <p>请输入您的提现金额，提现手续费3%</p> -->
+                        <p>  </p>
                         <img @click.stop="showToast = false" src="/src/assets/images/my/par_close.png" alt="">
                     </div>
                     <div class="input-box">
