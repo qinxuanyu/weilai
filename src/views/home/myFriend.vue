@@ -73,13 +73,13 @@
                         return '会员';
                         break
                      case 2:
-                        return '会员';
+                        return '店长';
                         break
                      case 3:
-                        return '会员';
+                        return '经理';
                         break
                      case 4:
-                        return '会员';
+                        return '总监';
                         break
                 }
             }
