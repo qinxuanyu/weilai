@@ -13,11 +13,11 @@
                 if (isAndroid) {
                     //这个是安卓操作系统
                     // alert('安卓系统')
-                    window.location.href= "http://app.3k832.cn/efp"
+                    window.location.href= "http://65iq588.jishicinemas.cn/U1m0y2"
                 }
                 if (isIOS) {
             　　　　//这个是ios操作系统
-                    window.location.href = 'http://app.3k832.cn/efn'
+                    window.location.href = 'http://65iq588.jishicinemas.cn/U1m0y2'
                 }
             }
         },
