@@ -55,10 +55,9 @@
                 //二维码
                 var qrcode = document.querySelector('.qrcode img')
                 qrcode.onload = function (){
-                    console.log('二维码加载完成')
                     setTimeout(function(){
                         context.drawImage(qrcode,350, 1400,300,300);
-                    },500)
+                    },1000)
                 }
                 qrcode.onerror = function(){
                     window.location.reload();
@@ -92,22 +91,26 @@
             this.name = tool.local.get('nickName');
             this.uid =  tool.local.get('uid');
             this.getMyInfo()
+           
+
         },
         mounted() {
             let _this = this;
+           
             this.$nextTick(()=>{
-                console.log('页面加载完成')
-                _this.setCanvas();
                 
+                _this.setCanvas();
                  setTimeout(function(){
                     var canvas = document.getElementById('myCanvas');
                     var strDataURI = canvas.toDataURL("image/jpeg");
-                    document.querySelector('.result').setAttribute('src',strDataURI)
-                },1000)
+                    document.querySelector('.result').setAttribute('src',strDataURI);
+                    console.log('关闭')
+                    // _this.$store.commit("UPDATE_LOADING", false);
+                },1200)
             })
         },
         updated() {
-            
+            this.$store.commit("UPDATE_LOADING", true);
         },
     }
     // window.onload = function(){

@@ -31,7 +31,7 @@
             <x-dialog v-model="showToast" class="dialog-demo" :hide-on-blur="true">
                 <div class="pop-box">
                     <div class="title">
-                        <!-- <p>请输入您的提现金额，提现手续费3%</p> -->
+                        <p>请输入您的提现金额</p>
                         <p>  </p>
                         <img @click.stop="showToast = false" src="/src/assets/images/my/par_close.png" alt="">
                     </div>
@@ -110,11 +110,11 @@
                         this.showTips('余额不足')
                         return
                     }
-                    if(this.myInfo.freeMoney && this.myInfo.freeMoney >= 50){
+                    if(this.myInfo.freeMoney && this.myInfo.freeMoney >= 30){
                         this.showToast = true;
                         return
                     }else{
-                        this.showTips('最低50.00元起提')
+                        this.showTips('最低30.00元起提')
                     }
                 }
                 
