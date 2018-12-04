@@ -3,7 +3,7 @@
         <div class="top">
             <div v-if="type == 1">
                 <p>赠送余额</p>
-                <p class="num">{{(60 - myInfo.waitMoney ) | numFilter}}</p>
+                <p class="num">{{myInfo.waitMoney >=0 ? (60 - myInfo.waitMoney ) : 0 | numFilter}}</p>
             </div>
             <div v-else-if="type == 2">
                 <p>可用余额</p>
@@ -98,6 +98,10 @@
                         this.showTips('余额不足');
                         return
                     }
+                    if(this.myInfo.waitMoney == -1){
+                        this.showTips('您已经提现');
+                        return
+                    }
                     if(  (60 - this.myInfo.waitMoney ) == 60){
 
                         this.showToast = true
@@ -134,6 +138,11 @@
                 if(this.type == 1){
                     if(this.money != 60){
                         return this.showTips('最少提现金额为60元')
+                    }
+                }
+                if(this.type == 2){
+                    if(this.money%30 !== 0){
+                        return this.showTips('请输入30的倍数')
                     }
                 }
                 api.withdraw({

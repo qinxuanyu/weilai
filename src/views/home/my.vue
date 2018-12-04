@@ -84,7 +84,7 @@
                 let _this = this;
                 api.getMyInfo().then(data =>{
                     _this.myInfo = data;
-                    _this.gridArr[0].num = data.waitMoney || '0';
+                    _this.gridArr[0].num =  data.waitMoney >= 0 ? data.waitMoney : 0;
                     _this.gridArr[1].num = data.freeMoney  ||'0';
                     // console.log(_this.gridArr[1].num)
                     _this.gridArr[2].num = data.allMoney || '0';

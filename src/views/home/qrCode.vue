@@ -110,17 +110,10 @@
             })
         },
         updated() {
-            this.$store.commit("UPDATE_LOADING", true);
+            // this.$store.commit("UPDATE_LOADING", true);
         },
     }
-    // window.onload = function(){
-    //     console.log('就绪')
-    //     setTimeout(function(){
-    //         var canvas = document.getElementById('myCanvas');
-    //         var strDataURI = canvas.toDataURL("image/jpeg");
-    //         document.querySelector('.result').setAttribute('src',strDataURI)
-    //     },1000)
-    // }
+
 </script>
 <style lang="less">
     .qr-code{
