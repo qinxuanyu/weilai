@@ -46,7 +46,9 @@
                         _this.showTips('订单错误')
                     }
                     // _this
-                }).catch(e =>{})
+                }).catch(e =>{
+                    _this.showTips(e.msg)
+                })
             },
             pay(orderId){
                 let openId = tool.session.get('payOpenId');
@@ -58,7 +60,9 @@
                    type:1
                 }).then(data =>{
                     _this.wxConfirmFun(data)
-                }).catch(e =>{})
+                }).catch(e =>{
+                    _this.showTips(e.msg)
+                })
             },
             wxConfirmFun(data){
                 let _this = this;
