@@ -140,11 +140,11 @@
                         return this.showTips('最少提现金额为60元')
                     }
                 }
-                if(this.type == 2){
-                    if(this.money%30 !== 0){
-                        return this.showTips('请输入30的倍数')
-                    }
-                }
+                // if(this.type == 2){
+                //     if(this.money%30 !== 0){
+                //         return this.showTips('请输入30的倍数')
+                //     }
+                // }
                 api.withdraw({
                     money:this.money,
                     payCode:this.payCode,

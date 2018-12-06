@@ -41,8 +41,8 @@
                     qSales:500
                 },{
                     grade:'理事',
-                    zSales:300,
-                    qSales:30000
+                    zSales:200,
+                    qSales:20000
                 }],
                 z_num:0,
                 h_num:0,
