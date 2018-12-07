@@ -5,7 +5,7 @@
                 <div class="time">{{time}}</div>
                 <div class="type">{{type}}</div>
             </div>
-            <p class="content">{{content}}</p>
+            <p class="content" v-html="content"></p>
         </div>
     </div>
 </template>
@@ -18,7 +18,7 @@
         }
     }
 </script>
-<style lang="less" scoped>
+<style lang="less">
     .record-list{
         .item{
             padding: 10px 15px;
@@ -32,6 +32,9 @@
             }
             .content{
                 font-size: 16px;
+                >span{
+                    color: red;
+                }
             }
         }
     }

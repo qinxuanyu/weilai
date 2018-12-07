@@ -76,7 +76,7 @@
                         return '总监提现，获得'+money.toString() +'元'
                         break
                     case 4:
-                        return  '提现' + money.toString() +'元'
+                        return  '申请提现金额<span>￥' + money.toString() +'</span>，到账金额<span>￥' + money.toString() +'</span>'
                         break
                 }
             }
