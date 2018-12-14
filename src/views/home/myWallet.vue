@@ -2,7 +2,7 @@
     <div class="my-wallet">
         <div class="top">
             <div v-if="type == 1">
-                <p>赠送余额</p>
+                <p>赠送积分</p>
                 <p class="num">{{myInfo.waitMoney >=0 ? (60 - myInfo.waitMoney ) : 0 | numFilter}}</p>
             </div>
             <div v-else-if="type == 2">
@@ -95,7 +95,7 @@
             withdrawClick (){
                 if(this.type == 1){
                     if(this.myInfo.waitMoney && (60 - this.myInfo.waitMoney ) == 0){
-                        this.showTips('余额不足');
+                        this.showTips('您的积分还未满60');
                         return
                     }
                     if(this.myInfo.waitMoney == -1){
@@ -107,7 +107,7 @@
                         this.showToast = true
                         return
                     }else{
-                        this.showTips('您的可提现金额不足60.00元')
+                        this.showTips('您的积分还未满60')
                     }
                 }else if(this.type == 2){
                     if(this.myInfo.freeMoney && this.myInfo.freeMoney == 0){

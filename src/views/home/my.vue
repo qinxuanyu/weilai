@@ -35,7 +35,7 @@
         data (){
             return{
                 gridArr:[{
-                    title:'待赠佣金',
+                    title:'待赠积分',
                     num:'0'
                 },{
                     title:'可提金额',
@@ -50,10 +50,10 @@
                     link:'/explain',
                     inline:'拓展你的好友圈！！'
                 },{
-                    title:'赠送钱包',
+                    title:'待赠积分',
                     icon:'/src/assets/images/my/me_give@2x.png',
                     link:'my-wallet/1',
-                    inline:'平台赠送金额'
+                    inline:'每日累计，平台赠送'
                 },{
                     title:'我的钱包',
                     icon:'/src/assets/images/my/me_wallet@2x.png',
