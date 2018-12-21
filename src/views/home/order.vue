@@ -37,8 +37,8 @@
                 let _this = this;
                 api.submitOrder({
                     goodsId:1,
-                    // totalMoney:69.00,
-                    totalMoney:0.01,
+                    totalMoney:69.00,
+                    // totalMoney:0.01,
 
 
                 }).then(data =>{
@@ -58,8 +58,8 @@
                 api.pay({
                    openid: openId,
                    orderId:orderId,
-                //    total_fee:69.00,
-                   total_fee:0.01,
+                   total_fee:69.00,
+                //    total_fee:0.01,
 
                    type:1
                 }).then(data =>{
