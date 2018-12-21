@@ -81,6 +81,9 @@
                      case 4:
                         return '总监';
                         break
+                    case 5:
+                        return '理事';
+                        break
                 }
             }
         },

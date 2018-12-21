@@ -4,7 +4,13 @@
     </div>
 </template>
 <script>
+    import api from '@/api';
     export default {
+        data (){
+            return{
+                urlList:[]
+            }
+        },
         methods:{
             arouseApp (){
                 var u = navigator.userAgent, app = navigator.appVersion;
@@ -13,16 +19,31 @@
                 if (isAndroid) {
                     //这个是安卓操作系统
                     // alert('安卓系统')
-                    window.location.href= "http://app.3k832.cn/efn"
+                    window.location.href= this.urlList[0].address;
                 }
                 if (isIOS) {
-            　　　　//这个是ios操作系统
-                    window.location.href = 'http://app.3k832.cn/efn'
+            // 　　　　//这个是ios操作系统
+                    window.location.href =  this.urlList[1].address;
                 }
+            },
+            getAppUrl (){
+                api.downloadAddress().then((result) => {
+                    console.log(result)
+                    if(result){
+                        
+                        this.urlList = result;
+                        this.arouseApp()
+                    }else{
+                        this.showTips('获取链接失败')
+                    }
+                }).catch((err) => {
+                    
+                });
             }
         },
         created() {
-            this.arouseApp()
+            // this.arouseApp()
+            this.getAppUrl()
         },
     }
 </script>

@@ -6,7 +6,7 @@
         <div class="material">
             <img src="/src/assets/t_bg_ing.jpg" id="bg-img" alt="" >
             <!-- <img :src="avatar" class="qr-img" alt=""  width="50" height="50"> -->
-            <qrcode :value="'http://slx.familyiu.com/#/?uid='+uid" class="qrcode" type="img"></qrcode>
+            <qrcode :value="'http://wsyc.tongyanbaby.cn/transpond.html?uid='+uid" class="qrcode" type="img"></qrcode>
         </div>
         <img src="" alt="" class="result" v-show="isShowQRcode">
         
@@ -35,8 +35,8 @@
                 const wWidth = window.innerWidth;
                 var canvas = document.getElementById('myCanvas');
                 var context = canvas.getContext('2d');
-                canvas.width = 1000;
-                canvas.height = 2000;
+                canvas.width = 640;
+                canvas.height = 1008;
                 
                 var bgImg = document.getElementById('bg-img');
                 bgImg.style.width =  (wWidth) + 'px';
@@ -44,11 +44,11 @@
                 bgImg.onload = function(){
                 
                     let height = bgImg.height;
-                    context.drawImage(bgImg,0,0,1000,2000);
-                    context.font="50px 微软雅黑";
+                    context.drawImage(bgImg,0,0,640,1008);
+                    context.font="30px 微软雅黑";
                     context.fillStyle  = 'white';
-                    
-                    context.fillText(_this.name,70,130);
+                    //昵称文字
+                    context.fillText(_this.name,30,50);
                 }
                 
                 
@@ -56,7 +56,7 @@
                 var qrcode = document.querySelector('.qrcode img')
                 qrcode.onload = function (){
                     setTimeout(function(){
-                        context.drawImage(qrcode,350, 1400,300,300);
+                        context.drawImage(qrcode,305, 655,200,200);
                     },1000)
                 }
                 qrcode.onerror = function(){
@@ -123,7 +123,7 @@
         }
         canvas{
             width: 100vw;
-            height: 200vw;
+            height: 157.5vw;
             // margin: 0 auto;
         }
         .material{

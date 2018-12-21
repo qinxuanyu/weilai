@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/video_api': {
-          target: 'http://47.107.230.242/video_api',
+          target: 'http://wsyc.xiongangs.com/video_api',
           changeOrigin: true,
           pathRewrite: {
               '^/video_api': ''

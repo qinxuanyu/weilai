@@ -3,7 +3,7 @@
         <div class="top">
             <div v-if="type == 1">
                 <p>赠送积分</p>
-                <p class="num">{{myInfo.waitMoney >=0 ? (60 - myInfo.waitMoney ) : 0 | numFilter}}</p>
+                <p class="num">{{myInfo.waitMoney >=0 ? (68 - myInfo.waitMoney ) : 0 | numFilter}}</p>
             </div>
             <div v-else-if="type == 2">
                 <p>可用余额</p>
@@ -31,8 +31,8 @@
             <x-dialog v-model="showToast" class="dialog-demo" :hide-on-blur="true">
                 <div class="pop-box">
                     <div class="title">
-                        <p>请输入您的提现金额</p>
-                        <p>  </p>
+                        <!-- <p>请输入您的提现金额</p> -->
+                        <p>请认真核对你的提现账户</p>
                         <img @click.stop="showToast = false" src="/src/assets/images/my/par_close.png" alt="">
                     </div>
                     <div class="input-box">
@@ -40,7 +40,7 @@
                         <input type="text" v-model="payName" placeholder="请输入您支付宝实名认证的姓名">
                         <input type="number" v-model.number="money" placeholder="请输入您要提现的金额">
                     </div>
-                    <p class="explain" v-if="type == 1">最小提现金额为60.00元</p>
+                    <p class="explain" v-if="type == 1">最小提现金额为68.00元</p>
                     <!-- <p class="explain" v-else-if="type == 2">最小提现金额为50.00元</p> -->
                     <div class="btn-box">
                         <button @click.stop="showToast = false">取消</button>
@@ -94,20 +94,20 @@
             },
             withdrawClick (){
                 if(this.type == 1){
-                    if(this.myInfo.waitMoney && (60 - this.myInfo.waitMoney ) == 0){
-                        this.showTips('您的积分还未满60');
+                    if(this.myInfo.waitMoney && (68 - this.myInfo.waitMoney ) == 0){
+                        this.showTips('您的可提现积分不足68');
                         return
                     }
                     if(this.myInfo.waitMoney == -1){
                         this.showTips('您已经提现');
                         return
                     }
-                    if(  (60 - this.myInfo.waitMoney ) == 60){
+                    if(  (68 - this.myInfo.waitMoney ) == 68){
 
                         this.showToast = true
                         return
                     }else{
-                        this.showTips('您的积分还未满60')
+                        this.showTips('您的可提现积分不足68')
                     }
                 }else if(this.type == 2){
                     if(this.myInfo.freeMoney && this.myInfo.freeMoney == 0){
@@ -136,8 +136,8 @@
                     return this.showTips('请输入整数')
                 }
                 if(this.type == 1){
-                    if(this.money != 60){
-                        return this.showTips('最少提现金额为60元')
+                    if(this.money != 68){
+                        return this.showTips('最少提现金额为68元')
                     }
                 }
                 // if(this.type == 2){

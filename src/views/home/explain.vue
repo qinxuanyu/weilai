@@ -90,6 +90,9 @@
                      case 4:
                         return '恭喜你成为总监！';
                         break
+                     case 5:
+                        return '恭喜你成为理事！';
+                        break
                 }
             }
         },

@@ -5,16 +5,18 @@
             <div class="text">
                 <p class="name">会员</p>
                 <div class="num">
-                    <p class="price">￥69.00 <span>169.00</span></p>
-                    <p class="volume">销量：{{goodsData.num }}件</p>
+                    <p class="price">￥69.00
+                         <!-- <span>169.00</span> -->
+                    </p>
+                    <!-- <p class="volume">销量：{{goodsData.num }}件</p> -->
                 </div>
             </div>
         </div>
-        <div class="load-wrap">
+        <!-- <div class="load-wrap">
             <load-more class="load-more" :show-loading="false" :tip="'商品详情'" background-color="#fbf9fe"></load-more>
-        </div>
+        </div> -->
         <div class="node">
-            <img src="/src/assets/images/goods.jpg" alt="">
+            <!-- <img src="/src/assets/images/goods.jpg" alt=""> -->
         </div>
         <div class="bottom-btn">
             <div class="link" @click.stop="$router.push('/')">
@@ -35,7 +37,7 @@
                     </div>
                     <div class="text">
                         <p class="price">￥69.00</p>
-                        <p class="num">销量：{{goodsData.num }}</p>
+                        <!-- <p class="num">销量：{{goodsData.num }}</p> -->
                     </div>
                     <img @click.stop="show3 = false" class="off-btn" src="/src/assets/images/my/par_close.png" alt="">
                 </div>
@@ -49,7 +51,7 @@
     </div>
 </template>
 <script>
-    const getPayOpenIdUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9dc597272dd31908&redirect_uri=http%3a%2f%2fslx.familyiu.com%2f%23%2fgoods&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
+    const getPayOpenIdUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9dc597272dd31908&redirect_uri=http%3a%2f%2fwsyc.xiongangs.com%2f%23%2fgoods&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
     import { LoadMore, TransferDom, Popup } from 'vux'
     import tool from '@/utils/tool'
     import api from '@/api'

@@ -22,7 +22,7 @@ const store = new Vuex.Store({
     UPDATE_TITLE (state,title){
         if(title){
             state.title = title;
-            document.title = '推推商城'
+            document.title = '未来商城'
         }
     },
     UPDATE_LOADING (state,loading){
@@ -38,9 +38,8 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-
+    
   }
 })
 store.dispatch("GET_SESSION_TOKEN");
-
 export default store;

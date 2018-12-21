@@ -97,4 +97,20 @@ export default {
             data          //1账户明细 2提现记录 3佣金记录
         })
     },
+    //是否维护
+    getIsProtect (data){
+        return fetch({
+            url:'/user/isProtect',
+            method:'get',
+            data         
+        })
+    },
+    //app下载链接
+    downloadAddress (data){
+        return fetch({
+            url:'/user/auth/downloadAddress',
+            method:'get',
+            data         
+        })
+    },
 }

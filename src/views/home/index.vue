@@ -1,7 +1,7 @@
 <template>
     <div class="index">
          <div class="message">
-            <p class="msg-text">欢迎来到推推商城</p>
+            <p class="msg-text">欢迎来到未来商城</p>
         </div>
       
         <div class="big-img-box" @click.stop="clearToken">
@@ -105,7 +105,6 @@
             if(code){
                 if(!this.$store.getters.token){
                     let _doUid = this.$route.query.uid || tool.local.get('doUid') || null;
-                   
                     api.login({
                         code:code,
                         upId:_doUid
@@ -128,7 +127,7 @@
                  if(!this.$store.getters.token){
                         // tool.local.set('isAuth','on');
                     setTimeout(()=>{
-                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd808625986ae581&redirect_uri=http%3a%2f%2fslx.familyiu.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd808625986ae581&redirect_uri=http%3a%2f%2fwsyc.xiongangs.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
                     },100)
                 }
             }
