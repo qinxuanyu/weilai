@@ -110,16 +110,19 @@
                         this.showTips('您的可提现积分不足68')
                     }
                 }else if(this.type == 2){
-                    if(this.myInfo.freeMoney && this.myInfo.freeMoney == 0){
+                    if(this.myInfo.freeMoney && this.myInfo.freeMoney <= 0){
                         this.showTips('余额不足')
                         return
-                    }
-                    if(this.myInfo.freeMoney && this.myInfo.freeMoney >= 30){
-                        this.showToast = true;
-                        return
                     }else{
-                        this.showTips('最低30.00元起提')
+                        this.showToast = true;
                     }
+
+                    // if(this.myInfo.freeMoney && this.myInfo.freeMoney >= 30){
+                    //     this.showToast = true;
+                    //     return
+                    // }else{
+                    //     this.showTips('最低30.00元起提')
+                    // }
                 }
                 
             },
