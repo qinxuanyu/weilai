@@ -113,4 +113,12 @@ export default {
             data         
         })
     },
+     //取消支付删除订单
+     delOrder (data){
+        return fetch({
+            url:'/auth/delOrder',
+            method:'get',
+            data         
+        })
+    },
 }

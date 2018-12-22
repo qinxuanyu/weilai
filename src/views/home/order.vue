@@ -29,7 +29,7 @@
     export default {
         data (){
             return{
-
+                orderId:null,
             }
         },
         methods:{
@@ -43,9 +43,10 @@
 
                 }).then(data =>{
                     if(data){
-                        _this.pay(data)
+                        _this.pay(data);
+                        _this.orderId = data;
                     }else{
-                        _this.showTips('订单错误')
+                        _this.showTips('订单错误');
                     }
                     // _this
                 }).catch(e =>{
@@ -109,6 +110,9 @@
                         // _this.$router.push('/order/order-inform/3')
                         
                     }else{
+                        api.delOrder({
+                            orderId:_this.orderId
+                        })
                         _this.showTips('取消支付')
                        
                     }
