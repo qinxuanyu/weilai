@@ -26,20 +26,20 @@
             </tabbar-item>
         </tabbar>
         <div class="img-link">
-            <a href="http://you088.m.nucwc5.cn/index/index/cat/-1/index_app/1/all_hide/1/sort/8">
+            <a href="javascript:">
                 <img src="src/assets/images/index/t_999@2x.png" alt="" class="big-img">
             </a>
             <div class="flex-box">
-                <a href="http://you088.m.nucwc5.cn/index/index/p_cat/1/sort/8/cat_name/%E8%81%9A%E5%88%92%E7%AE%97/index_app/1/all_hide/1">
+                <a href="javascript:">
                     <img src="src/assets/images/index/1@2x.png" alt="">
                 </a>
-                <a href="http://you088.m.nucwc5.cn/index/index/p_cat/2/sort/8/cat_name/%E6%B7%98%E6%8A%A2%E8%B4%AD/index_app/1/all_hide/1">
+                <a href="javascript:">
                     <img src="src/assets/images/index/2@2x.png" alt="">
                 </a>
-                <a href="http://you088.m.nucwc5.cn/index/index/p_cat/4/sort/8/cat_name/%E5%93%81%E7%89%8C%E5%8D%95/index_app/1/all_hide/1">
+                <a href="javascript:">
                     <img src="src/assets/images/index/3@2x.png" alt="">
                 </a>
-                <a href="http://you088.m.nucwc5.cn/index/index/p_cat/5/sort/8/cat_name/%E5%A4%A7%E9%A2%9D%E5%88%B8/index_app/1/all_hide/1">
+                <a href="javascript:">
                     <img src="src/assets/images/index/4@2x.png" alt="">
                 </a>
                 
