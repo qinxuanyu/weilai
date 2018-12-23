@@ -23,13 +23,7 @@ Vue.filter('numFilter', function (value) {
 	let val = parseFloat(value).toFixed(2)
 	return val
 })
-api.getIsProtect().then((result) => {
-	if(result){
-		window.location.href = '/maintain.html'
-	}
-}).catch((err) => {
-	
-});
+
 FastClick.attach(document.body)
 Vue.prototype.showTips = function (text) {
 	if (!text) {
@@ -52,7 +46,15 @@ Vue.prototype.showTips = function (text) {
 	return false;
 };
 Vue.config.productionTip = false
-
+api.getIsProtect().then((result) => {
+	if(result){
+		window.location.href = '/maintain.html'
+	}else{
+		
+	}
+}).catch((err) => {
+	
+});
 
 /* eslint-disable no-new */
 new Vue({

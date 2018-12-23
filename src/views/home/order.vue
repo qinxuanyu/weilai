@@ -110,9 +110,7 @@
                         // _this.$router.push('/order/order-inform/3')
                         
                     }else{
-                        api.delOrder({
-                            orderId:_this.orderId
-                        })
+                        // api.delOrder(_this.orderId)
                         _this.showTips('取消支付')
                        
                     }

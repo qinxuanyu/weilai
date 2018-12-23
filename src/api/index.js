@@ -81,6 +81,14 @@ export default {
             data          //1账户明细 2提现记录 3佣金记录
         })
     },
+     //我的团队总数
+     myTeamNum (data){
+        return fetch({
+            url:'/user/auth/myTeamNum',
+            method:'get',
+            data          //1账户明细 2提现记录 3佣金记录
+        })
+    },
     //设置激活码
     setCode (data){
         return fetch({
@@ -116,9 +124,9 @@ export default {
      //取消支付删除订单
      delOrder (data){
         return fetch({
-            url:'/auth/delOrder',
-            method:'get',
-            data         
+            url:'/auth/delOrder?id=' +data,
+            method:'post',
+                     
         })
     },
 }

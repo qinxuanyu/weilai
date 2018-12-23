@@ -57,7 +57,7 @@
         methods:{
             getMyTeam (){
                 let _this = this;
-                api.myTeam().then(data =>{
+                api.myTeamNum().then(data =>{
                     if(data){
                         _this.z_num =  data.zhiNum.split('/')[1];
                        

@@ -2,8 +2,8 @@
     <div class="my-friend">
          <tab custom-bar-width="60px" class="taber">
             <tab-item class="one"  @on-item-click="$router.push('/explain')">升级代理</tab-item>
-            <tab-item selected @on-item-click="type = 1">直推({{z_num}}张)</tab-item>
-            <tab-item @on-item-click="type = 2">好友({{h_num}}张)</tab-item>
+            <tab-item selected @on-item-click="type = 1"><p style="word-wrap: break-all;">直推({{z_num}}张)</p></tab-item>
+            <tab-item @on-item-click="type = 2"><p>好友({{h_num}}张)</p></tab-item>
          </tab>
          <p class="num-title">只显示1000条数据</p>
         <div v-if="type == 1">
@@ -56,11 +56,14 @@
                 let _this = this;
                 api.myTeam().then(data =>{
                     if(data){
-                        _this.z_num = data.zhiNum.split('/')[0] + '人/' + data.zhiNum.split('/')[1];
-                       
                         _this.z_list = data.zhiDtos;
-                        _this.h_num = data.tuanNum.split('/')[0] + '人/' + data.tuanNum.split('/')[1];
                         _this.h_list = data.tuanDtos;
+                    }
+                }).catch(e =>{})
+               api.myTeamNum().then(data =>{
+                    if(data){
+                        _this.z_num = data.zhiNum.split('/')[0] + '人/' + data.zhiNum.split('/')[1];
+                        _this.h_num = data.tuanNum.split('/')[0] + '人/' + data.tuanNum.split('/')[1];
                     }
                 }).catch(e =>{})
             },
@@ -92,8 +95,17 @@
         },
     }
 </script>
-<style lang="less" scoped>
+<style lang="less">
     .my-friend{
+        .vux-tab-container{
+            height: auto !important;
+            .vux-tab{
+                height: auto !important;
+                .vux-tab-item{
+                    height: auto !important;
+                }
+            }
+        }
         .taber{
             .vux-tab-item{
                 font-size: 12px !important;
