@@ -129,4 +129,20 @@ export default {
                      
         })
     },
+    //戴伟静默授权
+    daiMoLogin (data){
+        return fetch({
+            url:'/user/daiMoLogin',
+            method:'post',
+            data         
+        })
+    },
+    //取消支付删除订单
+    comPay (data){
+        return fetch({
+            url:'/goods/auth/comPay',
+            method:'get',
+            data         
+        })
+    },
 }

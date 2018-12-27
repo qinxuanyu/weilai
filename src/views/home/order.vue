@@ -56,6 +56,14 @@
             pay(orderId){
                 let openId = tool.session.get('payOpenId');
                 let _this = this;
+                console.log({
+                   openid: openId,
+                   orderId:orderId,
+                   total_fee:69.00,
+                //    total_fee:0.01,
+
+                   type:1
+                })
                 api.pay({
                    openid: openId,
                    orderId:orderId,

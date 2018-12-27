@@ -10,7 +10,7 @@
          <tabbar class="m-tabbar">
             <tabbar-item link="/goods">
                 <img slot="icon" src="src/assets/images/index/buy_vip@2x.png">
-                <span slot="label">购买VIP</span>
+                <span slot="label">赠送VIP</span>
             </tabbar-item>
             <tabbar-item @click.native.stop="getMyCode">
                 <img slot="icon" src="src/assets/images/index/activation@2x.png">
@@ -127,7 +127,7 @@
                  if(!this.$store.getters.token){
                         // tool.local.set('isAuth','on');
                     setTimeout(()=>{
-                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd808625986ae581&redirect_uri=http%3a%2f%2fwsyc.xiongangs.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+                        window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxfd808625986ae581&redirect_uri=http%3a%2f%2fwcyc.lf989k.com%2f%23%2f&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
                     },100)
                 }
             }

@@ -31,6 +31,8 @@
 <script>
     import { Grid, GridItem, Cell, Group } from 'vux'
     import api from '@/api'
+    import tool from '@/utils/tool'
+
     export default {
         data (){
             return{
@@ -127,7 +129,34 @@
             }
         },
         created() {
-            this.getMyInfo()
+            this.getMyInfo();
+             let code = tool.utils.getUrlParam('code');
+             let tuiOnpenId = tool.local.get('tuiOnpenId')
+            //  if(code){
+
+            //  }
+          
+            if(code){
+                if(!tuiOnpenId){
+                    api.daiMoLogin({
+                        code:code,
+                        upId:0
+                    }).then((result) => {
+                        if(result){
+                            tool.local.set('tuiOnpenId',result);
+                        }else{
+                            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5ede578025b47fbc&redirect_uri=http%3a%2f%2fwcyc.lf989k.com%2f%23%2fmy&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+                        }
+                    }).catch((err) => {
+                        
+                    });
+                }
+                
+            }else{
+                if(!tuiOnpenId){
+                    window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5ede578025b47fbc&redirect_uri=http%3a%2f%2fwcyc.lf989k.com%2f%23%2fmy&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+                }
+            }
         },
     }
 </script>

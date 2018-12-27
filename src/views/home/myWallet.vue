@@ -32,18 +32,18 @@
                 <div class="pop-box">
                     <div class="title">
                         <!-- <p>请输入您的提现金额</p> -->
-                        <p>请认真核对你的提现账户</p>
-                        <img @click.stop="showToast = false" src="/src/assets/images/my/par_close.png" alt="">
+                        <p>请输入您要提现的金额</p>
+                        <img @click.stop="showToast = false;money = null" src="/src/assets/images/my/par_close.png" alt="">
                     </div>
                     <div class="input-box">
-                        <input type="text" v-model="payCode" placeholder="请输入您的支付宝账号">
-                        <input type="text" v-model="payName" placeholder="请输入您支付宝实名认证的姓名">
+                        <!-- <input type="text" v-model="payCode" placeholder="请输入您的支付宝账号">
+                        <input type="text" v-model="payName" placeholder="请输入您支付宝实名认证的姓名"> -->
                         <input type="number" v-model.number="money" placeholder="请输入您要提现的金额">
                     </div>
                     <p class="explain" v-if="type == 1">最小提现金额为68.00元</p>
                     <!-- <p class="explain" v-else-if="type == 2">最小提现金额为50.00元</p> -->
                     <div class="btn-box">
-                        <button @click.stop="showToast = false">取消</button>
+                        <button @click.stop="showToast = false;money = null">取消</button>
                         <button @click.stop="submitWithdraw">确认</button>
                     </div>
                 </div>
@@ -57,6 +57,8 @@
 <script>
     import { XButton, Cell, TransferDomDirective as TransferDom, XDialog, Group } from 'vux'
     import api from '@/api'
+    import tool from '@/utils/tool'
+
     export default {
         directives: {
             TransferDom,
@@ -109,11 +111,16 @@
                     }else{
                         this.showTips('您的可提现积分不足68')
                     }
-                }else if(this.type == 2){
+                }else if(this.type == 2){  //钱包
                     if(this.myInfo.freeMoney && this.myInfo.freeMoney <= 0){
                         this.showTips('余额不足')
                         return
-                    }else{
+                    }
+                    if(this.money > 500){
+                        this.showTips('单次提现最大金额为500')
+                        return
+                    }
+                    else{
                         this.showToast = true;
                     }
 
@@ -128,11 +135,12 @@
             },
             submitWithdraw (){
                 let _this = this;
-                if(!this.payCode){
-                    return this.showTips('请输入支付宝账号')
-                }else if(!this.payName){
-                    return this.showTips('请输入支付宝姓名')
-                }else if(!this.money){
+                // if(!this.payCode){
+                //     return this.showTips('请输入支付宝账号')
+                // }else if(!this.payName){
+                //     return this.showTips('请输入支付宝姓名')
+                // }else 
+                if(!this.money){
                     return this.showTips('请输入提现金额')
                 }
                 if(String(this.money).indexOf('.') !== -1){
@@ -143,6 +151,11 @@
                         return this.showTips('最少提现金额为68元')
                     }
                 }
+                if(this.money > 500){
+                    this.showTips('单次提现最大金额为500')
+                    return
+                }
+                let openId = tool.local.get('tuiOnpenId')
                 // if(this.type == 2){
                 //     if(this.money%30 !== 0){
                 //         return this.showTips('请输入30的倍数')
@@ -152,14 +165,26 @@
                     money:this.money,
                     payCode:this.payCode,
                     payName:this.payName,
-                    type:this.type
+                    type:this.type,
+                    openId:openId
                 }).then(data =>{
-                    _this.showTips('提现成功');
-                    _this.getMyInfo()
+                    // _this.showTips('提现成功');
+                    
+
+                    // api.comPay({
+                    //     openId:openId,
+                    //     amount:this.money
+                    // }).then((result) => {
+                    //     this.showTips('提现成功');
+                    // }).catch((err) => {
+                    //      _this.showTips(err.data.msg)
+                    // });
+                    _this.getMyInfo();
                     _this.showToast = false;
                 }).catch(e =>{
                     _this.showTips(e.data.msg)
                 })
+                this.money = null;
             },
             payInfoFun (){
                 let _this = this;
