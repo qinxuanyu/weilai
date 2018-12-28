@@ -145,7 +145,7 @@
                         if(result){
                             tool.local.set('tuiOnpenId',result);
                         }else{
-                            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5ede578025b47fbc&redirect_uri=http%3a%2f%2fwcyc.lf989k.com%2f%23%2fmy&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+                            window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5ede578025b47fbc&redirect_uri=http%3a%2f%2fwcyc.o995zr.com%2f%23%2fmy&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
                         }
                     }).catch((err) => {
                         
@@ -154,7 +154,7 @@
                 
             }else{
                 if(!tuiOnpenId){
-                    window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5ede578025b47fbc&redirect_uri=http%3a%2f%2fwcyc.lf989k.com%2f%23%2fmy&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
+                    window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5ede578025b47fbc&redirect_uri=http%3a%2f%2fwcyc.o995zr.com%2f%23%2fmy&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect'
                 }
             }
         },

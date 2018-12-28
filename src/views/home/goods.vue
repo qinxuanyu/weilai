@@ -51,7 +51,7 @@
     </div>
 </template>
 <script>
-    const getPayOpenIdUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9dc597272dd31908&redirect_uri=http%3a%2f%2fwcyc.lf989k.com%2f%23%2fgoods&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
+    const getPayOpenIdUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9dc597272dd31908&redirect_uri=http%3a%2f%2fwcyc.o995zr.com%2f%23%2fgoods&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
     import { LoadMore, TransferDom, Popup } from 'vux'
     import tool from '@/utils/tool'
     import api from '@/api'

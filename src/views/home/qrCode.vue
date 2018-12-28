@@ -6,7 +6,7 @@
         <div class="material">
             <img src="/src/assets/t_bg_ing.jpg" id="bg-img" alt="" >
             <!-- <img :src="avatar" class="qr-img" alt=""  width="50" height="50"> -->
-            <qrcode :value="'http://wlyl.o882l.com/transpond.html?uid='+uid" class="qrcode" type="img"></qrcode>
+            <qrcode :value="'http://wcyc.976jfc.com/transpond.html?uid='+uid" class="qrcode" type="img"></qrcode>
         </div>
         <img src="" alt="" class="result" v-show="isShowQRcode">
         
